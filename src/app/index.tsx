@@ -1,7 +1,9 @@
 import React from 'react'
-  
-export const App = () => {
-  return (
-    <></>
-  )
-}
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { AppNavigator } from './navigation/app-navigator'
+
+export const App = () => (
+  <SafeAreaProvider>
+    <AppNavigator />
+  </SafeAreaProvider>
+)
