@@ -9,7 +9,8 @@
     "start:clean": "yarn watchman-refresh && npx react-native start --reset-cache",
     "watchman-refresh": "watchman watch-del-all && watchman watch-project .",
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator='iPhone 15 Pro'"
+    "ios": "react-native run-ios --simulator='iPhone 15 Pro'",
+    "generate": "NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "6.6.1",
@@ -53,8 +54,10 @@
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-react-native": "4.1.0",
     "jest": "29.6.3",
+    "plop": "4.0.1",
     "prettier": "3.3.3",
     "react-test-renderer": "18.3.1",
+    "tsx": "4.19.1",
     "typescript": "5.0.4"
   },
   "engines": {

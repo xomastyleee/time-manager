@@ -13,7 +13,9 @@
 "include": [
     "src",
     "src/**/*.json",
-    ".ondevice/**/*"
+    ".ondevice",
+    "generators",
+    "plopfile.ts"
   ],
   "exclude": [
     "dist/",
