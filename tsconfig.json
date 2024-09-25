@@ -1,7 +1,14 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@assets/*": ["src/app/assets/*"],
+      "@navigators/*": ["src/app/navigators/*"],
+      "@modules/*": ["src/modules/*"],
+      "@common/*": ["src/modules/common/*"],
+    },
 },
 "include": [
     "src",

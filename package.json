@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "test": "jest",
     "lint": "npx eslint . --ext ts,tsx --max-warnings 0 --fix",
     "start": "react-native start",
-    "test": "jest"
+    "start:clean": "yarn watchman-refresh && npx react-native start --reset-cache",
+    "watchman-refresh": "watchman watch-del-all && watchman watch-project .",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios --simulator='iPhone 15 Pro'"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "6.6.1",
@@ -15,6 +17,7 @@
     "@react-navigation/stack": "6.4.1",
     "react": "18.3.1",
     "react-native": "0.75.2",
+    "react-native-gesture-handler": "2.19.0",
     "react-native-paper": "5.12.5",
     "react-native-safe-area-context": "4.11.0",
     "react-native-screens": "3.34.0",
@@ -35,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "babel-jest": "29.6.3",
+    "babel-plugin-module-resolver": "5.0.2",
     "eslint": "8.57.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "18.0.0",
