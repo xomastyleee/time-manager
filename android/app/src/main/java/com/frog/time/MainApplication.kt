@@ -1,4 +1,4 @@
-package com.timemanager
+package com.frog.time
 
 import android.app.Application
 import com.facebook.react.PackageList
