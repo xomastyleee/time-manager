@@ -13,6 +13,7 @@
     "generate": "NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts"
   },
   "dependencies": {
+    "@react-native-community/hooks": "3.0.0",
     "@react-navigation/bottom-tabs": "6.6.1",
     "@react-navigation/native": "6.1.18",
     "@react-navigation/stack": "6.4.1",

@@ -1824,6 +1824,7 @@ __metadata:
     "@babel/core": "npm:7.24.5"
     "@babel/preset-env": "npm:7.24.5"
     "@babel/runtime": "npm:7.24.5"
+    "@react-native-community/hooks": "npm:3.0.0"
     "@react-native/babel-preset": "npm:0.75.2"
     "@react-native/eslint-config": "npm:0.75.2"
     "@react-native/metro-config": "npm:0.75.2"
@@ -2556,6 +2557,16 @@ __metadata:
   bin:
     rnc-cli: build/bin.js
   checksum: 10/ae6ec29f015704aaf2ddaa60be822d277644787e4d788a13fb9de0c80e3b39e313d8ac05fac2512761b04c3d89d86b58ffb97f90067764932921288c084f5c22
+  languageName: node
+  linkType: hard
+
+"@react-native-community/hooks@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@react-native-community/hooks@npm:3.0.0"
+  peerDependencies:
+    react: ">=17.0.2"
+    react-native: ">=0.65"
+  checksum: 10/6fb10326338c341f9f2fbf066e84082ea6b7ac9d16470b55df7d2e30242cd408f4bc043ec6dbdd75df02fd6f29ca27239bf371d9ed84604ae3b97ab565218a06
   languageName: node
   linkType: hard
 
