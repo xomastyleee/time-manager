@@ -6,7 +6,7 @@ const dataSource = new DataSource({
   database: 'test',
   location: 'default',
   logging: ['error', 'query', 'schema'],
-  entities: [`${__dirname}/../../../app/app/entities/*.entity{.ts,.tsx}`],
+  entities: [`${__dirname}/../../../app/db/entities/*.entity{.ts,.tsx}`],
   synchronize: true
 })
 
