@@ -1,0 +1,13 @@
+### Description
+
+This pull request is ...
+
+#### List of changes
+
+- Add ...
+- Update ...
+- Fixed ...
+
+#### Ticket
+
+https://github.com/xomastyleee/time-manager/issues/
