@@ -2,6 +2,7 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "types": ["node"],
+    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["src/app/assets/*"],
@@ -12,24 +13,17 @@
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
-},
-"include": [
-    "src",
-    "src/**/*.json",
-    ".ondevice",
-    "generators",
-    "plopfile.ts"
-  ],
-  "exclude": [
-    "dist/",
-    "jest.config.ts",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/*.test.tsx",
-    "**/*.spec.tsx",
-    "./src/stories/*.ts",
-    "./src/stories/*.tsx",
-    "./src/testUtils/**/*"
+    "strictPropertyInitialization": false,
+    "allowImportingTsExtensions": false,
+    "composite": true,
+    "noEmit": false,
+  },
+  "references": [
+    {
+      "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
   ]
 }
