@@ -8,8 +8,7 @@
       "src/**/*.json",
       ".ondevice",
       "generators",
-      "plopfile.ts",
-      "jest.config.ts"
+      "plopfile.ts"
     ],
     "exclude": [
       "dist/",
