@@ -1,0 +1,5 @@
+export { Goal } from './Goal.entity'
+export { Task } from './Task.entity'
+export { DayPlan } from './DayPlan.entity'
+export { User } from './User.entity'
+export { Notification } from './Notification.entity'
