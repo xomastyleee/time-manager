@@ -14,10 +14,13 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.3.0",
     "@react-native-community/hooks": "3.0.0",
+    "@react-native-picker/picker": "^1.8.0",
     "@react-navigation/bottom-tabs": "6.6.1",
     "@react-navigation/native": "6.1.18",
     "@react-navigation/stack": "6.4.1",
+    "bcryptjs": "^2.4.3",
     "react": "18.3.1",
     "react-native": "0.75.2",
     "react-native-gesture-handler": "2.19.0",
@@ -42,6 +45,7 @@
     "@react-native/typescript-config": "0.75.2",
     "@testing-library/react-hooks": "8.0.1",
     "@testing-library/react-native": "12.7.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/react": "18.2.6",
     "@types/react-native-sqlite-storage": "6.0.5",
     "@types/react-test-renderer": "18.0.0",
