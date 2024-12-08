@@ -10,13 +10,14 @@
       "@modules/*": ["src/modules/*"],
       "@common/*": ["src/modules/common/*"],
       "@db/*": ["src/app/db/*"],
+      "@services/*": ["src/app/services/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "allowImportingTsExtensions": false,
     "composite": true,
-    "noEmit": false,
+    "noEmit": false
   },
   "references": [
     {
