@@ -30,7 +30,7 @@ set-root-dependencies:
 		nvm use; \
 		rvm use; \
 	elif [[ "$$(uname)" == "Linux" ]]; then \
-		nvm use; \
+		source $$HOME/.nvm/nvm.sh && nvm use; \
 	elif [[ "$$(uname -o)" == "Msys" || "$$(uname -o)" == "Cygwin" ]]; then \
 		node_version=$$(cat .nvmrc); \
 		nvm use $$node_version; \
