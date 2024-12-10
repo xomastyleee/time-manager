@@ -34,7 +34,7 @@ set-root-dependencies:
 install-dependencies:
 	yarn
 	bundle install
-	npx pod-install
+	cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install
 
 resolve-ios:
 	cd ios && xcodebuild -resolvePackageDependencies
