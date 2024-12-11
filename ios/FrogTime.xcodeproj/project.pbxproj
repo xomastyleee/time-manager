@@ -435,7 +435,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FrogTime.app/FrogTime";
 			};
@@ -459,7 +459,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FrogTime.app/FrogTime";
 			};
@@ -484,7 +484,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time;
 				PRODUCT_NAME = FrogTime;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -510,7 +510,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frog.time;
 				PRODUCT_NAME = FrogTime;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

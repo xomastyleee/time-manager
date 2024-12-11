@@ -289,6 +289,7 @@ DEPENDENCIES
   cocoapods (= 1.15.2)
   dotenv (= 2.8.1)
   fastlane (= 2.222.0)
+  xcodeproj (< 1.26.0)
 
 RUBY VERSION
    ruby 3.2.0p0
