@@ -1,20 +1,24 @@
 import { useEffect } from 'react'
 import { DataSource } from 'typeorm'
+import { DayPlan, Goal, User, Notification, Task } from "@db/entities";
 
 const resolvePath = (...segments: string[]) => segments.join('/')
-
-const dataSource = new DataSource({
+export const dataSource = new DataSource({
   type: 'react-native',
   database: 'test',
   location: 'default',
   logging: ['error', 'query', 'schema'],
-  entities: [resolvePath('..', '..', '..', 'src', 'app', 'db', 'entities', '*.entity{.ts,.tsx}')],
+  entities: [User, DayPlan , Goal, Notification, Task],
   synchronize: true
 })
 
 export const useDBConnection = () => {
   useEffect(() => {
-    dataSource.initialize()
+    dataSource.initialize().then(() => {
+      console.log('DataSource has been initialized!');
+    }).catch((err) => {
+      console.error('Error during DataSource initialization:', err);
+    });
   }, [])
 
   return dataSource
