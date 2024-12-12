@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { DataSource } from 'typeorm'
-import { DayPlan, Goal, User, Notification, Task } from '@common/db/entities'
+import { DayPlan, Goal, User, Notification, Task } from '@common/db/entities/'
 import { logger } from '@common/utils'
 
-// const resolvePath = (...segments: string[]) => segments.join('/')
 export const dataSource = new DataSource({
   type: 'react-native',
   database: 'test',

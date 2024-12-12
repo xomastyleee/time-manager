@@ -11,7 +11,7 @@ import {
 } from 'typeorm'
 import { NotificationType } from '@common/db/types/enams'
 import { enumToStrings } from '@common/db/util/transformer'
-import { User } from './index'
+import { User } from './User.entity'
 
 @Entity()
 export class Notification {

@@ -7,8 +7,8 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
-import { UserStatus } from '@common/db/types/enams'
-import { enumToStrings } from '@common/db/util/transformer'
+import { UserStatus } from '../types/enams'
+import { enumToStrings } from '../util/transformer'
 
 @Entity()
 export class User {
