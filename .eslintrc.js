@@ -64,6 +64,14 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": "off",
     "react/no-unstable-nested-components": "off"
   },
+  overrides: [
+    {
+      files: ['**/db/entities/**/*.ts'],
+      rules: {
+        'import/no-cycle': 'off',
+      },
+    },
+  ],
   settings: {
     react: {
       version: 'detect'

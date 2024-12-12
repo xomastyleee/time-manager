@@ -1,6 +1,6 @@
 import React, { ReactNode, FC, createContext } from 'react'
-import { useDBConnection } from '@modules/common/hooks'
-import { logger } from '@modules/common/utils'
+import { useDBConnection } from '@common/hooks'
+import { logger } from '@common/utils'
 
 interface DBProviderProps {
   children: ReactNode
