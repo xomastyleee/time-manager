@@ -2360,6 +2360,7 @@ __metadata:
     "@react-navigation/stack": "npm:7.0.18"
     "@testing-library/react-hooks": "npm:8.0.1"
     "@testing-library/react-native": "npm:12.7.2"
+    "@types/bcryptjs": "npm:2.4.6"
     "@types/react": "npm:18.2.6"
     "@types/react-native-sqlite-storage": "npm:6.0.5"
     "@types/react-test-renderer": "npm:18.0.0"
@@ -3541,6 +3542,13 @@ __metadata:
   dependencies:
     "@babel/types": "npm:^7.20.7"
   checksum: 10/63d13a3789aa1e783b87a8b03d9fb2c2c90078de7782422feff1631b8c2a25db626e63a63ac5a1465d47359201c73069dacb4b52149d17c568187625da3064ae
+  languageName: node
+  linkType: hard
+
+"@types/bcryptjs@npm:2.4.6":
+  version: 2.4.6
+  resolution: "@types/bcryptjs@npm:2.4.6"
+  checksum: 10/00153c460bd6bfc68e7670993a1ad8bd511413fd08e8a983cde1a8bf5a08afc5a51613c92ca4ad350d5a924499afed57f008a66a9abc1fd83879061596814124
   languageName: node
   linkType: hard
 
