@@ -2,7 +2,7 @@ import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
 import { In } from 'typeorm'
 import { IUserCreateUpdateParams } from '@common/db/types/interfaces'
-import { User } from '../../entities'
+import { User } from '../entities'
 
 export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
@@ -12,7 +12,8 @@ export class UserService {
       const { username, status, preferences } = params
       const user = new User(username, status, preferences)
       logger.info('Creating user', user)
-      return await this.userRepository.save(user)
+      const result = await this.userRepository.save(user)
+      return result
     } catch (error) {
       logger.error('Error creating user', error)
     }
@@ -20,9 +21,10 @@ export class UserService {
 
   public async getUserById(id: number) {
     try {
-      return await this.userRepository.findOneBy({
+      const result = await this.userRepository.findOneBy({
         id
       })
+      return result
     } catch (error) {
       logger.error('Error getting user', error)
     }
@@ -30,11 +32,12 @@ export class UserService {
 
   public async getUserByIds(ids: number[]) {
     try {
-      return await this.userRepository.find({
+      const result = await this.userRepository.find({
         where: {
           id: In(ids)
         }
       })
+      return result
     } catch (error) {
       logger.error('Error getting user', error)
     }
@@ -42,7 +45,8 @@ export class UserService {
 
   public async updateUser(id: number, params: IUserCreateUpdateParams) {
     try {
-      await this.userRepository.update(id, params)
+      const result = await this.userRepository.update(id, params)
+      return result
     } catch (error) {
       logger.error('Error updating user', error)
     }
@@ -52,7 +56,8 @@ export class UserService {
     try {
       const user = await this.userRepository.findOne({ where: { id } })
       if (!user) {
-        throw new Error('User not found')
+        logger.error('Error:',new Error('User not found'))
+        return
       }
       await this.userRepository.remove(user)
     } catch (error) {
@@ -64,7 +69,8 @@ export class UserService {
     try {
       const users = await this.userRepository.find({ where: { id: In(ids) } })
       if (!users) {
-        throw new Error('Users not found')
+        logger.error("Error:", new Error('Users not found'))
+        return
       }
       await this.userRepository.remove(users)
     } catch (error) {
