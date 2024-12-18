@@ -11,10 +11,18 @@ import {
 } from 'typeorm'
 import { NotificationType } from '@common/db/types/enams'
 import { enumToStrings } from '@common/db/util/transformer'
+import type { INotificationCreateUpdateParams } from '@common/db/types/interfaces'
 import { User } from './User.entity'
 
 @Entity()
 export class Notification {
+  constructor(params: INotificationCreateUpdateParams) {
+    const { type, message, isRead } = params
+    this.type = type
+    this.message = message
+    this.isRead = isRead || false
+  }
+
   @PrimaryGeneratedColumn()
   id: number
 

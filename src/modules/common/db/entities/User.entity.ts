@@ -9,9 +9,17 @@ import {
 } from 'typeorm'
 import { UserStatus } from '../types/enams'
 import { enumToStrings } from '../util/transformer'
+import type { IUserCreateUpdateParams } from '@common/db/types/interfaces'
 
 @Entity()
 export class User {
+  constructor(params : IUserCreateUpdateParams) {
+    const { username, status, preferences } = params
+    if (username) this.username = username
+    if (status) this.status = status
+    this.preferences = preferences
+  }
+
   @PrimaryGeneratedColumn()
   id: number
 
@@ -33,10 +41,4 @@ export class User {
 
   @DeleteDateColumn({ type: 'date' })
   deletedAt?: Date
-
-  constructor(username?: string, status?: UserStatus, preferences?: string) {
-    if (username) this.username = username
-    if (status) this.status = status
-    this.preferences = preferences
-  }
 }

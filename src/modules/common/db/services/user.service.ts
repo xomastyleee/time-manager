@@ -9,10 +9,9 @@ export class UserService {
 
   public async createUser(params: IUserCreateUpdateParams) {
     try {
-      const { username, status, preferences } = params
-      const user = new User(username, status, preferences)
-      logger.info('Creating user', user)
+      const user = new User(params)
       const result = await this.userRepository.save(user)
+      logger.info('Creating user', result)
       return result
     } catch (error) {
       logger.error('Error creating user', error)
@@ -56,7 +55,7 @@ export class UserService {
     try {
       const user = await this.userRepository.findOne({ where: { id } })
       if (!user) {
-        logger.error('Error:',new Error('User not found'))
+        logger.error('Error:', new Error('User not found'))
         return
       }
       await this.userRepository.remove(user)
@@ -69,7 +68,7 @@ export class UserService {
     try {
       const users = await this.userRepository.find({ where: { id: In(ids) } })
       if (!users) {
-        logger.error("Error:", new Error('Users not found'))
+        logger.error('Error:', new Error('Users not found'))
         return
       }
       await this.userRepository.remove(users)
