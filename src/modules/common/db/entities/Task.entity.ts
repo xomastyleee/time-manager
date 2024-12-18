@@ -11,6 +11,7 @@ import {
   Check,
   OneToMany
 } from 'typeorm'
+import type { ITaskCreateUpdateParams } from '@common/db/types/interfaces'
 import { Priority, TaskStatus, TaskType, DayWeek } from '../types/enams'
 import { enumToStrings } from '../util/transformer'
 
@@ -69,6 +70,19 @@ export class Goal {
 
 @Entity()
 export class Task {
+  constructor(params: ITaskCreateUpdateParams) {
+    const { title, priority, taskType, status, startDate, endDate, description, duration, breakDuration } = params
+    this.status = status
+    this.startDate = startDate
+    this.endDate = endDate
+    this.title = title
+    this.priority = priority
+    this.taskType = taskType
+    if (description) this.description = description
+    if (duration) this.duration = duration
+    if (breakDuration) this.breakDuration = breakDuration
+  }
+
   @PrimaryGeneratedColumn()
   id: number
 
