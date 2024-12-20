@@ -11,9 +11,8 @@ import {
   Check,
   OneToMany
 } from 'typeorm'
-import type { ITaskCreateUpdateParams } from '@common/db/types/interfaces'
-import { Priority, TaskStatus, TaskType, DayWeek } from '../types/enams'
-import { enumToStrings } from '../util/transformer'
+import { enumToStrings } from '@common/utils'
+import { Priority, TaskStatus, TaskType, DayWeek, type ITaskCreateUpdateParams } from '@common/types'
 
 @Entity()
 export class DayPlan {

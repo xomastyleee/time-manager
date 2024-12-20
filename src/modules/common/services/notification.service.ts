@@ -1,8 +1,9 @@
+import { In } from 'typeorm'
+import { Notification } from '@common/db/entities'
 import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
-import { In } from 'typeorm'
-import { INotificationCreateUpdateParams } from '@common/db/types/interfaces'
-import { Notification } from '../entities'
+
+import type { INotificationCreateUpdateParams } from '@common/types'
 
 export class NotificationService {
   private readonly notificationRepository = dataSource.getRepository(Notification)

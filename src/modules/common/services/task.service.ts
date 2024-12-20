@@ -1,8 +1,9 @@
+import { In } from 'typeorm'
+import { Task } from '@common/db/entities'
 import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
-import { In } from 'typeorm'
-import { ITaskCreateUpdateParams } from '@common/db/types/interfaces'
-import { Task } from '../entities'
+
+import type { ITaskCreateUpdateParams } from '@common/types'
 
 export class TaskService {
   private readonly taskRepository = dataSource.getRepository(Task)

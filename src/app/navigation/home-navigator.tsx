@@ -1,7 +1,6 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, type StackNavigationOptions } from '@react-navigation/stack'
 import { HomeScreen } from '@modules/home'
-import { SettingsNavigator } from './settings-navigator'
 
 export type HomeStackParamList = {
   HomeScreen: undefined
@@ -10,14 +9,13 @@ export type HomeStackParamList = {
 
 const { Navigator, Screen } = createStackNavigator<HomeStackParamList>()
 
+const screenOptions: StackNavigationOptions = {
+  headerShown: false,
+  cardStyle: { backgroundColor: 'transparent' }
+}
+
 export const HomeNavigator = () => (
-  <Navigator
-    initialRouteName="HomeScreen"
-    screenOptions={{
-      headerShown: false
-    }}
-  >
-    <Screen name="HomeScreen" component={HomeScreen} />
-    <Screen name="Settings" component={SettingsNavigator} />
+  <Navigator initialRouteName="HomeScreen" screenOptions={screenOptions}>
+    <Screen name="HomeScreen" component={HomeScreen} options={{ cardStyle: { backgroundColor: 'transparent' } }} />
   </Navigator>
 )

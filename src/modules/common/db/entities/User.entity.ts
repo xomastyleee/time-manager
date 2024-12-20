@@ -7,13 +7,12 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
-import { UserStatus } from '../types/enams'
-import { enumToStrings } from '../util/transformer'
-import type { IUserCreateUpdateParams } from '@common/db/types/interfaces'
+import { enumToStrings } from '@common/utils'
+import { type IUserCreateUpdateParams, UserStatus } from '@common/types'
 
 @Entity()
 export class User {
-  constructor(params : IUserCreateUpdateParams) {
+  constructor(params: IUserCreateUpdateParams) {
     const { username, status, preferences } = params
     if (username) this.username = username
     if (status) this.status = status

@@ -1,8 +1,9 @@
 import React from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { PaperProvider } from 'react-native-paper'
-import { useDefinedTheme } from '@common/hooks'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { DBProvider } from '@common/db/core'
+import { useDefinedTheme } from '@common/hooks'
+
 import { AppNavigator } from './navigation/app-navigator'
 
 import 'reflect-metadata'

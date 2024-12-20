@@ -1,4 +1,4 @@
-import { NotificationType, Priority, TaskStatus, TaskType, UserStatus } from '@common/db/types/enams'
+import { NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enams'
 
 export interface IUserCreateUpdateParams {
   status: UserStatus
