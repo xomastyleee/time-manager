@@ -40,7 +40,8 @@ export const lightTheme = populateTheme(MD3LightTheme, {
     white: '#ffffff',
     lightBeige: '#eac5ab',
     backgroundText: '#000000',
-    tabBar: '#f0f0f0'
+    tabBar: '#f0f0f0',
+    screenContent: 'rgba(255, 255, 255, 0.6)'
   }
 })
 
@@ -53,7 +54,8 @@ export const darkTheme = populateTheme(MD3DarkTheme, {
     white: '#000000',
     lightBeige: '#153a54',
     backgroundText: '#ffffff',
-    tabBar: '#1a1a1a'
+    tabBar: '#1a1a1a',
+    screenContent: 'rgba(0, 0, 0, 0.6)'
   }
 })
 

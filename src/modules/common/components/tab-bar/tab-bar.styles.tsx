@@ -23,7 +23,8 @@ export const stylesWithTheme = (theme: AppTheme) =>
       flexDirection: 'column',
       height: 50,
       justifyContent: 'center',
-      position: 'absolute'
+      position: 'absolute',
+      width: 50
     },
     leftBar: {
       backgroundColor: theme.colors.tabBar,

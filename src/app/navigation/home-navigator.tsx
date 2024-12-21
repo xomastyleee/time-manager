@@ -16,6 +16,6 @@ const screenOptions: StackNavigationOptions = {
 
 export const HomeNavigator = () => (
   <Navigator initialRouteName="HomeScreen" screenOptions={screenOptions}>
-    <Screen name="HomeScreen" component={HomeScreen} options={{ cardStyle: { backgroundColor: 'transparent' } }} />
+    <Screen name="HomeScreen" component={HomeScreen} />
   </Navigator>
 )
