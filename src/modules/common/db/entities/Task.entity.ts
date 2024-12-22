@@ -14,6 +14,7 @@ import {
 import type { ITaskCreateUpdateParams } from '@common/db/types/interfaces'
 import { Priority, TaskStatus, TaskType, DayWeek } from '../types/enams'
 import { enumToStrings } from '../util/transformer'
+import { logger } from '@common/utils'
 
 @Entity()
 export class DayPlan {
@@ -71,16 +72,20 @@ export class Goal {
 @Entity()
 export class Task {
   constructor(params: ITaskCreateUpdateParams) {
-    const { title, priority, taskType, status, startDate, endDate, description, duration, breakDuration } = params
-    this.status = status
-    this.startDate = startDate
-    this.endDate = endDate
-    this.title = title
-    this.priority = priority
-    this.taskType = taskType
-    if (description) this.description = description
-    if (duration) this.duration = duration
-    if (breakDuration) this.breakDuration = breakDuration
+    if(params) {
+      const { title, priority, taskType, status, startDate, endDate, description, duration, breakDuration } = params
+      this.status = status
+      this.startDate = startDate
+      this.endDate = endDate
+      this.title = title
+      this.priority = priority
+      this.taskType = taskType
+      if (description) this.description = description
+      if (duration) this.duration = duration
+      if (breakDuration) this.breakDuration = breakDuration
+    }else {
+      logger.info('Task Entity init DataSource or params not found, Task not created')
+    }
   }
 
   @PrimaryGeneratedColumn()

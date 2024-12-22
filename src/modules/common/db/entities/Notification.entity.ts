@@ -13,14 +13,19 @@ import { NotificationType } from '@common/db/types/enams'
 import { enumToStrings } from '@common/db/util/transformer'
 import type { INotificationCreateUpdateParams } from '@common/db/types/interfaces'
 import { User } from './User.entity'
+import { logger } from '@common/utils'
 
 @Entity()
 export class Notification {
   constructor(params: INotificationCreateUpdateParams) {
-    const { type, message, isRead } = params
-    this.type = type
-    this.message = message
-    this.isRead = isRead || false
+    if(params) {
+      const { type, message, isRead } = params
+      this.type = type
+      this.message = message
+      this.isRead = isRead || false
+    }else{
+      logger.info('Task Notification init DataSource or params not found, Notification not created')
+    }
   }
 
   @PrimaryGeneratedColumn()
