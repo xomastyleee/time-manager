@@ -46,7 +46,7 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
             onPress={() => navigation.navigate(route.name)}
           >
             {IconMapper[index as keyof typeof IconMapper]({
-              color: isFocused ? theme.colors.primary : theme.colors.secondary
+              color: isFocused ? theme.colors.primary : theme.colors.onBackground
             })}
           </Pressable>
         )
