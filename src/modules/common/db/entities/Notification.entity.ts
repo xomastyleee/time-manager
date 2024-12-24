@@ -9,7 +9,7 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
-import { enumToStrings } from '@common/utils'
+import { enumToStrings, logger } from '@common/utils'
 import { type INotificationCreateUpdateParams, NotificationType } from '@common/types'
 
 import { User } from './User.entity'
@@ -17,10 +17,14 @@ import { User } from './User.entity'
 @Entity()
 export class Notification {
   constructor(params: INotificationCreateUpdateParams) {
-    const { type, message, isRead } = params
-    this.type = type
-    this.message = message
-    this.isRead = isRead || false
+    if (params) {
+      const { type, message, isRead } = params
+      this.type = type
+      this.message = message
+      this.isRead = isRead || false
+    } else {
+      logger.info('Notification Entity init DataSource or params not found, Notification not created')
+    }
   }
 
   @PrimaryGeneratedColumn()
