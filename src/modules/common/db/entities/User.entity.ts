@@ -7,17 +7,22 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
+import type { IUserCreateUpdateParams } from '@common/db/types/interfaces'
+import { logger } from '@common/utils'
 import { UserStatus } from '../types/enams'
 import { enumToStrings } from '../util/transformer'
-import type { IUserCreateUpdateParams } from '@common/db/types/interfaces'
 
 @Entity()
 export class User {
-  constructor(params : IUserCreateUpdateParams) {
-    const { username, status, preferences } = params
-    if (username) this.username = username
-    if (status) this.status = status
-    this.preferences = preferences
+  constructor(params: IUserCreateUpdateParams) {
+    if (params) {
+      const { username, status, preferences } = params
+      if (username) this.username = username
+      if (status) this.status = status
+      this.preferences = preferences
+    } else {
+      logger.info('User Entity init DataSource or params not found, User not created')
+    }
   }
 
   @PrimaryGeneratedColumn()
