@@ -25,7 +25,7 @@ export const SettingsButton: FC<SettingsButtonProps> = ({
   const scale = useSharedValue(1)
 
   const borderStyles = bottomDivider
-    ? { borderBottomWidth: 1, borderBottomColor: theme.colors.backgroundText, borderRadius: '5%' }
+    ? { borderBottomWidth: 1, borderBottomColor: theme.colors.text, borderRadius: '5%' }
     : {}
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -44,13 +44,13 @@ export const SettingsButton: FC<SettingsButtonProps> = ({
     <View style={[styles.container, borderStyles]}>
       <Animated.View style={animatedStyle}>
         <TouchableOpacity onPressIn={handlePressIn} onPressOut={handlePressOut} onPress={onPress} style={styles.main}>
-          <Text variant="bodyLarge" style={styles.title}>
-            {title}
-          </Text>
           <View style={styles.iconWrapper}>
-            <Icon source={iconName} size={iconSize} color={theme.colors.backgroundText} />
-            <Icon source="chevron-right" size={iconSize} color={theme.colors.backgroundText} />
+            <Icon source={iconName} size={iconSize} color={theme.colors.text} />
+            <Text variant="bodyLarge" style={styles.title}>
+              {title}
+            </Text>
           </View>
+          <Icon source="chevron-right" size={iconSize} color={theme.colors.text} />
         </TouchableOpacity>
       </Animated.View>
     </View>
@@ -63,6 +63,7 @@ const stylesWithTheme = (theme: AppTheme) =>
       width: '100%'
     },
     iconWrapper: {
+      flex: 1,
       flexDirection: 'row'
     },
     main: {
@@ -75,7 +76,8 @@ const stylesWithTheme = (theme: AppTheme) =>
       padding: 10
     },
     title: {
-      color: theme.colors.backgroundText,
-      fontWeight: '500'
+      color: theme.colors.text,
+      fontWeight: '500',
+      marginLeft: 10
     }
   })

@@ -8,7 +8,7 @@ export const stylesWithTheme = (theme: AppTheme) =>
       justifyContent: 'center'
     },
     label: {
-      color: theme.colors.backgroundText,
+      color: theme.colors.text,
       fontWeight: 'bold',
       textShadowColor: theme.colors.shadow,
       textShadowOffset: { width: -0.1, height: 0.1 },

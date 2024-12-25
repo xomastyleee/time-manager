@@ -13,7 +13,7 @@ export const stylesWithTheme = (theme: AppTheme) =>
     },
     fab: {
       alignSelf: 'center',
-      backgroundColor: theme.colors.tabBar,
+      backgroundColor: theme.colors.background,
       borderRadius: '50%',
       bottom: 50,
       position: 'absolute'
@@ -27,7 +27,7 @@ export const stylesWithTheme = (theme: AppTheme) =>
       width: 50
     },
     leftBar: {
-      backgroundColor: theme.colors.tabBar,
+      backgroundColor: theme.colors.background,
       borderTopRightRadius: 2,
       height: 65,
       left: 0,
@@ -35,7 +35,7 @@ export const stylesWithTheme = (theme: AppTheme) =>
       width: '42%'
     },
     rightBar: {
-      backgroundColor: theme.colors.tabBar,
+      backgroundColor: theme.colors.background,
       borderTopLeftRadius: 2,
       height: 65,
       position: 'absolute',

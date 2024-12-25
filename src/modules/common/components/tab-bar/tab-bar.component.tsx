@@ -30,7 +30,7 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
       <View style={styles.leftBar} />
       <View style={styles.centerCutout}>
         <Svg height="80" width="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <Path d="M0,20 Q50,70 100,20 L100,100 L0,100 Z" fill={theme.colors.tabBar} />
+          <Path d="M0,20 Q50,70 100,20 L100,100 L0,100 Z" fill={theme.colors.background} />
         </Svg>
       </View>
       <View style={styles.rightBar} />
