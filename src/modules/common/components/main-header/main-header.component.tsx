@@ -20,7 +20,7 @@ export const MainHeader: FC<MainHeaderProps> = ({ options }) => {
           </Text>
         </View>
         <View style={styles.iconButtonWrapper}>
-          <IconButton iconColor={theme.colors.background} icon="bell" size={20} />
+          <IconButton iconColor={theme.colors.onBackground} icon="bell" size={20} />
         </View>
       </View>
     </SafeAreaView>
