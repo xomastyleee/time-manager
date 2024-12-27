@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { DataSource } from 'typeorm'
 import { DayPlan, Goal, User, Notification, Task } from '@common/db/entities'
 import { logger } from '@common/utils'
@@ -13,16 +13,23 @@ export const dataSource = new DataSource({
 })
 
 export const useDBConnection = () => {
+  const [isInitialized, setIsInitialized] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
+
   useEffect(() => {
-    dataSource
-      .initialize()
-      .then(() => {
+    const initializeDB = async () => {
+      try {
+        logger.info('Initializing database...')
+        await dataSource.initialize()
         logger.info('DataSource has been initialized!')
-      })
-      .catch((err) => {
+        setIsInitialized(true)
+      } catch (err: any) {
         logger.error('Error during DataSource initialization:', err)
-      })
+        setError(err)
+      }
+    }
+    initializeDB()
   }, [])
 
-  return dataSource
+  return { dataSource, isInitialized, error }
 }
