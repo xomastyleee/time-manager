@@ -7,10 +7,8 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
-import type { IUserCreateUpdateParams } from '@common/db/types/interfaces'
-import { logger } from '@common/utils'
-import { UserStatus } from '../types/enams'
-import { enumToStrings } from '../util/transformer'
+import { enumToStrings, logger } from '@common/utils'
+import { type IUserCreateUpdateParams, UserStatus } from '@common/types'
 
 @Entity()
 export class User {

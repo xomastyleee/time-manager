@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { DataSource } from 'typeorm'
-import { DayPlan, Goal, User, Notification, Task } from '@common/db/entities/'
+import { DayPlan, Goal, User, Notification, Task } from '@common/db/entities'
 import { logger } from '@common/utils'
 
 export const dataSource = new DataSource({

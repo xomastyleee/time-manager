@@ -1,8 +1,9 @@
+import { In } from 'typeorm'
+import { User } from '@common/db/entities'
 import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
-import { In } from 'typeorm'
-import { IUserCreateUpdateParams } from '@common/db/types/interfaces'
-import { User } from '../entities'
+
+import type { IUserCreateUpdateParams } from '@common/types'
 
 export class UserService {
   private readonly userRepository = dataSource.getRepository(User)

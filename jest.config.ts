@@ -1,5 +1,6 @@
 import { pathsToModuleNameMapper, type JestConfigWithTsJest } from 'ts-jest'
 import { defaults as tsjPreset } from 'ts-jest/presets'
+
 import { compilerOptions } from './tsconfig.json'
 
 const jestConfig: JestConfigWithTsJest = {

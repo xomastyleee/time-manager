@@ -9,10 +9,9 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
-import { NotificationType } from '@common/db/types/enams'
-import { enumToStrings } from '@common/db/util/transformer'
-import type { INotificationCreateUpdateParams } from '@common/db/types/interfaces'
-import { logger } from '@common/utils'
+import { enumToStrings, logger } from '@common/utils'
+import { type INotificationCreateUpdateParams, NotificationType } from '@common/types'
+
 import { User } from './User.entity'
 
 @Entity()
