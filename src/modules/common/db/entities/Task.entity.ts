@@ -81,8 +81,6 @@ export class Task {
       if (description) this.description = description
       if (duration) this.duration = duration
       if (breakDuration) this.breakDuration = breakDuration
-    } else {
-      logger.info('Task Entity init DataSource or params not found, Task not created')
     }
   }
 

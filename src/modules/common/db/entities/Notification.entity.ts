@@ -22,8 +22,6 @@ export class Notification {
       this.type = type
       this.message = message
       this.isRead = isRead || false
-    } else {
-      logger.info('Notification Entity init DataSource or params not found, Notification not created')
     }
   }
 

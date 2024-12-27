@@ -17,9 +17,7 @@ export class User {
       const { username, status, preferences } = params
       if (username) this.username = username
       if (status) this.status = status
-      this.preferences = preferences
-    } else {
-      logger.info('User Entity init DataSource or params not found, User not created')
+      if (preferences) this.preferences = preferences
     }
   }
 
