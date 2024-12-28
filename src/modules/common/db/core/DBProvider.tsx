@@ -10,16 +10,7 @@ interface DBProviderProps {
 const Context = createContext({})
 
 export const DBProvider: FC<DBProviderProps> = ({ children }) => {
-  const { dataSource, isInitialized, error } = useDBConnection()
-
-  logger.debug('debug')
-  logger.info('info')
-  logger.warn('warn')
-  logger.error('error')
-
-  if (error) {
-    logger.error('error', error)
-  }
+  const { dataSource, isInitialized } = useDBConnection()
 
   if (!isInitialized) {
     return (
