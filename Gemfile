@@ -6,6 +6,7 @@ ruby "3.2.0"
 # Exclude problematic versions of cocoapods and activesupport that causes build failures.
 gem 'cocoapods', '1.15.2'
 gem 'activesupport', '>= 6.1.7.5', '!= 7.1.0'
+gem 'xcodeproj', '< 1.26.0'
 
 gem "fastlane", "2.222.0"
 gem "dotenv", "2.8.1"

@@ -25,7 +25,6 @@ android {
     defaultConfig {
         applicationId "com.frog.time"
         resValue "string", "build_config_package", "com.frog.time"
-        applicationIdSuffix ".app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

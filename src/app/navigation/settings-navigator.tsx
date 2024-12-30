@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, type StackNavigationOptions } from '@react-navigation/stack'
 import { SettingsScreen } from '@modules/settings'
 
 export type HomeStackParamList = {
@@ -8,13 +8,13 @@ export type HomeStackParamList = {
 
 const { Navigator, Screen } = createStackNavigator<HomeStackParamList>()
 
+const screenOptions: StackNavigationOptions = {
+  headerShown: false,
+  cardStyle: { backgroundColor: 'transparent' }
+}
+
 export const SettingsNavigator = () => (
-  <Navigator
-    initialRouteName="SettingsScreen"
-    screenOptions={{
-      headerShown: false
-    }}
-  >
+  <Navigator initialRouteName="SettingsScreen" screenOptions={screenOptions}>
     <Screen name="SettingsScreen" component={SettingsScreen} />
   </Navigator>
 )

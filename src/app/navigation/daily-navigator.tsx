@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, type StackNavigationOptions } from '@react-navigation/stack'
 import { DailyScreen } from '@modules/daily'
 
 export type HomeStackParamList = {
@@ -8,13 +8,13 @@ export type HomeStackParamList = {
 
 const { Navigator, Screen } = createStackNavigator<HomeStackParamList>()
 
+const screenOptions: StackNavigationOptions = {
+  headerShown: false,
+  cardStyle: { backgroundColor: 'transparent' }
+}
+
 export const DailyNavigator = () => (
-  <Navigator
-    initialRouteName="DailyScreen"
-    screenOptions={{
-      headerShown: false
-    }}
-  >
+  <Navigator initialRouteName="DailyScreen" screenOptions={screenOptions}>
     <Screen name="DailyScreen" component={DailyScreen} />
   </Navigator>
 )

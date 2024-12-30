@@ -38,6 +38,7 @@ module.exports = {
       }
     ],
     'react/jsx-props-no-spreading': 'off',
+    'react-native/no-unused-styles': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'prefer-const': 'error',
@@ -62,7 +63,22 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "react/no-unstable-nested-components": "off"
+    "react/no-unstable-nested-components": "off",
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          ['type', 'parent', 'sibling', 'index'],
+        ],
+        'newlines-between': 'always',
+        alphabetize: {
+          caseInsensitive: true,
+        },
+      },
+    ],
   },
   settings: {
     react: {

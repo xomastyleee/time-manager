@@ -1,3 +1,4 @@
-import { View } from 'react-native'
+import React from 'react'
+import { ScreenView } from '@common/components'
 
-export const HomeScreen = () => <View />
+export const HomeScreen = () => <ScreenView />
