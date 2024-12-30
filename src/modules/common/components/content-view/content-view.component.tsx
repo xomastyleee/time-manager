@@ -6,10 +6,11 @@ import { useCalculatedScreenGap } from '@modules/common/hooks'
 interface ContentViewProps extends ViewProps, React.PropsWithChildren<object> {
   animationDuration?: number
   isGapDisabled?: boolean
+  isGapActive?: boolean
 }
 
 export const ContentView: FC<ContentViewProps> = (props) => {
-  const { viewRef, gap, handleLayout } = useCalculatedScreenGap()
+  const { viewRef, gap, handleLayout } = useCalculatedScreenGap(props.isGapActive)
 
   const animatedStyle = useAnimatedStyle(
     () => ({
