@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { View, ViewProps } from 'react-native'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
-import { useCalculatedScreenGap } from '@modules/common/hooks'
+import { useCalculatedScreenGap } from '@common/hooks'
 
 interface ContentViewProps extends ViewProps, React.PropsWithChildren<object> {
   animationDuration?: number
