@@ -32,8 +32,7 @@ set-root-dependencies:
 	elif [[ "$$(uname)" == "Linux" ]]; then \
 		source $$HOME/.nvm/nvm.sh && nvm use; \
 	elif [[ "$$(uname -o)" == "Msys" || "$$(uname -o)" == "Cygwin" ]]; then \
-		node_version=$$(cat .nvmrc); \
-		nvm use $$node_version; \
+		echo "Windows is not implemented."; \
 	fi
 
 install-dependencies:
