@@ -10,7 +10,7 @@ const TAB_BAR_HEIGHT = 65 * 1.3
 const MAIN_HEADER_HEIGHT = 40 * 1.3
 const MAIN_GAP = 30
 
-export const useCalculatedScreenGap = () => {
+export const useCalculatedScreenGap = (isGapActive = false) => {
   const [gap, setGap] = useState(0)
   const viewRef = useRef<View | null>(null)
   const { height: windowHeight } = useWindowDimensions()
@@ -19,13 +19,13 @@ export const useCalculatedScreenGap = () => {
     viewRef.current?.measure((_, __, ___, height) => {
       const contentView = windowHeight - TAB_BAR_HEIGHT - MAIN_HEADER_HEIGHT - MAIN_GAP * 1.5
 
-      if (height > contentView) {
+      if (height > contentView || isGapActive) {
         setGap(MAIN_GAP)
       } else {
         setGap(0)
       }
     })
-  }, [windowHeight])
+  }, [isGapActive, windowHeight])
 
   return { gap, viewRef, handleLayout }
 }
