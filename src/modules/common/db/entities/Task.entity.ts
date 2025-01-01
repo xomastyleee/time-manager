@@ -11,7 +11,7 @@ import {
   Check,
   OneToMany
 } from 'typeorm'
-import { enumToStrings, logger } from '@common/utils'
+import { enumToStrings } from '@common/utils'
 import { Priority, TaskStatus, TaskType, DayWeek, type ITaskCreateUpdateParams } from '@common/types'
 
 @Entity()

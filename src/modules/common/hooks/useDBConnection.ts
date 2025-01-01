@@ -15,19 +15,18 @@ export const dataSource = new DataSource({
 export const useDBConnection = () => {
   const [isInitialized, setIsInitialized] = useState(false)
   const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const initializeDB = async () => {
-      try {
-        logger.info('Initializing database...')
-        await dataSource.initialize()
-        logger.info('DataSource has been initialized!')
-        setIsInitialized(true)
-      } catch (err: any) {
-        logger.error('Error during DataSource initialization:', err)
-        setError(err)
-      }
+  const initializeDB = async () => {
+    try {
+      logger.info('Initializing database...')
+      await dataSource.initialize()
+      logger.info('DataSource has been initialized!')
+      setIsInitialized(true)
+    } catch (err) {
+      logger.error('Error during DataSource initialization:', err)
+      setError(err as Error)
     }
+  }
+  useEffect(() => {
     initializeDB()
   }, [])
 
