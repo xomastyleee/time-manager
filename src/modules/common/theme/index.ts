@@ -34,13 +34,13 @@ const populateTheme = (theme: MD3Theme, config: CustomTheme): MD3Theme & CustomT
 export const lightTheme = populateTheme(MD3LightTheme, {
   colors: {
     transparent: 'transparent',
-    lightBlue: '#c7d7e4',
-    primary: '#38707f',
-    primaryBackground: '#38707f',
-    secondary: '#de8573',
-    white: '#ffffff',
-    lightBeige: '#eac5ab',
-    background: '#f0f0f0',
+    lightBlue: 'rgb(199, 215, 228)',
+    primary: 'rgb(56, 112, 127)',
+    primaryBackground: 'rgb(56, 112, 127)',
+    secondary: 'rgb(222, 133, 115)',
+    white: 'rgb(255, 255, 255)',
+    lightBeige: 'rgb(234, 197, 171)',
+    background: 'rgb(240, 240, 240)',
     screenContent: 'rgba(255, 255, 255, 0.6)'
   }
 })
@@ -48,14 +48,14 @@ export const lightTheme = populateTheme(MD3LightTheme, {
 export const darkTheme = populateTheme(MD3DarkTheme, {
   colors: {
     transparent: 'transparent',
-    lightBlue: '#384b5a',
-    primary: '#38707f',
-    primaryBackground: '#233033',
-    secondary: '#21a78c',
-    text: '#ffffff',
-    white: '#000000',
-    lightBeige: '#153a54',
-    background: '#1a1a1a',
+    lightBlue: 'rgb(56, 75, 90)',
+    primary: 'rgb(56, 112, 127)',
+    primaryBackground: 'rgb(35, 48, 51)',
+    secondary: 'rgb(33, 167, 140)',
+    text: 'rgb(255, 255, 255)',
+    white: 'rgb(0, 0, 0)',
+    lightBeige: 'rgb(21, 58, 84)',
+    background: 'rgb(26, 26, 26)',
     screenContent: 'rgba(0, 0, 0, 0.6)'
   }
 })

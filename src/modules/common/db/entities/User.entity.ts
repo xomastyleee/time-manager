@@ -7,7 +7,7 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
-import { enumToStrings, logger } from '@common/utils'
+import { enumToStrings } from '@common/utils'
 import { type IUserCreateUpdateParams, UserStatus } from '@common/types'
 
 @Entity()
@@ -17,9 +17,7 @@ export class User {
       const { username, status, preferences } = params
       if (username) this.username = username
       if (status) this.status = status
-      this.preferences = preferences
-    } else {
-      logger.info('User Entity init DataSource or params not found, User not created')
+      if (preferences) this.preferences = preferences
     }
   }
 
