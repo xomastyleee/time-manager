@@ -2,7 +2,6 @@ SHELL := /bin/bash --login
 
 setup: check-yarn set-root-dependencies install-dependencies
 
-# Check if yarn is installed, and install it if not
 check-yarn:
 	@echo "Checking if yarn is installed and up to date..."
 	@command -v yarn >/dev/null || { \
@@ -18,7 +17,6 @@ check-yarn:
 		current_yarn_version=$$(yarn -v); \
 		if [ "$$current_yarn_version" != "$$yarn_version" ]; then \
 			echo "Yarn version $$current_yarn_version is not $$yarn_version. Installing version $$yarn_version..."; \
-			asdf reshim nodejs; \
 			corepack enable; \
 			corepack prepare yarn@$$yarn_version --activate; \
 			yarn set version $$yarn_version; \
@@ -28,13 +26,23 @@ check-yarn:
 	}
 
 set-root-dependencies:
-	nvm use
-	rvm use
+	@if [[ "$$(uname)" == "Darwin" ]]; then \
+		nvm use; \
+		rvm use; \
+	elif [[ "$$(uname)" == "Linux" ]]; then \
+		source $$HOME/.nvm/nvm.sh && nvm use; \
+	elif [[ "$$(uname -o)" == "Msys" || "$$(uname -o)" == "Cygwin" ]]; then \
+		echo "Windows is not implemented."; \
+	fi
 
 install-dependencies:
-	yarn
-	bundle install
-	cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install
+	@if [[ "$$(uname)" == "Darwin" ]]; then \
+		yarn; \
+		bundle install; \
+		cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install; \
+	else \
+		yarn; \
+	fi
 
 resolve-ios:
 	cd ios && xcodebuild -resolvePackageDependencies

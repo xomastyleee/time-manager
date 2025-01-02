@@ -1,8 +1,8 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { ScreenGap, ScreenView } from '@common/components'
-import { useAppTheme, useCalculatedScreenGap } from '@common/hooks'
+import { ContentView, ScreenView } from '@common/components'
+import { useAppTheme } from '@common/hooks'
 
 import type { AppTheme } from '@common/theme'
 import { SettingsButton } from '../components'
@@ -13,11 +13,10 @@ const buildNumber = DeviceInfo.getBuildNumber()
 export const SettingsScreen = () => {
   const theme = useAppTheme()
   const styles = stylesWithTheme(theme)
-  const { viewRef, gap, handleLayout } = useCalculatedScreenGap()
 
   return (
     <ScreenView>
-      <View ref={viewRef} style={styles.main} onTouchStart={handleLayout}>
+      <ContentView style={styles.main}>
         <SettingsButton title="Profile" onPress={() => null} iconName="account" />
         <SettingsButton title="Appearance" onPress={() => null} iconName="palette" />
         <SettingsButton title="Language" onPress={() => null} iconName="translate" />
@@ -26,8 +25,7 @@ export const SettingsScreen = () => {
         <Text style={styles.versionInfo}>
           Version: {version} ({buildNumber})
         </Text>
-        <ScreenGap height={gap} />
-      </View>
+      </ContentView>
     </ScreenView>
   )
 }

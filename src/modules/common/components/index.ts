@@ -1,5 +1,5 @@
 export * from './tab-bar'
-export * from './screen-gap'
+export * from './content-view'
 export * from './main-header'
 export * from './screen-view'
 export * from './main-background-view'
