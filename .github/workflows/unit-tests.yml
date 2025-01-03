@@ -41,14 +41,14 @@ jobs:
         run: |
           git fetch origin main:main
 
+      - name: Use Setup Yarn action
+        uses: ./.github/actions/setup-yarn
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
-
-      - name: Use Setup Yarn action
-        uses: ./.github/actions/setup-yarn
 
       - name: Install dependencies
         run: |
