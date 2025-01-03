@@ -1,21 +1,21 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "jest"],
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["src/app/assets/*"],
       "@navigators/*": ["src/app/navigators/*"],
       "@modules/*": ["src/modules/*"],
-      "@common/*": ["src/modules/common/*"],
+      "@common/*": ["src/modules/common/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "allowImportingTsExtensions": false,
     "composite": true,
-    "noEmit": false,
+    "noEmit": false
   },
   "references": [
     {
@@ -24,5 +24,9 @@
     {
       "path": "./tsconfig.app.json"
     }
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
   ]
 }
