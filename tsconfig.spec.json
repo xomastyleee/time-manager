@@ -10,7 +10,7 @@
         "**/*.spec.ts",
         "**/*.test.tsx",
         "**/*.spec.tsx",
-        "**/*.json",
+        "**/*.json"
     ],
     "exclude": [
         "dist",
