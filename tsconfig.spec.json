@@ -4,12 +4,14 @@
         "types": ["jest"]
     },
     "include": [
-        "./jest.config.ts",
-        "**/testUtils/**/*",
-        "**/*.test.ts",
+        "src",
+        "e2e",
+        "__tests__",
         "**/*.spec.ts",
-        "**/*.test.tsx",
         "**/*.spec.tsx",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "./jest.config.ts",
         "**/*.json"
     ],
     "exclude": [
