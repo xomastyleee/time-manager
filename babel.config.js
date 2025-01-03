@@ -7,9 +7,6 @@ module.exports = {
   },
   plugins: [
     'react-native-reanimated/plugin',
-    '@babel/plugin-transform-react-jsx',
-    'transform-inline-environment-variables',
-    '@babel/plugin-transform-export-namespace-from',
     [
       'module-resolver',
       {

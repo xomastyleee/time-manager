@@ -59,7 +59,6 @@
     "@typescript-eslint/parser": "7.18.0",
     "babel-jest": "29.6.3",
     "babel-plugin-module-resolver": "5.0.2",
-    "babel-plugin-transform-inline-environment-variables": "0.4.4",
     "eslint": "8.57.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "18.0.0",
