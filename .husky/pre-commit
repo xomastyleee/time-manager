@@ -6,3 +6,7 @@ if [[ ! $branch_name =~ $branch_regex ]]; then
   echo "Branch name does not match expected format. Ex. feat/TYPE-000-desc"
   exit 1
 fi
+
+yarn build
+yarn check-types
+yarn lint

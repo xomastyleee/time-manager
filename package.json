@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "npx tsc --build tsconfig.json",
     "test": "jest --coverage --verbose",
     "lint": "eslint . --ext ts,tsx --max-warnings 0 --fix",
     "start": "react-native start",
@@ -11,7 +12,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator='iPhone 16 Pro'",
     "generate": "NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "check-types": "npx tsc -p ./tsconfig.json --pretty --noEmit"
   },
   "dependencies": {
     "@react-native-community/hooks": "3.0.0",

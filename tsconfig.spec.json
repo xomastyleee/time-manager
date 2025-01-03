@@ -10,8 +10,10 @@
         "**/*.spec.ts",
         "**/*.test.tsx",
         "**/*.spec.tsx",
-        "**/*.ts",
-        "**/*.tsx",
         "**/*.json",
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
     ]
 }
