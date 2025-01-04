@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
 import { FAB, Icon } from 'react-native-paper'
 import Svg, { Path } from 'react-native-svg'
-import { useAppTheme } from '@common/hooks'
+import { useStylesWithTheme } from '@common/hooks'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 
 import { stylesWithTheme } from './tab-bar.styles'
@@ -22,15 +22,14 @@ const PositionMapper = {
 }
 
 export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
-  const theme = useAppTheme()
-  const styles = stylesWithTheme(theme)
+  const { styles, colors } = useStylesWithTheme(stylesWithTheme)
 
   return (
     <View style={styles.tabBar}>
       <View style={styles.leftBar} />
       <View style={styles.centerCutout}>
         <Svg height="80" width="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <Path d="M0,20 Q50,70 100,20 L100,100 L0,100 Z" fill={theme.colors.background} />
+          <Path d="M0,20 Q50,70 100,20 L100,100 L0,100 Z" fill={colors.background} />
         </Svg>
       </View>
       <View style={styles.rightBar} />
@@ -46,7 +45,7 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
             onPress={() => navigation.navigate(route.name)}
           >
             {IconMapper[index as keyof typeof IconMapper]({
-              color: isFocused ? theme.colors.primary : theme.colors.onBackground
+              color: isFocused ? colors.primary : colors.onBackground
             })}
           </Pressable>
         )
