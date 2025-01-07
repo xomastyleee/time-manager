@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "npx tsc --build tsconfig.json",
     "test": "jest --coverage --verbose",
     "lint": "eslint . --ext ts,tsx --max-warnings 0 --fix",
     "start": "react-native start",
@@ -11,7 +12,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator='iPhone 16 Pro'",
     "generate": "NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "check-types": "npx tsc -p ./tsconfig.json --pretty --noEmit"
   },
   "dependencies": {
     "@react-native-community/hooks": "3.0.0",
@@ -40,6 +42,7 @@
     "@babel/plugin-proposal-decorators": "7.25.7",
     "@babel/preset-env": "7.25.3",
     "@babel/runtime": "7.25.0",
+    "@babel/types": "7.26.3",
     "@react-native-community/cli": "15.0.0",
     "@react-native-community/cli-platform-android": "15.0.0",
     "@react-native-community/cli-platform-ios": "15.0.0",
@@ -51,6 +54,7 @@
     "@testing-library/react-native": "12.7.2",
     "@types/bcryptjs": "2.4.6",
     "@types/react": "18.3.1",
+    "@types/jest": "29.5.14",
     "@types/react-native-sqlite-storage": "6.0.5",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
@@ -75,6 +79,7 @@
     "prettier": "3.3.3",
     "react-test-renderer": "18.3.1",
     "ts-jest": "29.2.5",
+    "ts-node": "10.9.2",
     "tsx": "4.19.1",
     "typescript": "5.0.4"
   },

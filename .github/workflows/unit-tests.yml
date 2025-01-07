@@ -1,0 +1,59 @@
+name: Jest Unit Tests
+
+run-name: ${{ github.event.pull_request.number && format('Run Unit Tests on PR - {0}', github.event.pull_request.number) || 'Run Unit Tests on main branch' }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    paths:
+      - src/**
+      - package.json
+      - yarn.lock
+      - yarnrc.yml
+      - .eslintrc.js
+      - .prettierrc.json
+      - tsconfig.json
+  push:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Fetch main branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          git fetch origin main:main
+
+      - name: Use Setup Yarn action
+        uses: ./.github/actions/setup-yarn
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+
+      - name: Test
+        run: |
+          yarn test

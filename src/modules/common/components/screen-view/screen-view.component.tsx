@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, ReactNode } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useAppTheme } from '@common/hooks'
+import { useStylesWithTheme } from '@common/hooks'
 
 import { stylesWithTheme } from './screen-view.styles'
 
@@ -9,8 +9,7 @@ interface ScreenViewProps {
 }
 
 export const ScreenView: FC<ScreenViewProps> = ({ children }) => {
-  const theme = useAppTheme()
-  const styles = stylesWithTheme(theme)
+  const { styles } = useStylesWithTheme(stylesWithTheme)
 
   return <ScrollView style={styles.main}>{children}</ScrollView>
 }

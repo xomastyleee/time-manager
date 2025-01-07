@@ -16,7 +16,6 @@ module.exports = {
           '@navigators': './src/app/navigators',
           '@modules': './src/modules',
           '@common': './src/modules/common',
-          '@db': './src/app/db',
         }
       }
     ],

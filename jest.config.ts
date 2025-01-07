@@ -12,16 +12,19 @@ const jestConfig: JestConfigWithTsJest = {
   coverageDirectory: './coverage',
   collectCoverage: true,
   transform: {
-    '^.+\\.[tj]sx?$': [
+    '^.+\\.(ts|tsx)$': [
       'ts-jest',
       {
         tsconfig: './tsconfig.spec.json',
         useESM: true
       }
-    ]
+    ],
+    '^.+\\.(js|jsx)$': 'babel-jest'
   },
   coveragePathIgnorePatterns: ['/node_modules/', '/.node/', '/jest/'],
-  transformIgnorePatterns: ['node_modules'],
+  transformIgnorePatterns: [
+    'node_modules/(?!(react-native|@react-native|@react-native-community|@react-navigation|@react-native/polyfills|@react-native/js-polyfills)/)'
+  ],
   testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
   setupFilesAfterEnv: ['./__tests__/testUtils/setupTests.ts'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' })

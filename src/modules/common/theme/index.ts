@@ -16,17 +16,17 @@ const populateTheme = (theme: MD3Theme, config: CustomTheme): MD3Theme & CustomT
   ...theme,
   ...config,
   colors: {
-    ...theme.colors,
+    ...theme?.colors,
     ...config.colors,
-    elevation: theme.colors.elevation as MD3Elevation & string
+    elevation: theme?.colors?.elevation as MD3Elevation & string
   },
   fonts: {
-    ...theme.fonts,
+    ...theme?.fonts,
     ...config.fonts
   },
-  roundness: config.roundness ?? theme.roundness,
+  roundness: config.roundness ?? theme?.roundness,
   animation: {
-    ...theme.animation,
+    ...theme?.animation,
     ...config.animation
   }
 })

@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Icon, Text } from 'react-native-paper'
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated'
-import { useAppTheme } from '@common/hooks'
+import { useStylesWithTheme } from '@common/hooks'
 import { AppTheme } from '@common/theme'
 
 interface SettingsButtonProps {
@@ -20,13 +20,10 @@ export const SettingsButton: FC<SettingsButtonProps> = ({
   bottomDivider = true,
   onPress
 }) => {
-  const theme = useAppTheme()
-  const styles = stylesWithTheme(theme)
+  const { styles, colors } = useStylesWithTheme(stylesWithTheme)
   const scale = useSharedValue(1)
 
-  const borderStyles = bottomDivider
-    ? { borderBottomWidth: 1, borderBottomColor: theme.colors.text, borderRadius: '5%' }
-    : {}
+  const borderStyles = bottomDivider ? { borderBottomWidth: 1, borderBottomColor: colors.text, borderRadius: '5%' } : {}
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }]
@@ -45,12 +42,12 @@ export const SettingsButton: FC<SettingsButtonProps> = ({
       <Animated.View style={animatedStyle}>
         <TouchableOpacity onPressIn={handlePressIn} onPressOut={handlePressOut} onPress={onPress} style={styles.main}>
           <View style={styles.iconWrapper}>
-            <Icon source={iconName} size={iconSize} color={theme.colors.text} />
+            <Icon source={iconName} size={iconSize} color={colors.text} />
             <Text variant="bodyLarge" style={styles.title}>
               {title}
             </Text>
           </View>
-          <Icon source="chevron-right" size={iconSize} color={theme.colors.text} />
+          <Icon source="chevron-right" size={iconSize} color={colors.text} />
         </TouchableOpacity>
       </Animated.View>
     </View>
