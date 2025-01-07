@@ -9,7 +9,7 @@ import {
   DeleteDateColumn,
   Check
 } from 'typeorm'
-import { enumToStrings, logger } from '@common/utils'
+import { enumToStrings } from '@common/utils'
 import { type INotificationCreateUpdateParams, NotificationType } from '@common/types'
 
 import { User } from './User.entity'
@@ -22,8 +22,6 @@ export class Notification {
       this.type = type
       this.message = message
       this.isRead = isRead || false
-    } else {
-      logger.info('Notification Entity init DataSource or params not found, Notification not created')
     }
   }
 

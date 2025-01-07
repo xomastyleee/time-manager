@@ -5,7 +5,7 @@ import { useStylesWithTheme } from '@common/hooks'
 import { stylesWithTheme } from './main-background-view.styles'
 
 interface MainBackgroundViewProps {
-  children: ReactElement | ReactNode
+  children?: ReactElement | ReactNode
 }
 
 export const MainBackgroundView: FC<MainBackgroundViewProps> = ({ children }) => {
