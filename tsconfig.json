@@ -10,6 +10,7 @@
       "@modules/*": ["src/modules/*"],
       "@common/*": ["src/modules/common/*"]
     },
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,

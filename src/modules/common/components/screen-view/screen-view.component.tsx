@@ -1,15 +1,18 @@
-import React, { FC, ReactElement, ReactNode } from 'react'
+import React, { FC } from 'react'
+import { type ViewProps } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useStylesWithTheme } from '@common/hooks'
 
 import { stylesWithTheme } from './screen-view.styles'
 
-interface ScreenViewProps {
-  children?: ReactElement | ReactNode
-}
+interface ScreenViewProps extends ViewProps, React.PropsWithChildren<object> {}
 
-export const ScreenView: FC<ScreenViewProps> = ({ children }) => {
+export const ScreenView: FC<ScreenViewProps> = (props) => {
   const { styles } = useStylesWithTheme(stylesWithTheme)
 
-  return <ScrollView style={styles.main}>{children}</ScrollView>
+  return (
+    <ScrollView {...props} style={styles.main}>
+      {props.children}
+    </ScrollView>
+  )
 }
