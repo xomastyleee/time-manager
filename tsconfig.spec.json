@@ -6,7 +6,9 @@
     "include": [
         "__tests__",
         "src",
+        "e2e",
         "jest.config.ts",
+        "detox.config.ts",
         "**/*.spec.ts",
         "**/*.spec.tsx",
         "**/*.test.ts",
