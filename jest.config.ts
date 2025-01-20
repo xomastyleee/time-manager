@@ -5,7 +5,7 @@ import { compilerOptions } from './tsconfig.json'
 
 const jestConfig: JestConfigWithTsJest = {
   ...tsjPreset,
-  displayName: 'frog-time',
+  displayName: 'frog-time-unit',
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   testEnvironment: 'node',

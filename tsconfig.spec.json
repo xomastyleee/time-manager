@@ -4,15 +4,17 @@
         "types": ["jest"]
     },
     "include": [
+        "__tests__",
         "src",
         "e2e",
-        "__tests__",
+        "jest.config.ts",
+        "detox.config.ts",
         "**/*.spec.ts",
         "**/*.spec.tsx",
         "**/*.test.ts",
         "**/*.test.tsx",
-        "./jest.config.ts",
-        "**/*.json"
+        "app.json",
+        "tsconfig.json"
     ],
     "exclude": [
         "dist",
