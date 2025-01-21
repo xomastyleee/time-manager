@@ -18,6 +18,7 @@ runs:
       if: github.ref != 'refs/heads/main'
       run: |
         git fetch origin main:main
+      shell: bash
 
     - name: Use Setup Yarn action
       uses: ./.github/actions/setup-yarn
