@@ -1,4 +1,4 @@
-name: Auto run of E2E tests for a specific mobile application.
+name: E2E tests scheduled or dispatched
 
 run-name: ${{ github.event_name == 'schedule' && format('Run e2e test scheduled - {0}', github.event.schedule) || github.event_name == 'workflow_dispatch' && format('Run e2e test for branch - {0}', github.ref) || github.head_ref || github.ref }}
 

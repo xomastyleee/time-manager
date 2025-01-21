@@ -1,4 +1,4 @@
-name: 'Build and run e2e test'
+name: 'Build and run e2e tests'
 description: 'Execute common steps necessary for checking application build and e2e tests'
 
 inputs:
