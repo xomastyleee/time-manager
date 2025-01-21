@@ -1,0 +1,89 @@
+name: 'Build and run e2e test'
+description: 'Execute common steps necessary for checking application build and e2e tests'
+
+inputs:
+  ref:
+    description: Ref for checkout. Use the github.ref
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+
+    - name: Fetch main branch
+      if: github.ref != 'refs/heads/main'
+      run: |
+        git fetch origin main:main
+
+    - name: Use Setup Yarn action
+      uses: ./.github/actions/setup-yarn
+
+    - name: Set up NodeJs
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'yarn'
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '.ruby-version'
+        bundler-cache: true
+
+    - name: Cache node_modules
+      if: ${{ github.event.pull_request.draft == true }}
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-e2e-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-node-e2e-
+
+    - name: Cache Pods
+      id: pods-cache
+      uses: actions/cache@v4
+      with:
+        path: ./ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+
+    - name: Cache Detox build
+      id: cache-detox-build
+      uses: actions/cache@v3
+      with:
+        path: ./ios/build
+        key: ${{ runner.os }}-detox-build-mobile-app-e2e${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-detox-build-app-e2e-
+
+    - name: Download iOS dependencies
+      run: |
+        if ! which applesimutils > /dev/null; then
+          brew tap wix/brew
+          brew install applesimutils
+        else
+          brew tap wix/brew
+          brew reinstall applesimutils
+        fi
+      shell: bash
+
+    - name: Install project dependencies
+      run: |
+        yarn --immutable
+        bundle install
+        npx pod-install
+      shell: bash
+
+    - name: Download Detox and RN CLI
+      run: |
+        yarn dlx detox-cli react-native-cli
+      shell: bash
+
+    - name: Run e2e tests for iOS
+      run: yarn e2e:ios
+      shell: bash
