@@ -3,6 +3,7 @@ import { PaperProvider } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { DBProvider } from '@common/db/core'
 import { useDefinedTheme } from '@common/hooks'
+import '../../i18n'
 
 import { AppNavigator } from './navigation/app-navigator'
 
