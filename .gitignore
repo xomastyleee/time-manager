@@ -64,6 +64,7 @@ yarn-error.log
 
 # testing
 /coverage
+/artifacts
 
 # Yarn
 .yarn/
@@ -74,3 +75,10 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 dist
+
+# fastlane
+fastlane/google-play-sa.json
+fastlane/*.p8
+fastlane/.env
+fastlane/.env.*
+!fastlane/.env.example

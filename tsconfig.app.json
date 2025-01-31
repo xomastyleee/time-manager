@@ -6,7 +6,6 @@
   "include": [
       "src",
       "src/**/*.json",
-      ".ondevice",
       "generators",
       "plopfile.ts"
     ],
