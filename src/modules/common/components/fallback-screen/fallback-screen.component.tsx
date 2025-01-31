@@ -8,12 +8,12 @@ import { stylesWithTheme } from './fallback-screen.styles'
 import { MainBackgroundView } from '../main-background-view'
 
 interface FallbackScreenProps {
-  error?: boolean
+  isError?: boolean
   isLoading?: boolean
   children?: ReactNode
 }
 
-export const FallbackScreen: FC<FallbackScreenProps> = ({ error, isLoading, children }) => {
+export const FallbackScreen: FC<FallbackScreenProps> = ({ isError, isLoading, children }) => {
   const theme = useAppTheme()
   const styles = stylesWithTheme(theme)
 
@@ -25,7 +25,7 @@ export const FallbackScreen: FC<FallbackScreenProps> = ({ error, isLoading, chil
     transform: [{ rotate: `${spinValue.value * 360}deg` }]
   }))
 
-  if (error) {
+  if (isError) {
     return (
       <MainBackgroundView>
         <Text style={styles.errorTitle}> Ooops... Something went wrong </Text>

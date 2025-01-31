@@ -12,7 +12,7 @@ export const DBProvider: FC<DBProviderProps> = ({ children }) => {
   const { dataSource, isInitialized, isError } = useDBConnection()
 
   if (isError || !isInitialized) {
-    return <FallbackScreen error={isError} isLoading={!isInitialized} />
+    return <FallbackScreen isError={isError} isLoading={!isInitialized} />
   }
 
   return <Context.Provider value={dataSource}>{children}</Context.Provider>
