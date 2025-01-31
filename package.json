@@ -57,7 +57,7 @@
     "@testing-library/react-native": "12.7.2",
     "@types/bcryptjs": "2.4.6",
     "@types/jest": "29.5.14",
-    "@types/react": "18.2.6",
+    "@types/react": "18.3.1",
     "@types/react-native-sqlite-storage": "6.0.5",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
