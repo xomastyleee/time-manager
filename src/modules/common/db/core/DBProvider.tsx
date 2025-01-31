@@ -9,10 +9,10 @@ interface DBProviderProps {
 const Context = createContext({})
 
 export const DBProvider: FC<DBProviderProps> = ({ children }) => {
-  const { dataSource, isInitialized, error } = useDBConnection()
+  const { dataSource, isInitialized, isError } = useDBConnection()
 
-  if (error || !isInitialized) {
-    return <FallbackScreen error={error} isLoading={!isInitialized} />
+  if (isError || !isInitialized) {
+    return <FallbackScreen error={isError} isLoading={!isInitialized} />
   }
 
   return <Context.Provider value={dataSource}>{children}</Context.Provider>

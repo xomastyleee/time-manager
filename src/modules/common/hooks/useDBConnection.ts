@@ -14,7 +14,7 @@ export const dataSource = new DataSource({
 
 export const useDBConnection = () => {
   const [isInitialized, setIsInitialized] = useState(false)
-  const [error, setError] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   const initializeDB = async () => {
     try {
@@ -24,7 +24,7 @@ export const useDBConnection = () => {
       setIsInitialized(true)
     } catch (err) {
       logger.error('Error during DataSource initialization:', err)
-      setError(true)
+      setIsError(true)
     }
   }
 
@@ -32,5 +32,5 @@ export const useDBConnection = () => {
     initializeDB()
   }, [])
 
-  return { dataSource, isInitialized, error }
+  return { dataSource, isInitialized, isError }
 }

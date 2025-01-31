@@ -1,7 +1,8 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { useAppTheme } from '@common/hooks'
 import { Text } from 'react-native-paper'
-import { Animated, Easing, View } from 'react-native'
+import { View } from 'react-native'
+import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, Easing } from 'react-native-reanimated'
 
 import { stylesWithTheme } from './fallback-screen.styles'
 import { MainBackgroundView } from '../main-background-view'
@@ -15,26 +16,20 @@ interface FallbackScreenProps {
 export const FallbackScreen: FC<FallbackScreenProps> = ({ error, isLoading, children }) => {
   const theme = useAppTheme()
   const styles = stylesWithTheme(theme)
-  const spinValue = new Animated.Value(0)
-  Animated.loop(
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 2000,
-      easing: Easing.linear,
-      useNativeDriver: true
-    })
-  ).start()
 
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg']
-  })
+  const spinValue = useSharedValue(0)
+
+  spinValue.value = withRepeat(withTiming(1, { duration: 2000, easing: Easing.linear }), -1, false)
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${spinValue.value * 360}deg` }]
+  }))
 
   if (error) {
     return (
       <MainBackgroundView>
         <Text style={styles.errorTitle}> Ooops... Something went wrong </Text>
-        <Text style={styles.errorMessage}> There&apos;s been an error. Try again later. </Text>
+        <Text style={styles.errorMessage}>{'There’s been an error. Please try again later.'}</Text>
       </MainBackgroundView>
     )
   }
@@ -43,7 +38,7 @@ export const FallbackScreen: FC<FallbackScreenProps> = ({ error, isLoading, chil
     return (
       <MainBackgroundView>
         <View style={styles.loadingContainer}>
-          <Animated.View style={[styles.loader, { transform: [{ rotate: spin }] }]} />
+          <Animated.View style={[styles.loader, animatedStyle]} />
           <Text style={styles.loadingMessage}> Loading... </Text>
         </View>
       </MainBackgroundView>
