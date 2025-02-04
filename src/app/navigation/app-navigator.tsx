@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
+import BootSplash from 'react-native-bootsplash'
 import {
   type BottomTabBarProps,
   type BottomTabNavigationOptions,
@@ -26,8 +27,12 @@ const screenOptions: BottomTabNavigationOptions = {
 
 const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />
 
+const onReadyNavigationContainer = () => {
+  BootSplash.hide({ fade: true })
+}
+
 export const AppNavigator = () => (
-  <NavigationContainer ref={navigationRef}>
+  <NavigationContainer ref={navigationRef} onReady={onReadyNavigationContainer}>
     <MainBackgroundView>
       <Navigator initialRouteName="Home" tabBar={renderTabBar} screenOptions={screenOptions}>
         <Screen
