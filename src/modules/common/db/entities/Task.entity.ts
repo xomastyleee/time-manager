@@ -11,7 +11,7 @@ import {
   Check,
   OneToMany
 } from 'typeorm'
-import { enumToStrings, logger } from '@common/utils'
+import { enumToStrings } from '@common/utils'
 import { Priority, TaskStatus, TaskType, DayWeek, type ITaskCreateUpdateParams } from '@common/types'
 
 @Entity()
@@ -81,8 +81,6 @@ export class Task {
       if (description) this.description = description
       if (duration) this.duration = duration
       if (breakDuration) this.breakDuration = breakDuration
-    } else {
-      logger.info('Task Entity init DataSource or params not found, Task not created')
     }
   }
 
