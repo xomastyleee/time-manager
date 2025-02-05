@@ -8,44 +8,54 @@ export const useAuthorizedUserModel = () => {
   const [user, setUser] = useState<User>()
   const [userList, setUserList] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const fetchUsers = useCallback(async () => {
     setIsLoading(true)
 
-    const allUsers: User[] = await userService.getAllUsers()
+    try {
+      const allUsers: User[] = await userService.getAllUsers()
 
-    const activeUser = allUsers.find(({ status }) => status === UserStatus.Active)
+      const activeUser = allUsers.find(({ status }) => status === UserStatus.Active)
 
-    if (activeUser) {
-      setUser(activeUser)
+      if (activeUser) {
+        setUser(activeUser)
+      }
+
+      setUserList(allUsers)
+    } catch (e) {
+      logger.error('Failed to get all users list:', e)
+      setError(String(e))
+    } finally {
+      setIsLoading(false)
     }
-
-    setUserList(allUsers)
-    setIsLoading(false)
   }, [])
 
   useEffect(() => {
     fetchUsers()
   }, [fetchUsers])
 
-  const registerUser = useCallback(async (params: IUserCreateUpdateParams) => {
-    setIsLoading(true)
+  const registerUser = useCallback(
+    async (params: IUserCreateUpdateParams) => {
+      setIsLoading(true)
 
-    try {
-      const newUser = await userService.createUser(params)
-      const allUsers: User[] = await userService.getAllUsers()
+      try {
+        const newUser = await userService.createUser(params)
+        const allUsers: User[] = await userService.getAllUsers()
 
-      setUserList(allUsers)
-      setUser(newUser)
+        setUserList(allUsers)
+        setUser(newUser)
 
-      return newUser
-    } catch (error) {
-      logger.error('Failed to register user:', error)
-      throw error
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+        return newUser
+      } catch (e) {
+        logger.error('Failed to register user:', e)
+        setError(error)
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [error]
+  )
 
   const authorizeUser = useCallback(
     async (userId: number) => {
@@ -65,8 +75,9 @@ export const useAuthorizedUserModel = () => {
           setUser(selectedUser)
           return selectedUser
         }
-      } catch (error) {
-        logger.error('Failed to authorize user:', error)
+      } catch (e) {
+        logger.error('Failed to authorize user:', e)
+        setError(String(e))
       } finally {
         setIsLoading(false)
       }
@@ -81,22 +92,24 @@ export const useAuthorizedUserModel = () => {
       try {
         await userService.updateUser(user.id, { status: UserStatus.Inactive })
         setUser(undefined)
-      } catch (error) {
+      } catch (e) {
         logger.error('Failed to log out:', error)
+        setError(String(e))
       }
       setIsLoading(false)
     }
-  }, [user])
+  }, [user, error])
 
   return useMemo(
     () => ({
       user,
       userList,
       isLoading,
+      error,
       registerUser,
       authorizeUser,
       logout
     }),
-    [user, userList, isLoading, authorizeUser, logout, registerUser]
+    [user, userList, isLoading, error, authorizeUser, logout, registerUser]
   )
 }
