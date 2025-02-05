@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-// todo: delete this type
-import { UserState, UserStatus } from '@common/types'
+import { IUserCreateUpdateParams, UserStatus } from '@common/types'
 import { User } from '@common/db/entities'
 import { userService } from '@common/services/user.service'
+import { logger } from '@common/utils'
 
 export const useAuthorizedUserModel = () => {
   const [user, setUser] = useState<User>()
@@ -28,24 +28,76 @@ export const useAuthorizedUserModel = () => {
     fetchUsers()
   }, [fetchUsers])
 
-  /**
-   * todo: update function
-   * If the user state have user with same userId we should't do anything
-   * If the user state have user with different userId we should update user state with new user and set status for old user to Inactive
-   * User with new userId should be added to userList if it doesn't exist
-   */
-  const authorizeUser = (userId: number) => {}
+  const registrationUser = useCallback(async (params: IUserCreateUpdateParams) => {
+    setIsLoading(true)
 
-  const logout = () => {}
+    try {
+      const newUser = await userService.createUser(params)
+      const allUsers: User[] = await userService.getAllUsers()
+
+      setUserList(allUsers)
+      setUser(newUser)
+
+      return newUser
+    } catch (error) {
+      logger.error('Failed to register user:', error)
+      throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  const authorizeUser = useCallback(
+    async (userId: number) => {
+      if (!userId) return user
+
+      if (user && userId === user.id) {
+        return user
+      }
+
+      try {
+        setIsLoading(true)
+        if (user) {
+          await userService.updateUser(user.id, { status: UserStatus.Inactive })
+        }
+
+        const selectedUser = userList.find(({ id }) => id === userId)
+        if (selectedUser) {
+          await userService.updateUser(selectedUser.id, { status: UserStatus.Active })
+          setUser(selectedUser)
+          return selectedUser
+        }
+      } catch (error) {
+        logger.error('Failed to authorize user:', error)
+      }
+      setIsLoading(false)
+      return user
+    },
+    [user, userList]
+  )
+
+  const logout = useCallback(async () => {
+    if (user) {
+      setIsLoading(true)
+      try {
+        await userService.updateUser(user.id, { status: UserStatus.Inactive })
+        setUser(undefined)
+      } catch (error) {
+        logger.error('Failed to log out:', error)
+      }
+      setIsLoading(false)
+    }
+  }, [user])
 
   return useMemo(
     () => ({
       user,
       userList,
       isLoading,
+      registrationUser,
       authorizeUser,
       logout
     }),
-    [isLoading, user, userList]
+    [user, userList, isLoading, authorizeUser, logout, registrationUser]
   )
 }
