@@ -1,53 +1,51 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+// todo: delete this type
 import { UserState, UserStatus } from '@common/types'
 import { User } from '@common/db/entities'
 import { userService } from '@common/services/user.service'
 
 export const useAuthorizedUserModel = () => {
-  const [state, setState] = useState<UserState>({
-    user: null,
-    userList: [],
-    isLoading: true
-  })
+  const [user, setUser] = useState<User>()
+  const [userList, setUserList] = useState<User[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const mockUsers: User[] = await userService.getAllUsers()
+  const fetchUsers = useCallback(async () => {
+    setIsLoading(true)
 
-      setState((prevState) => ({
-        ...prevState,
-        userList: mockUsers,
-        isLoading: false
-      }))
+    const allUsers: User[] = await userService.getAllUsers()
+
+    const activeUser = allUsers.find(({ status }) => status === UserStatus.Active)
+
+    if (activeUser) {
+      setUser(activeUser)
     }
 
-    fetchUsers()
+    setUserList(allUsers)
+    setIsLoading(false)
   }, [])
 
-  const authorizeUser = (userId: number) => {
-    setState((prevState) => {
-      if (prevState.user) {
-        return prevState
-      }
+  useEffect(() => {
+    fetchUsers()
+  }, [fetchUsers])
 
-      const updatedUserList = prevState.userList.map((user) =>
-        user.id === userId ? { ...user, status: UserStatus.Active } : user
-      )
+  /**
+   * todo: update function
+   * If the user state have user with same userId we should't do anything
+   * If the user state have user with different userId we should update user state with new user and set status for old user to Inactive
+   * User with new userId should be added to userList if it doesn't exist
+   */
+  const authorizeUser = (userId: number) => {}
 
-      const authorizedUser = updatedUserList.find((user) => user.id === userId) || null
+  const logout = () => {}
 
-      return {
-        ...prevState,
-        user: authorizedUser,
-        userList: updatedUserList
-      }
-    })
-  }
-
-  return {
-    user: state.user,
-    userList: state.userList,
-    isLoading: state.isLoading,
-    authorizeUser
-  }
+  return useMemo(
+    () => ({
+      user,
+      userList,
+      isLoading,
+      authorizeUser,
+      logout
+    }),
+    [isLoading, user, userList]
+  )
 }
