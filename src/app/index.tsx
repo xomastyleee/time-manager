@@ -11,7 +11,6 @@ import 'react-native-gesture-handler'
 
 export const App = () => {
   const paperTheme = useDefinedTheme()
-
   return (
     <PaperProvider theme={paperTheme}>
       <SafeAreaProvider>
