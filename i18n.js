@@ -12,8 +12,8 @@ i18next
       escapeValue: false, 
     },
     resources: {
-      en: { translation: en },
-      ua: { translation: ua }
+      en: { translation:en },
+      ua: { translation:ua }
   }
   });
 

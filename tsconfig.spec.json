@@ -15,7 +15,7 @@
         "**/*.test.tsx",
         "app.json",
         "tsconfig.json",
-        "i18n.js",    
+        "i18n.ts",    
         "src/locales/**/*.json"
     ],
     "exclude": [
