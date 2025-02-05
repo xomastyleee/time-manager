@@ -28,7 +28,7 @@ export const useAuthorizedUserModel = () => {
     fetchUsers()
   }, [fetchUsers])
 
-  const registrationUser = useCallback(async (params: IUserCreateUpdateParams) => {
+  const registerUser = useCallback(async (params: IUserCreateUpdateParams) => {
     setIsLoading(true)
 
     try {
@@ -49,8 +49,6 @@ export const useAuthorizedUserModel = () => {
 
   const authorizeUser = useCallback(
     async (userId: number) => {
-      if (!userId) return user
-
       if (user && userId === user.id) {
         return user
       }
@@ -69,8 +67,9 @@ export const useAuthorizedUserModel = () => {
         }
       } catch (error) {
         logger.error('Failed to authorize user:', error)
+      } finally {
+        setIsLoading(false)
       }
-      setIsLoading(false)
       return user
     },
     [user, userList]
@@ -94,10 +93,10 @@ export const useAuthorizedUserModel = () => {
       user,
       userList,
       isLoading,
-      registrationUser,
+      registerUser,
       authorizeUser,
       logout
     }),
-    [user, userList, isLoading, authorizeUser, logout, registrationUser]
+    [user, userList, isLoading, authorizeUser, logout, registerUser]
   )
 }

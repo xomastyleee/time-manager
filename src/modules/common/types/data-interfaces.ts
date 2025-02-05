@@ -1,5 +1,3 @@
-import { User } from '@common/db/entities'
-
 import { NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enams'
 
 export interface IUserCreateUpdateParams {
@@ -24,10 +22,4 @@ export interface INotificationCreateUpdateParams {
   type: NotificationType
   message: string
   isRead?: boolean
-}
-
-export interface UserState {
-  user: User | null
-  userList: User[]
-  isLoading: boolean
 }
