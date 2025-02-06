@@ -1,17 +1,14 @@
 import React from 'react'
-import { createStackNavigator, type StackNavigationOptions } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { SettingsScreen } from '@modules/settings'
 
-export type HomeStackParamList = {
+import { screenOptions } from './navigation-options'
+
+export type SettingsStackParamList = {
   SettingsScreen: undefined
 }
 
-const { Navigator, Screen } = createStackNavigator<HomeStackParamList>()
-
-const screenOptions: StackNavigationOptions = {
-  headerShown: false,
-  cardStyle: { backgroundColor: 'transparent' }
-}
+const { Navigator, Screen } = createStackNavigator<SettingsStackParamList>()
 
 export const SettingsNavigator = () => (
   <Navigator initialRouteName="SettingsScreen" screenOptions={screenOptions}>

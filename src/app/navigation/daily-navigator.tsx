@@ -1,17 +1,14 @@
 import React from 'react'
-import { createStackNavigator, type StackNavigationOptions } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { DailyScreen } from '@modules/daily'
 
-export type HomeStackParamList = {
+import { screenOptions } from './navigation-options'
+
+export type DailyStackParamList = {
   DailyScreen: undefined
 }
 
-const { Navigator, Screen } = createStackNavigator<HomeStackParamList>()
-
-const screenOptions: StackNavigationOptions = {
-  headerShown: false,
-  cardStyle: { backgroundColor: 'transparent' }
-}
+const { Navigator, Screen } = createStackNavigator<DailyStackParamList>()
 
 export const DailyNavigator = () => (
   <Navigator initialRouteName="DailyScreen" screenOptions={screenOptions}>

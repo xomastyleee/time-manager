@@ -1,17 +1,14 @@
 import React from 'react'
-import { createStackNavigator, type StackNavigationOptions } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { AnalyticsScreen } from '@modules/analytics'
 
-export type HomeStackParamList = {
+import { screenOptions } from './navigation-options'
+
+export type AnalyticsStackParamList = {
   AnalyticsScreen: undefined
 }
 
-const { Navigator, Screen } = createStackNavigator<HomeStackParamList>()
-
-const screenOptions: StackNavigationOptions = {
-  headerShown: false,
-  cardStyle: { backgroundColor: 'transparent' }
-}
+const { Navigator, Screen } = createStackNavigator<AnalyticsStackParamList>()
 
 export const AnalyticsNavigator = () => (
   <Navigator initialRouteName="AnalyticsScreen" screenOptions={screenOptions}>

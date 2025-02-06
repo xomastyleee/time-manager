@@ -8,8 +8,8 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { stylesWithTheme } from './tab-bar.styles'
 
 const IconMapper = {
-  0: ({ color }: { color: string }) => <Icon size={20} source="calendar-today" color={color} />,
-  1: ({ color }: { color: string }) => <Icon size={20} source="home" color={color} />,
+  0: ({ color }: { color: string }) => <Icon size={20} source="home" color={color} />,
+  1: ({ color }: { color: string }) => <Icon size={20} source="calendar-today" color={color} />,
   2: ({ color }: { color: string }) => <Icon size={20} source="home-analytics" color={color} />,
   3: ({ color }: { color: string }) => <Icon size={20} source="cog" color={color} />
 }
