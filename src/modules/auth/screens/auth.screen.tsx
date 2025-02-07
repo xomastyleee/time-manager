@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   StyleSheet,
   useWindowDimensions,
   View,
-  TextInput as RNTextInput,
   TouchableWithoutFeedback,
   Keyboard,
   FlatList,
@@ -42,8 +41,6 @@ export const AuthScreen = () => {
   const [isFocused, setIsFocused] = useState(false)
   const [isUserListModalOpen, setIsUserListModalOpen] = useState(false)
 
-  const inputRef = useRef<RNTextInput>(null)
-
   const { userList, registerUser, authorizeUser } = useAuth()
 
   const authContainerTranslate = useSharedValue(0)
@@ -75,7 +72,6 @@ export const AuthScreen = () => {
               Create new profile
             </Text>
             <TextInput
-              ref={inputRef}
               mode="outlined"
               value={userName}
               onChangeText={setUserName}
