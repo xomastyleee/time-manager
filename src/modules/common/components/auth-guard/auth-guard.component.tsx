@@ -6,7 +6,19 @@ export interface ProtectedContentProps extends PropsWithChildren {
   loadingComponent?: ReactElement
 }
 
-const AuthContext = createContext<ReturnType<typeof useAuthorizedUserModel> | undefined>(undefined)
+export const defaultAuthorizedUserModel = {
+  user: undefined,
+  userList: [],
+  isLoading: false,
+  error: null,
+  registerUser: async () => undefined,
+  authorizeUser: async () => undefined,
+  logout: async () => {}
+}
+
+export const AuthContext = createContext<ReturnType<typeof useAuthorizedUserModel>>(defaultAuthorizedUserModel)
+
+export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const auth = useAuthorizedUserModel()
@@ -14,13 +26,13 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 export const ProtectedContent: FC<ProtectedContentProps> = ({ children, fallback, loadingComponent }) => {
-  const authContext = useContext(AuthContext)
+  const { isLoading, user } = useAuth()
 
-  if (authContext?.isLoading && loadingComponent) {
+  if (isLoading && loadingComponent) {
     return loadingComponent
   }
 
-  if (authContext?.user) {
+  if (user) {
     return children
   }
 

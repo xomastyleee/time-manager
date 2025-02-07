@@ -36,8 +36,14 @@ export const useAuthorizedUserModel = () => {
   }, [fetchUsers])
 
   const registerUser = useCallback(
-    async (params: IUserCreateUpdateParams) => {
+    async (username: string) => {
       setIsLoading(true)
+
+      const params: IUserCreateUpdateParams = {
+        username,
+        status: UserStatus.Active,
+        preferences: '{}'
+      }
 
       try {
         const newUser = await userService.createUser(params)
