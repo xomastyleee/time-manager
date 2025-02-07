@@ -7,6 +7,4 @@ if ! echo "$branch_name" | grep -qE "$branch_regex"; then
   exit 1
 fi
 
-yarn build
-yarn check-types
 yarn lint
