@@ -10,7 +10,7 @@ import { AuthGuard, MainBackgroundView, MainHeader, TabBar } from '@common/compo
 
 import type { MainHeaderProps } from '@common/types'
 import { AnalyticsNavigator } from './analytics-navigator'
-import { DailyNavigator } from './daily-navigator'
+import { GoalsNavigator } from './goals-navigator'
 import { HomeNavigator } from './home-navigator'
 import { SettingsNavigator } from './settings-navigator'
 import { AuthNavigator } from './auth-navigator'
@@ -46,9 +46,9 @@ export const AppNavigator = () => (
           />
           <Screen
             name="Daily"
-            component={DailyNavigator}
+            component={GoalsNavigator}
             options={{
-              tabBarLabel: 'Daily'
+              tabBarLabel: 'Goals'
             }}
           />
           <Screen
