@@ -6,6 +6,28 @@ export interface IUserCreateParams {
   preferences: IPreferences
 }
 
+export interface IUser {
+  id: number
+  username?: string
+  preferences: IPreferences
+  status: UserStatus
+  createdAt?: Date
+  updatedAt?: Date
+  deletedAt?: Date
+}
+export interface ITask {
+  id: number
+  title: string
+  priority: Priority
+  taskType: TaskType
+  status: TaskStatus
+  startDate: Date
+  endDate: Date
+  description?: string
+  duration?: number
+  breakDuration?: number
+}
+
 export interface IUserUpdateParams {
   status?: UserStatus
   username?: string
