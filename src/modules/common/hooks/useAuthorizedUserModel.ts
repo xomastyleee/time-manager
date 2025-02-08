@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { IUserCreateParams, UserStatus } from '@common/types'
-import { User } from '@common/db/entities'
+import { IUser, IUserCreateParams, UserStatus } from '@common/types'
 import { userService } from '@common/services/user.service'
 import { logger } from '@common/utils'
 import { BASE_TYPE_PREFERENCES } from '@common/constants'
 
 export const useAuthorizedUserModel = () => {
-  const [user, setUser] = useState<User>()
-  const [userList, setUserList] = useState<User[]>([])
+  const [user, setUser] = useState<IUser>()
+  const [userList, setUserList] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -15,7 +14,7 @@ export const useAuthorizedUserModel = () => {
     setIsLoading(true)
 
     try {
-      const allUsers: User[] = await userService.getAllUsers()
+      const allUsers: IUser[] = await userService.getAllUsers()
 
       const activeUser = allUsers.find(({ status }) => status === UserStatus.Active)
 
@@ -48,7 +47,7 @@ export const useAuthorizedUserModel = () => {
 
       try {
         const newUser = await userService.createUser(params)
-        const allUsers: User[] = await userService.getAllUsers()
+        const allUsers: IUser[] = await userService.getAllUsers()
 
         setUserList(allUsers)
         setUser(newUser)

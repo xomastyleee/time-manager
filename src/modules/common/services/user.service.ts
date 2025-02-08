@@ -1,8 +1,9 @@
 import { In } from 'typeorm'
 import { User } from '@common/db/entities'
-import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
 import { IUserCreateParams, IUserUpdateParams, UserStatus } from '@common/types'
+import { getUser } from '@common/services/transformers'
+import { dataSource } from '@common/db/dataSource'
 
 export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
@@ -10,24 +11,30 @@ export class UserService {
   public async createUser(params: IUserCreateParams) {
     try {
       const user = new User(params)
-      const result = await this.userRepository.save(user)
+      const userEntity = await this.userRepository.save(user)
+      const userResult = getUser(userEntity)
+      logger.info('Creating user', userEntity)
 
-      logger.info('Creating user', result)
-
-      return result
+      return userResult
     } catch (error) {
       logger.error('Error creating user', error)
     }
   }
 
   public async getAllUsers() {
-    return this.userRepository.find()
+    const userAll = await this.userRepository.find()
+    const userDto = userAll.map(getUser)
+    return userDto
   }
 
   public async getActiveUser() {
-    return this.userRepository.findOneBy({
+    const userActive = await this.userRepository.findOneBy({
       status: UserStatus.Active
     })
+    if (userActive) {
+      return getUser(userActive)
+    }
+    return null
   }
 
   public async getUserById(id: number) {
@@ -36,7 +43,7 @@ export class UserService {
         id
       })
       if (userById) {
-        const userWithParsedPreferences = { ...userById, preferences: JSON.parse(userById?.preferences) }
+        const userWithParsedPreferences = getUser(userById)
         return userWithParsedPreferences
       }
       return userById
@@ -52,7 +59,7 @@ export class UserService {
           id: In(ids)
         }
       })
-      return results.map((user) => ({ ...user, preferences: JSON.parse(user?.preferences) }))
+      return results.map(getUser)
     } catch (error) {
       logger.error('Error getting user', error)
     }
