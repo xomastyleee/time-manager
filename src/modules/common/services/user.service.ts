@@ -2,21 +2,18 @@ import { In } from 'typeorm'
 import { User } from '@common/db/entities'
 import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
-import { IUserCreateParams, IUserUpdateParams } from '@common/types'
-import { BASE_TYPE_PREFERENCES } from '@common/constants'
+import { IUserCreateParams, IUserUpdateParams, UserStatus } from '@common/types'
 
 export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
 
   public async createUser(params: IUserCreateParams) {
     try {
-      let { preferences } = params
-      if (!preferences.theme) {
-        preferences = BASE_TYPE_PREFERENCES
-      }
-      const user = new User({ ...params, preferences })
+      const user = new User(params)
       const result = await this.userRepository.save(user)
+
       logger.info('Creating user', result)
+
       return result
     } catch (error) {
       logger.error('Error creating user', error)
@@ -27,15 +24,22 @@ export class UserService {
     return this.userRepository.find()
   }
 
+  public async getActiveUser() {
+    return this.userRepository.findOneBy({
+      status: UserStatus.Active
+    })
+  }
+
   public async getUserById(id: number) {
     try {
-      let result = await this.userRepository.findOneBy({
+      const userById = await this.userRepository.findOneBy({
         id
       })
-      if (result) {
-        result = { ...result, preferences: JSON.parse(result?.preferences) }
+      if (userById) {
+        const userWithParsedPreferences = { ...userById, preferences: JSON.parse(userById?.preferences) }
+        return userWithParsedPreferences
       }
-      return result
+      return userById
     } catch (error) {
       logger.error('Error getting user', error)
     }
@@ -56,13 +60,17 @@ export class UserService {
 
   public async updateUser(id: number, params: IUserUpdateParams) {
     try {
-      let result
       if (params.preferences) {
-        result = await this.userRepository.update(id, { ...params, preferences: JSON.stringify(params.preferences) })
-      } else {
-        const { status, username } = params
-        result = await this.userRepository.update(id, { status, username })
+        const result = await this.userRepository.update(id, {
+          ...params,
+          preferences: JSON.stringify(params.preferences)
+        })
+
+        return result
       }
+      const { preferences, ...updatedParams } = params
+
+      const result = await this.userRepository.update(id, updatedParams)
       return result
     } catch (error) {
       logger.error('Error updating user', error)

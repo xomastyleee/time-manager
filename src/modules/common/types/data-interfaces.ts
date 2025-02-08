@@ -14,8 +14,10 @@ export interface IUserUpdateParams {
 
 export interface IPreferences {
   theme?: string
-  backgroundPath?: string
+  backgroundPath?: string | null
   isDark?: boolean
+  lang?: string
+  useSystemLang?: boolean
 }
 
 export interface ITaskCreateUpdateParams {
