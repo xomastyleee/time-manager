@@ -1,9 +1,15 @@
 import { NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enams'
 
-export interface IUserCreateUpdateParams {
+export interface IUserCreateParams {
   status?: UserStatus
   username?: string
   preferences: IPreferences
+}
+
+export interface IUserUpdateParams {
+  status?: UserStatus
+  username?: string
+  preferences?: IPreferences
 }
 
 export interface IPreferences {
