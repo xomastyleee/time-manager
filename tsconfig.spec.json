@@ -14,7 +14,8 @@
         "**/*.test.ts",
         "**/*.test.tsx",
         "app.json",
-        "tsconfig.json"
+        "tsconfig.json",
+        "src/locales/**/*.json"
     ],
     "exclude": [
         "dist",
