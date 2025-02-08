@@ -11,6 +11,7 @@ export const useDBConnection = () => {
       if (!isInitialized) {
         logger.info('Initializing database...')
         await dataSource.initialize()
+        await dataSource.runMigrations()
       }
       logger.info('DataSource has been initialized!')
       setIsInitialized(true)
