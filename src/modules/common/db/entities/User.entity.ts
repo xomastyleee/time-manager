@@ -8,11 +8,11 @@ import {
   Check
 } from 'typeorm'
 import { enumToStrings } from '@common/utils'
-import { type IUserCreateUpdateParams, UserStatus } from '@common/types'
+import { type IUserCreateParams, UserStatus } from '@common/types'
 
 @Entity()
 export class User {
-  constructor(params: IUserCreateUpdateParams) {
+  constructor(params: IUserCreateParams) {
     if (params) {
       const { username, status, preferences } = params
       if (username) this.username = username
