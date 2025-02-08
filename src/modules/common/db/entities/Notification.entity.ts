@@ -6,11 +6,9 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
-  Check
+  DeleteDateColumn
 } from 'typeorm'
-import { enumToStrings } from '@common/utils'
-import { type INotificationCreateUpdateParams, NotificationType } from '@common/types'
+import { type INotificationCreateUpdateParams } from '@common/types'
 
 import { User } from './User.entity'
 
@@ -29,7 +27,6 @@ export class Notification {
   id: number
 
   @Column('text')
-  @Check(`type IN (${enumToStrings(NotificationType)})`)
   type: string
 
   @Column('text')

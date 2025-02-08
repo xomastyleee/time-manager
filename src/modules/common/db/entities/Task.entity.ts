@@ -8,11 +8,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  Check,
   OneToMany
 } from 'typeorm'
-import { enumToStrings } from '@common/utils'
-import { Priority, TaskStatus, TaskType, DayWeek, type ITaskCreateUpdateParams } from '@common/types'
+import { type ITaskCreateUpdateParams } from '@common/types'
 
 @Entity()
 export class DayPlan {
@@ -20,7 +18,6 @@ export class DayPlan {
   id: number
 
   @Column('text')
-  @Check(`day in (${enumToStrings(DayWeek)})`)
   day: string
 
   @OneToMany(() => Task, (task) => task.id)
@@ -48,7 +45,6 @@ export class Goal {
   description: string
 
   @Column('text')
-  @Check(`type IN (${enumToStrings(TaskType)})`)
   type: string
 
   @Column({ type: 'float' })
@@ -94,15 +90,12 @@ export class Task {
   description: string
 
   @Column('text')
-  @Check(`priority IN (${enumToStrings(Priority)})`)
   priority: string
 
   @Column('text')
-  @Check(`taskType IN (${enumToStrings(TaskType)})`)
   taskType: string
 
   @Column('text')
-  @Check(`status IN (${enumToStrings(TaskStatus)})`)
   status: string
 
   @Column('int')
