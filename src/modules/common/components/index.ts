@@ -1,5 +1,7 @@
 export * from './tab-bar'
+export * from './auth-guard'
 export * from './content-view'
+export * from './fallback-screen'
 export * from './main-header'
 export * from './screen-view'
 export * from './main-background-view'

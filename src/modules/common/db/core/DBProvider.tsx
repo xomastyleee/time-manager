@@ -1,5 +1,6 @@
 import React, { ReactNode, FC, createContext } from 'react'
 import { useDBConnection } from '@common/hooks'
+import { FallbackScreen } from '@common/components'
 
 interface DBProviderProps {
   children: ReactNode
@@ -8,7 +9,11 @@ interface DBProviderProps {
 const Context = createContext({})
 
 export const DBProvider: FC<DBProviderProps> = ({ children }) => {
-  const db = useDBConnection()
+  const { dataSource, isInitialized, isError } = useDBConnection()
 
-  return <Context.Provider value={db}>{children}</Context.Provider>
+  if (isError || !isInitialized) {
+    return <FallbackScreen isError={isError} isLoading={!isInitialized} />
+  }
+
+  return <Context.Provider value={dataSource}>{children}</Context.Provider>
 }

@@ -30,6 +30,7 @@ module.exports = {
     '@typescript-eslint/ban-types': 'warn',
     '@typescript-eslint/ban-ts-comment': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
+    'react-native/no-raw-text': 'off',
     'react/function-component-definition': [
       'warn',
       {

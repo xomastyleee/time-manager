@@ -19,6 +19,10 @@ export class UserService {
     }
   }
 
+  public async getAllUsers() {
+    return this.userRepository.find()
+  }
+
   public async getUserById(id: number) {
     try {
       const result = await this.userRepository.findOneBy({

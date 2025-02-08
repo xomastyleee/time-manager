@@ -1,17 +1,19 @@
 import React from 'react'
 import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
+import BootSplash from 'react-native-bootsplash'
 import {
   type BottomTabBarProps,
   type BottomTabNavigationOptions,
   createBottomTabNavigator
 } from '@react-navigation/bottom-tabs'
-import { MainBackgroundView, MainHeader, TabBar } from '@common/components'
+import { AuthGuard, MainBackgroundView, MainHeader, TabBar } from '@common/components'
 
 import type { MainHeaderProps } from '@common/types'
 import { AnalyticsNavigator } from './analytics-navigator'
-import { DailyNavigator } from './daily-navigator'
+import { GoalsNavigator } from './goals-navigator'
 import { HomeNavigator } from './home-navigator'
 import { SettingsNavigator } from './settings-navigator'
+import { AuthNavigator } from './auth-navigator'
 
 export const navigationRef = createNavigationContainerRef()
 
@@ -26,39 +28,45 @@ const screenOptions: BottomTabNavigationOptions = {
 
 const renderTabBar = (props: BottomTabBarProps) => <TabBar {...props} />
 
+const onReadyNavigationContainer = () => {
+  BootSplash.hide({ fade: true })
+}
+
 export const AppNavigator = () => (
-  <NavigationContainer ref={navigationRef}>
+  <NavigationContainer ref={navigationRef} onReady={onReadyNavigationContainer}>
     <MainBackgroundView>
-      <Navigator initialRouteName="Home" tabBar={renderTabBar} screenOptions={screenOptions}>
-        <Screen
-          name="Daily"
-          component={DailyNavigator}
-          options={{
-            tabBarLabel: 'Daily'
-          }}
-        />
-        <Screen
-          name="Home"
-          component={HomeNavigator}
-          options={{
-            tabBarLabel: 'Home'
-          }}
-        />
-        <Screen
-          name="Analytics"
-          component={AnalyticsNavigator}
-          options={{
-            tabBarLabel: 'Analytics'
-          }}
-        />
-        <Screen
-          name="Settings"
-          component={SettingsNavigator}
-          options={{
-            tabBarLabel: 'Settings'
-          }}
-        />
-      </Navigator>
+      <AuthGuard fallback={<AuthNavigator />} loadingComponent={<></>}>
+        <Navigator initialRouteName="Home" tabBar={renderTabBar} screenOptions={screenOptions}>
+          <Screen
+            name="Home"
+            component={HomeNavigator}
+            options={{
+              tabBarLabel: 'Home'
+            }}
+          />
+          <Screen
+            name="Daily"
+            component={GoalsNavigator}
+            options={{
+              tabBarLabel: 'Goals'
+            }}
+          />
+          <Screen
+            name="Analytics"
+            component={AnalyticsNavigator}
+            options={{
+              tabBarLabel: 'Analytics'
+            }}
+          />
+          <Screen
+            name="Settings"
+            component={SettingsNavigator}
+            options={{
+              tabBarLabel: 'Settings'
+            }}
+          />
+        </Navigator>
+      </AuthGuard>
     </MainBackgroundView>
   </NavigationContainer>
 )
