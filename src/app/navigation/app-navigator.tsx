@@ -14,10 +14,11 @@ import { GoalsNavigator } from './goals-navigator'
 import { HomeNavigator } from './home-navigator'
 import { SettingsNavigator } from './settings-navigator'
 import { AuthNavigator } from './auth-navigator'
+import { type MainParamList } from './navigation-options'
 
 export const navigationRef = createNavigationContainerRef()
 
-const { Navigator, Screen } = createBottomTabNavigator()
+const { Navigator, Screen } = createBottomTabNavigator<MainParamList>()
 
 const screenOptions: BottomTabNavigationOptions = {
   tabBarStyle: { display: 'none' },
@@ -45,7 +46,7 @@ export const AppNavigator = () => (
             }}
           />
           <Screen
-            name="Daily"
+            name="Goals"
             component={GoalsNavigator}
             options={{
               tabBarLabel: 'Goals'

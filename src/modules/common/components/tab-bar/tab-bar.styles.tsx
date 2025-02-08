@@ -15,7 +15,7 @@ export const stylesWithTheme = (theme: AppTheme) =>
       alignSelf: 'center',
       backgroundColor: theme.colors.background,
       borderRadius: '50%',
-      bottom: 50,
+      bottom: 0,
       position: 'absolute'
     },
     iconWrapper: {
