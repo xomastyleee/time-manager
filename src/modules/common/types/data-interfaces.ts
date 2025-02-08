@@ -3,7 +3,13 @@ import { NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './
 export interface IUserCreateUpdateParams {
   status?: UserStatus
   username?: string
-  preferences?: string
+  preferences: IPreferences
+}
+
+export interface IPreferences {
+  theme?: string
+  backgroundPath?: string
+  isDark?: boolean
 }
 
 export interface ITaskCreateUpdateParams {
