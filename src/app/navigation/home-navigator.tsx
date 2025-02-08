@@ -2,12 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { HomeScreen } from '@modules/home'
 
-import { screenOptions } from './navigation-options'
-
-export type HomeStackParamList = {
-  HomeScreen: undefined
-  Settings: undefined
-}
+import { type HomeStackParamList, screenOptions } from './navigation-options'
 
 const { Navigator, Screen } = createStackNavigator<HomeStackParamList>()
 

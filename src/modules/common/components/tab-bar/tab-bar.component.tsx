@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
-import { FAB, Icon } from 'react-native-paper'
+import { FAB, Icon, Portal } from 'react-native-paper'
 import Svg, { Path } from 'react-native-svg'
 import { useStylesWithTheme } from '@common/hooks'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
@@ -24,6 +24,25 @@ const PositionMapper = {
 export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { styles, colors } = useStylesWithTheme(stylesWithTheme)
 
+  const [isFabOpened, setIsFabOpened] = useState(false)
+
+  const fabActions = useMemo(
+    () => [
+      {
+        icon: 'pencil-outline',
+        label: 'Create new task',
+        style: { marginBottom: 100 },
+        labelStyle: { marginBottom: 100 },
+        onPress: () => console.log('Pressed add')
+      }
+    ],
+    []
+  )
+
+  const handleStateChange = ({ open }: { open: boolean }) => {
+    setIsFabOpened(open)
+  }
+
   return (
     <View style={styles.tabBar}>
       <View style={styles.leftBar} />
@@ -33,7 +52,16 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
         </Svg>
       </View>
       <View style={styles.rightBar} />
-      <FAB style={styles.fab} icon="plus" />
+      <Portal>
+        <FAB.Group
+          visible
+          icon={isFabOpened ? 'close' : 'plus'}
+          fabStyle={styles.fab}
+          open={isFabOpened}
+          onStateChange={handleStateChange}
+          actions={fabActions}
+        />
+      </Portal>
 
       {state.routes.map((route, index) => {
         const isFocused = state.index === index

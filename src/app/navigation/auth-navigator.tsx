@@ -2,11 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { AuthScreen } from '@modules/auth'
 
-import { screenOptions } from './navigation-options'
-
-export type AuthStackParamList = {
-  AuthScreen: undefined
-}
+import { type AuthStackParamList, screenOptions } from './navigation-options'
 
 const { Navigator, Screen } = createStackNavigator<AuthStackParamList>()
 

@@ -15,9 +15,9 @@ export const stylesWithTheme = (theme: AppTheme) =>
       textShadowRadius: 0.8
     },
     labelWrapper: {
-      flexDirection: 'column',
+      alignItems: 'center',
+      flexDirection: 'row',
       height: '100%',
-      justifyContent: 'center',
       width: '50%'
     },
     main: {

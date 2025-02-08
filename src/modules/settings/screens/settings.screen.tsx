@@ -1,11 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
 import { ContentView, ScreenView } from '@common/components'
 import { useAppTheme } from '@common/hooks'
-import { SettingsStackParamList } from '@navigation/settings-navigator'
+import { useTypedNavigation, SettingsStackParamList } from '@navigation/navigation-options'
 
 import type { AppTheme } from '@common/theme'
 import { SettingsButton } from '../components'
@@ -17,7 +15,7 @@ export const SettingsScreen = () => {
   const theme = useAppTheme()
   const styles = stylesWithTheme(theme)
 
-  const { navigate } = useNavigation<StackNavigationProp<SettingsStackParamList>>()
+  const { navigate } = useTypedNavigation<SettingsStackParamList>()
 
   const navigateToSettings = () => {
     navigate('ProfileScreen')

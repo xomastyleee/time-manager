@@ -2,11 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { AnalyticsScreen } from '@modules/analytics'
 
-import { screenOptions } from './navigation-options'
-
-export type AnalyticsStackParamList = {
-  AnalyticsScreen: undefined
-}
+import { type AnalyticsStackParamList, screenOptions } from './navigation-options'
 
 const { Navigator, Screen } = createStackNavigator<AnalyticsStackParamList>()
 
