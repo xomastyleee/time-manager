@@ -17,7 +17,7 @@ export class User {
       const { username, status, preferences } = params
       if (username) this.username = username
       if (status) this.status = status
-      if (preferences) this.preferences = preferences
+      if (preferences) this.preferences = JSON.stringify(preferences)
     }
   }
 
@@ -28,7 +28,7 @@ export class User {
   username?: string
 
   @Column('text')
-  preferences?: string
+  preferences: string
 
   @Column('text')
   @Check(`status IN (${enumToStrings(UserStatus)})`)
