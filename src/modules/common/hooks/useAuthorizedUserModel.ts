@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { IUserCreateUpdateParams, UserStatus } from '@common/types'
+import { IUserCreateParams, UserStatus } from '@common/types'
 import { User } from '@common/db/entities'
 import { userService } from '@common/services/user.service'
 import { logger } from '@common/utils'
+import { BASE_TYPE_PREFERENCES } from '@common/constants'
 
 export const useAuthorizedUserModel = () => {
   const [user, setUser] = useState<User>()
@@ -39,10 +40,10 @@ export const useAuthorizedUserModel = () => {
     async (username: string) => {
       setIsLoading(true)
 
-      const params: IUserCreateUpdateParams = {
+      const params: IUserCreateParams = {
+        preferences: BASE_TYPE_PREFERENCES,
         username,
-        status: UserStatus.Active,
-        preferences: '{}'
+        status: UserStatus.Active
       }
 
       try {

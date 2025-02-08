@@ -2,18 +2,13 @@ import { In } from 'typeorm'
 import { User } from '@common/db/entities'
 import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
-import { IPreferences, IUserCreateUpdateParams } from '@common/types'
-
-const BASE_TYPE_PREFERENCES: IPreferences = {
-  theme: 'default',
-  backgroundPath: 'null',
-  isDark: false
-}
+import { IUserCreateParams, IUserUpdateParams } from '@common/types'
+import { BASE_TYPE_PREFERENCES } from '@common/constants'
 
 export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
 
-  public async createUser(params: IUserCreateUpdateParams) {
+  public async createUser(params: IUserCreateParams) {
     try {
       let { preferences } = params
       if (!preferences.theme) {
@@ -59,12 +54,15 @@ export class UserService {
     }
   }
 
-  public async updateUser(id: number, params: IUserCreateUpdateParams) {
+  public async updateUser(id: number, params: IUserUpdateParams) {
     try {
-      const result = await this.userRepository.update(id, {
-        ...params,
-        preferences: JSON.stringify(params.preferences)
-      })
+      let result
+      if (params.preferences) {
+        result = await this.userRepository.update(id, { ...params, preferences: JSON.stringify(params.preferences) })
+      } else {
+        const { status, username } = params
+        result = await this.userRepository.update(id, { status, username })
+      }
       return result
     } catch (error) {
       logger.error('Error updating user', error)
