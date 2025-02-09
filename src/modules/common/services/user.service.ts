@@ -21,6 +21,19 @@ export class UserService {
     }
   }
 
+  public async createUsers(usersData: IUserCreateParams[]) {
+    try {
+      const users = usersData.map((data) => new User(data))
+      const usersEntities = await this.userRepository.save(users)
+      const usersResults = usersEntities.map((user) => getUser(user))
+      logger.info('Creating users', usersEntities)
+
+      return usersResults
+    } catch (error) {
+      logger.error('Error creating users', error)
+    }
+  }
+
   public async getAllUsers() {
     const userAll = await this.userRepository.find()
     const userDto = userAll.map(getUser)
