@@ -25,7 +25,7 @@ export class UserService {
     try {
       const users = usersData.map((data) => new User(data))
       const usersEntities = await this.userRepository.save(users)
-      const usersResults = usersEntities.map((user) => getUser(user))
+      const usersResults = usersEntities.map(getUser)
       logger.info('Creating users', usersEntities)
 
       return usersResults
