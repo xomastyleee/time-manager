@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { logger } from '@common/utils'
+import { createAllMockData, logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
 
 export const useDBConnection = () => {
@@ -12,6 +12,8 @@ export const useDBConnection = () => {
         logger.info('Initializing database...')
         await dataSource.initialize()
         await dataSource.runMigrations()
+        // Dev mod call mock create data.
+        await createAllMockData()
       }
       logger.info('DataSource has been initialized!')
       setIsInitialized(true)
