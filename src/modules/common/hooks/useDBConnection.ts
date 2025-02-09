@@ -1,16 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { DataSource } from 'typeorm'
-import { DayPlan, Goal, User, Notification, Task } from '@common/db/entities'
 import { logger } from '@common/utils'
-
-export const dataSource = new DataSource({
-  type: 'react-native',
-  database: 'test',
-  location: 'default',
-  logging: ['error', 'query', 'schema'],
-  entities: [User, DayPlan, Goal, Notification, Task],
-  synchronize: true
-})
+import { dataSource } from '@common/db/dataSource'
 
 export const useDBConnection = () => {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -21,6 +11,7 @@ export const useDBConnection = () => {
       if (!isInitialized) {
         logger.info('Initializing database...')
         await dataSource.initialize()
+        await dataSource.runMigrations()
       }
       logger.info('DataSource has been initialized!')
       setIsInitialized(true)

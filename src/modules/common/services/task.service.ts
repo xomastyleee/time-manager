@@ -1,7 +1,7 @@
 import { In } from 'typeorm'
 import { Task } from '@common/db/entities'
-import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
+import { dataSource } from '@common/db/dataSource'
 
 import type { ITaskCreateUpdateParams } from '@common/types'
 

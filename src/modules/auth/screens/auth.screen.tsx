@@ -15,14 +15,13 @@ import { Button, Modal, Portal, Text, TextInput } from 'react-native-paper'
 import { useAuth } from '@common/components'
 import { useAppTheme } from '@common/hooks'
 import { AppTheme } from '@modules/common/theme'
-
-import type { User } from '@common/db/entities'
+import { type IUser } from '@common/types'
 
 interface UserListItemProps {
-  user: User
+  user: IUser
   textStyle: TextStyle
   userListItemStyle: ViewStyle
-  authorizeUser: (userId: number) => Promise<User | undefined>
+  authorizeUser: (userId: number) => Promise<IUser | undefined>
 }
 
 const UserListItem: FC<UserListItemProps> = ({ user, textStyle, userListItemStyle, authorizeUser }) => (

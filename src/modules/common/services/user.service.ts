@@ -1,34 +1,52 @@
 import { In } from 'typeorm'
 import { User } from '@common/db/entities'
-import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
-
-import type { IUserCreateUpdateParams } from '@common/types'
+import { IUserCreateParams, IUserUpdateParams, UserStatus } from '@common/types'
+import { getUser } from '@common/services/transformers'
+import { dataSource } from '@common/db/dataSource'
 
 export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
 
-  public async createUser(params: IUserCreateUpdateParams) {
+  public async createUser(params: IUserCreateParams) {
     try {
       const user = new User(params)
-      const result = await this.userRepository.save(user)
-      logger.info('Creating user', result)
-      return result
+      const userEntity = await this.userRepository.save(user)
+      const userResult = getUser(userEntity)
+      logger.info('Creating user', userEntity)
+
+      return userResult
     } catch (error) {
       logger.error('Error creating user', error)
     }
   }
 
   public async getAllUsers() {
-    return this.userRepository.find()
+    const userAll = await this.userRepository.find()
+    const userDto = userAll.map(getUser)
+    return userDto
+  }
+
+  public async getActiveUser() {
+    const userActive = await this.userRepository.findOneBy({
+      status: UserStatus.Active
+    })
+    if (userActive) {
+      return getUser(userActive)
+    }
+    return null
   }
 
   public async getUserById(id: number) {
     try {
-      const result = await this.userRepository.findOneBy({
+      const userById = await this.userRepository.findOneBy({
         id
       })
-      return result
+      if (userById) {
+        const userWithParsedPreferences = getUser(userById)
+        return userWithParsedPreferences
+      }
+      return userById
     } catch (error) {
       logger.error('Error getting user', error)
     }
@@ -36,20 +54,30 @@ export class UserService {
 
   public async getUserByIds(ids: number[]) {
     try {
-      const result = await this.userRepository.find({
+      const results = await this.userRepository.find({
         where: {
           id: In(ids)
         }
       })
-      return result
+      return results.map(getUser)
     } catch (error) {
       logger.error('Error getting user', error)
     }
   }
 
-  public async updateUser(id: number, params: IUserCreateUpdateParams) {
+  public async updateUser(id: number, params: IUserUpdateParams) {
     try {
-      const result = await this.userRepository.update(id, params)
+      if (params.preferences) {
+        const result = await this.userRepository.update(id, {
+          ...params,
+          preferences: JSON.stringify(params.preferences)
+        })
+
+        return result
+      }
+      const { preferences, ...updatedParams } = params
+
+      const result = await this.userRepository.update(id, updatedParams)
       return result
     } catch (error) {
       logger.error('Error updating user', error)

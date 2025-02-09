@@ -25,6 +25,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
 }
 
+// @ts-expect-error - 'R'
 export const ProtectedContent: FC<ProtectedContentProps> = ({ children, fallback, loadingComponent }) => {
   const { isLoading, user } = useAuth()
 

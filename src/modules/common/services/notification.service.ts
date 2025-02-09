@@ -1,7 +1,7 @@
 import { In } from 'typeorm'
 import { Notification } from '@common/db/entities'
-import { dataSource } from '@common/hooks'
 import { logger } from '@common/utils'
+import { dataSource } from '@common/db/dataSource'
 
 import type { INotificationCreateUpdateParams } from '@common/types'
 
