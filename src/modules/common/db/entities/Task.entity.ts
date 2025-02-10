@@ -9,7 +9,7 @@ import {
   DeleteDateColumn
 } from 'typeorm'
 import { type ITaskCreateUpdateParams } from '@common/types'
-import {DayPlan} from "@common/db/entities/DayPlan.entity";
+import { DayPlan } from '@common/db/entities/DayPlan.entity'
 
 @Entity()
 export class Task {
