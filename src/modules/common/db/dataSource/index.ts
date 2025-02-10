@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm'
-import { DayPlan, Goal, Notification, Task, User } from '@common/db/entities'
+import { DayPlan, Notification, Task, User } from '@common/db/entities'
 
 export const dataSource = new DataSource({
   type: 'react-native',
@@ -7,6 +7,6 @@ export const dataSource = new DataSource({
   location: 'default',
   // migrations: [UpdatePreferencesUserTable1707420000000], <- this set list migrations
   logging: ['error', 'query', 'schema'],
-  entities: [User, DayPlan, Goal, Notification, Task],
+  entities: [User, DayPlan, Notification, Task],
   synchronize: true // <- dev mod [true]
 })

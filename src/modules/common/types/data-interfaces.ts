@@ -19,7 +19,7 @@ export interface ITask {
   id: number
   title: string
   priority: Priority
-  taskType: TaskType
+  type: TaskType
   status: TaskStatus
   startDate: Date
   endDate: Date
@@ -45,7 +45,7 @@ export interface IPreferences {
 export interface ITaskCreateUpdateParams {
   title: string
   priority: Priority
-  taskType: TaskType
+  type: TaskType
   status: TaskStatus
   startDate: Date
   endDate: Date
