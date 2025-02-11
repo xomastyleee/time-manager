@@ -46,6 +46,12 @@ export class Task {
   @Column('text')
   status: string
 
+  @Column('text')
+  weekly: string
+
+  @Column('text')
+  dates: string
+
   @Column('int')
   duration: number
 

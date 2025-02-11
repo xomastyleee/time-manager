@@ -11,7 +11,6 @@ interface ContentViewProps extends ViewProps, React.PropsWithChildren<object> {
 
 export const ContentView: FC<ContentViewProps> = (props) => {
   const { viewRef, gap, handleLayout } = useCalculatedScreenGap(props.isGapActive)
-
   const animatedStyle = useAnimatedStyle(
     () => ({
       height: withTiming(gap, { duration: props.animationDuration ?? 300 })

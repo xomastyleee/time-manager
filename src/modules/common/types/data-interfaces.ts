@@ -1,10 +1,6 @@
-import { NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enams'
+import { Task } from '@common/db/entities'
 
-export interface IUserCreateParams {
-  status?: UserStatus
-  username?: string
-  preferences: IPreferences
-}
+import { DayWeek, NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enams'
 
 export interface IUser {
   id: number
@@ -20,12 +16,22 @@ export interface ITask {
   title: string
   priority: Priority
   type: TaskType
+  weekly?: DayWeek[]
+  dates?: Date[]
   status: TaskStatus
   startDate: Date
-  endDate: Date
+  endDate?: Date
   description?: string
   duration?: number
   breakDuration?: number
+}
+
+export type PublicTaskData = Omit<Task, 'id'>
+
+export interface IUserCreateParams {
+  status?: UserStatus
+  username?: string
+  preferences: IPreferences
 }
 
 export interface IUserUpdateParams {
@@ -42,10 +48,26 @@ export interface IPreferences {
   useSystemLang?: boolean
 }
 
-export interface ITaskCreateUpdateParams {
+export interface ITaskUpdateParams {
+  title?: string
+  priority?: Priority
+  type?: TaskType
+  weekly?: DayWeek[]
+  dates?: Date[]
+  status?: TaskStatus
+  startDate?: Date
+  endDate?: Date
+  description?: string
+  duration?: number
+  breakDuration?: number
+}
+
+export interface ITaskCreateParams {
   title: string
   priority: Priority
   type: TaskType
+  weekly: DayWeek[]
+  dates: Date[]
   status: TaskStatus
   startDate: Date
   endDate: Date
