@@ -1,4 +1,4 @@
-import { DayWeek, ITask, ITaskCreateUpdateParams, Priority, PublicTaskData, TaskStatus, TaskType } from '@common/types'
+import { DayWeek, ITask, ITaskCreateUpdateParams, Priority, PublicTaskData, TaskType } from '@common/types'
 import { Task } from '@common/db/entities'
 
 export class TaskTransformer {
@@ -11,9 +11,6 @@ export class TaskTransformer {
         type: entity.type as TaskType,
         weekly: entity.weekly ? (JSON.parse(entity.weekly) as DayWeek[]) : undefined,
         dates: entity.dates ? JSON.parse(entity.dates).map((date: string) => new Date(date)) : undefined,
-        status: entity.status as TaskStatus,
-        startDate: new Date(entity.startDate),
-        endDate: entity.endDate ? new Date(entity.endDate) : undefined,
         description: entity.description,
         duration: entity.duration,
         breakDuration: entity.breakDuration
@@ -30,9 +27,6 @@ export class TaskTransformer {
         type: dto.type,
         weekly: dto.weekly,
         dates: dto.dates,
-        status: dto.status,
-        startDate: dto.startDate,
-        endDate: dto.endDate,
         description: dto.description,
         duration: dto.duration,
         breakDuration: dto.breakDuration
@@ -49,9 +43,6 @@ export class TaskTransformer {
         type: dto.type,
         weekly: dto.weekly,
         dates: dto.dates,
-        status: dto.status || TaskStatus.Pending,
-        startDate: dto.startDate,
-        endDate: dto.endDate,
         description: dto.description,
         duration: dto.duration,
         breakDuration: dto.breakDuration

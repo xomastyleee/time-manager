@@ -10,11 +10,6 @@ export enum TaskType {
   Rest = 'Rest',
   SelfDevelopment = 'Self-Development'
 }
-export enum TaskStatus {
-  Active = 'Active',
-  Completed = 'Completed',
-  Pending = 'Pending'
-}
 export enum NotificationType {
   Motivational = 'Motivational',
   Reminder = 'Reminder'

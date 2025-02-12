@@ -17,11 +17,7 @@ import { DayPlan, User } from '@common/db/entities'
 export class Task {
   constructor(params: ITaskCreateUpdateParams) {
     if (params) {
-      const { title, priority, type, status, startDate, endDate, description, duration, breakDuration, weekly, dates } =
-        params
-      if (status) this.status = status
-      if (startDate) this.startDate = startDate
-      if (endDate) this.endDate = endDate
+      const { title, priority, type, description, duration, breakDuration, weekly, dates } = params
       if (title) this.title = title
       if (priority) this.priority = priority
       if (type) this.type = type
@@ -49,9 +45,6 @@ export class Task {
   type: string
 
   @Column('text')
-  status: string
-
-  @Column('text')
   weekly: string
 
   @Column('text')
@@ -62,12 +55,6 @@ export class Task {
 
   @Column('int')
   breakDuration: number
-
-  @Column('date')
-  startDate: Date
-
-  @Column('date', { nullable: true })
-  endDate: Date
 
   @ManyToMany(() => User, (user) => user.tasks)
   @JoinTable({

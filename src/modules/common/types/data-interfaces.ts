@@ -1,6 +1,6 @@
 import { Task } from '@common/db/entities'
 
-import { DayWeek, NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enams'
+import { DayWeek, NotificationType, Priority, TaskType, UserStatus } from './enams'
 
 export interface IUser {
   id: number
@@ -19,9 +19,6 @@ export interface ITask {
   type: TaskType
   weekly?: DayWeek[]
   dates?: Date[]
-  status: TaskStatus
-  startDate: Date
-  endDate?: Date
   description?: string
   duration?: number
   breakDuration?: number
@@ -57,9 +54,6 @@ export interface ITaskCreateUpdateParams {
   type?: TaskType
   weekly?: DayWeek[] | undefined
   dates?: Date[] | undefined
-  status?: TaskStatus
-  startDate?: Date
-  endDate?: Date | undefined
   description?: string
   duration?: number
   breakDuration?: number
