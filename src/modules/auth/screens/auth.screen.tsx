@@ -63,7 +63,7 @@ export const AuthScreen = () => {
   }, [authContainerHeight, authContainerTranslate])
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} testID="start-up">
       <View style={styles.container}>
         <Animated.View style={[styles.authContainer, animationAuthContainerStyles, { height: authContainerHeight }]}>
           <View>
