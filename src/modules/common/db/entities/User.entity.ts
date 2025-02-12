@@ -1,15 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  ManyToMany
+} from 'typeorm'
 import { type IUserCreateParams, UserStatus } from '@common/types'
 import { BASE_TYPE_PREFERENCES } from '@common/constants'
+import { Task } from '@common/db/entities'
 
 @Entity()
 export class User {
   constructor(params: IUserCreateParams) {
     if (params) {
-      const { username, status, preferences } = params
+      const { username, status, preferences, tasks } = params
       if (username) this.username = username
       if (status) this.status = status as string
       if (preferences) this.preferences = JSON.stringify(preferences)
+      if (tasks) this.tasks = tasks
     }
   }
 
@@ -24,6 +34,9 @@ export class User {
 
   @Column('text', { default: String(UserStatus.Inactive) })
   status: string
+
+  @ManyToMany(() => Task, (task) => task.users)
+  tasks?: Task[]
 
   @CreateDateColumn({ type: 'date' })
   createdAt?: Date

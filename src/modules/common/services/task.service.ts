@@ -2,8 +2,8 @@ import { In } from 'typeorm'
 import { Task } from '@common/db/entities'
 import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
-
-import type { ITaskCreateUpdateParams } from '@common/types'
+import { ITask, ITaskCreateUpdateParams } from '@common/types'
+import { TaskTransformer } from '@common/services/transformers'
 
 export class TaskService {
   private readonly taskRepository = dataSource.getRepository(Task)
@@ -19,11 +19,31 @@ export class TaskService {
     }
   }
 
+  public async getAllTasks(): Promise<(ITask | null)[]> {
+    const tasks = await this.taskRepository.find()
+    const result = tasks.map(TaskTransformer.toInterface)
+    return result
+  }
+
+  public async createTasks(taskData: ITaskCreateUpdateParams[]) {
+    try {
+      const tasks = taskData.map((data) => new Task(data))
+      const tasksEntities = await this.taskRepository.save(tasks)
+      const result = tasksEntities.map(TaskTransformer.toInterface)
+      logger.info('Creating tasks:', result)
+
+      return tasksEntities
+    } catch (error) {
+      logger.error('Error creating tasks', error)
+    }
+  }
+
   public async getTaskById(id: number) {
     try {
-      const result = await this.taskRepository.findOneBy({
+      const getTask = await this.taskRepository.findOneBy({
         id
       })
+      const result = TaskTransformer.toInterface(getTask)
       return result
     } catch (error) {
       logger.error(`Problem getting task by id: ${id}`, error)
@@ -32,11 +52,12 @@ export class TaskService {
 
   public async getTaskByIds(ids: number[]) {
     try {
-      const result = await this.taskRepository.find({
+      const getTasks = await this.taskRepository.find({
         where: {
           id: In(ids)
         }
       })
+      const result = getTasks.map(TaskTransformer.toInterface).filter((task) => task !== null)
       return result
     } catch (error) {
       logger.error('Error getting tasks', error)
@@ -45,8 +66,13 @@ export class TaskService {
 
   public async updateTask(id: number, params: ITaskCreateUpdateParams) {
     try {
-      const result = await this.taskRepository.update(id, params)
-      return result
+      const updatedParams = TaskTransformer.toUpdateEntity(params)
+      if (updatedParams) {
+        const result = await this.taskRepository.update(id, updatedParams)
+        logger.info('Updated task', result.raw)
+        return result
+      }
+      return null
     } catch (error) {
       logger.error('Error updating task', error)
     }
