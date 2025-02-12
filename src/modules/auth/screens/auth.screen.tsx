@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { Button, Modal, Portal, Text, TextInput } from 'react-native-paper'
-import { useAuth } from '@common/components'
+import { useUser } from '@common/components'
 import { useAppTheme } from '@common/hooks'
 import { AppTheme } from '@modules/common/theme'
 import { type IUser } from '@common/types'
@@ -40,7 +40,7 @@ export const AuthScreen = () => {
   const [isFocused, setIsFocused] = useState(false)
   const [isUserListModalOpen, setIsUserListModalOpen] = useState(false)
 
-  const { userList, registerUser, authorizeUser } = useAuth()
+  const { userList, registerUser, authorizeUser } = useUser()
 
   const authContainerTranslate = useSharedValue(0)
 

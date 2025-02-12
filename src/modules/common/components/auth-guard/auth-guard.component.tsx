@@ -18,16 +18,15 @@ export const defaultAuthorizedUserModel = {
 
 export const AuthContext = createContext<ReturnType<typeof useAuthorizedUserModel>>(defaultAuthorizedUserModel)
 
-export const useAuth = () => useContext(AuthContext)
+export const useUser = () => useContext(AuthContext)
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const auth = useAuthorizedUserModel()
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
 }
 
-// @ts-expect-error - 'R'
 export const ProtectedContent: FC<ProtectedContentProps> = ({ children, fallback, loadingComponent }) => {
-  const { isLoading, user } = useAuth()
+  const { isLoading, user } = useUser()
 
   if (isLoading && loadingComponent) {
     return loadingComponent

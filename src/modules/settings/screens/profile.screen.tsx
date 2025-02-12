@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { ContentView, ScreenView, useAuth } from '@common/components'
+import { ContentView, ScreenView, useUser } from '@common/components'
 import { useAppTheme } from '@common/hooks'
 
 import type { AppTheme } from '@common/theme'
@@ -10,7 +10,7 @@ export const ProfileScreen = () => {
   const theme = useAppTheme()
   const styles = stylesWithTheme(theme)
 
-  const { logout } = useAuth()
+  const { logout } = useUser()
 
   return (
     <ScreenView>
