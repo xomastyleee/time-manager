@@ -1,6 +1,6 @@
 import { Task } from '@common/db/entities'
 
-import { DayWeek, NotificationType, Priority, TaskType, UserStatus } from './enams'
+import { DayWeek, NotificationType, Priority, TaskType, UserStatus } from './enums'
 
 export interface IUser {
   id: number
@@ -32,6 +32,8 @@ export interface IUserCreateParams {
   preferences: IPreferences
   tasks?: Task[]
 }
+
+export interface IStatisticCreateParams {}
 
 export interface IUserUpdateParams {
   status?: UserStatus
