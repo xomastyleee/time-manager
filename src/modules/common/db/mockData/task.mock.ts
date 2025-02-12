@@ -1,6 +1,6 @@
-import { DayWeek, ITaskCreateParams, Priority, TaskStatus, TaskType } from '@common/types'
+import { DayWeek, ITaskCreateUpdateParams, Priority, TaskStatus, TaskType } from '@common/types'
 
-export const TASK_MOCK: ITaskCreateParams[] = [
+export const TASK_MOCK: ITaskCreateUpdateParams[] = [
   {
     title: 'Complete project documentation',
     priority: Priority.A,

@@ -8,6 +8,10 @@ import { dataSource } from '@common/db/dataSource'
 export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
 
+  public async saveUser(user: User) {
+    await this.userRepository.save(user)
+  }
+
   public async createUser(params: IUserCreateParams) {
     try {
       const user = new User(params)
@@ -35,7 +39,9 @@ export class UserService {
   }
 
   public async getAllUsers() {
-    const userAll = await this.userRepository.find()
+    const userAll = await this.userRepository.find({
+      relations: ['tasks']
+    })
     const userDto = userAll.map(getUser)
     return userDto
   }

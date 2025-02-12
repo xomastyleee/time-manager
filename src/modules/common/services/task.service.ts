@@ -2,13 +2,13 @@ import { In } from 'typeorm'
 import { Task } from '@common/db/entities'
 import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
-import { ITaskCreateParams, ITaskUpdateParams } from '@common/types'
+import { ITask, ITaskCreateUpdateParams } from '@common/types'
 import { TaskTransformer } from '@common/services/transformers'
 
 export class TaskService {
   private readonly taskRepository = dataSource.getRepository(Task)
 
-  public async createTask(params: ITaskCreateParams) {
+  public async createTask(params: ITaskCreateUpdateParams) {
     try {
       const task = new Task(params)
       const result = await this.taskRepository.save(task)
@@ -19,7 +19,13 @@ export class TaskService {
     }
   }
 
-  public async createTasks(taskData: ITaskCreateParams[]) {
+  public async getAllTasks(): Promise<(ITask | null)[]> {
+    const tasks = await this.taskRepository.find()
+    const result = tasks.map(TaskTransformer.toInterface)
+    return result
+  }
+
+  public async createTasks(taskData: ITaskCreateUpdateParams[]) {
     try {
       const tasks = taskData.map((data) => new Task(data))
       const tasksEntities = await this.taskRepository.save(tasks)
@@ -58,7 +64,7 @@ export class TaskService {
     }
   }
 
-  public async updateTask(id: number, params: ITaskUpdateParams) {
+  public async updateTask(id: number, params: ITaskCreateUpdateParams) {
     try {
       const updatedParams = TaskTransformer.toUpdateEntity(params)
       if (updatedParams) {

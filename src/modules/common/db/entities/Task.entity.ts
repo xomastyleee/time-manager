@@ -6,25 +6,30 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn
+  DeleteDateColumn,
+  ManyToMany,
+  JoinTable
 } from 'typeorm'
 import { type ITaskCreateUpdateParams } from '@common/types'
-import { DayPlan } from '@common/db/entities'
+import { DayPlan, User } from '@common/db/entities'
 
 @Entity()
 export class Task {
   constructor(params: ITaskCreateUpdateParams) {
     if (params) {
-      const { title, priority, type, status, startDate, endDate, description, duration, breakDuration } = params
-      this.status = status
-      this.startDate = startDate
-      this.endDate = endDate
-      this.title = title
-      this.priority = priority
-      this.type = type
+      const { title, priority, type, status, startDate, endDate, description, duration, breakDuration, weekly, dates } =
+        params
+      if (status) this.status = status
+      if (startDate) this.startDate = startDate
+      if (endDate) this.endDate = endDate
+      if (title) this.title = title
+      if (priority) this.priority = priority
+      if (type) this.type = type
       if (description) this.description = description
       if (duration) this.duration = duration
       if (breakDuration) this.breakDuration = breakDuration
+      if (weekly) this.weekly = JSON.stringify(weekly)
+      this.dates = dates ? JSON.stringify(dates.map((date) => date.toISOString())) : '[]'
     }
   }
 
@@ -63,6 +68,14 @@ export class Task {
 
   @Column('date', { nullable: true })
   endDate: Date
+
+  @ManyToMany(() => User, (user) => user.tasks)
+  @JoinTable({
+    name: 'task_users',
+    joinColumn: { name: 'taskId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'userId', referencedColumnName: 'id' }
+  })
+  users?: User[]
 
   @ManyToOne(() => DayPlan, (dayPlan) => dayPlan.tasks)
   @JoinColumn({ name: 'dayPlanId' })

@@ -8,3 +8,7 @@ export const getUser = (user: User): IUser =>
     ...user,
     preferences: JSON.parse(user.preferences)
   })
+export const getUserEntity = (user: IUser): User => ({
+  ...user,
+  preferences: JSON.stringify(user.preferences)
+})

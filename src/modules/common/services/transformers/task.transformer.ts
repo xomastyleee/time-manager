@@ -1,4 +1,4 @@
-import { DayWeek, ITask, ITaskUpdateParams, Priority, PublicTaskData, TaskStatus, TaskType } from '@common/types'
+import { DayWeek, ITask, ITaskCreateUpdateParams, Priority, PublicTaskData, TaskStatus, TaskType } from '@common/types'
 import { Task } from '@common/db/entities'
 
 export class TaskTransformer {
@@ -22,14 +22,14 @@ export class TaskTransformer {
     return null
   }
 
-  static toEntity(dto: ITask | null): Task | null {
+  static toEntity(dto: ITask | ITaskCreateUpdateParams | null): Task | null {
     if (dto) {
-      const entity = new Task({
+      return new Task({
         title: dto.title,
         priority: dto.priority,
         type: dto.type,
-        weekly: dto.weekly ? JSON.stringify(dto.weekly) : '[]',
-        dates: dto.dates ? JSON.stringify(dto.dates.map((date) => date.toISOString())) : '[]',
+        weekly: dto.weekly,
+        dates: dto.dates,
         status: dto.status,
         startDate: dto.startDate,
         endDate: dto.endDate,
@@ -37,21 +37,19 @@ export class TaskTransformer {
         duration: dto.duration,
         breakDuration: dto.breakDuration
       })
-      entity.id = dto.id
-      return entity
     }
     return null
   }
 
-  static toUpdateEntity(dto: ITaskUpdateParams | null): PublicTaskData | null {
+  static toUpdateEntity(dto: ITaskCreateUpdateParams | null): PublicTaskData | null {
     if (dto) {
       const entity = new Task({
         title: dto.title,
         priority: dto.priority,
         type: dto.type,
-        weekly: dto.weekly ? JSON.stringify(dto.weekly) : '[]',
-        dates: dto.dates ? JSON.stringify(dto.dates.map((date) => date.toISOString())) : '[]',
-        status: dto.status,
+        weekly: dto.weekly,
+        dates: dto.dates,
+        status: dto.status || TaskStatus.Pending,
         startDate: dto.startDate,
         endDate: dto.endDate,
         description: dto.description,

@@ -6,6 +6,7 @@ export interface IUser {
   id: number
   username?: string
   preferences: IPreferences
+  tasks?: Task[]
   status: UserStatus
   createdAt?: Date
   updatedAt?: Date
@@ -32,12 +33,14 @@ export interface IUserCreateParams {
   status?: UserStatus
   username?: string
   preferences: IPreferences
+  tasks?: Task[]
 }
 
 export interface IUserUpdateParams {
   status?: UserStatus
   username?: string
   preferences?: IPreferences
+  tasks?: Task[]
 }
 
 export interface IPreferences {
@@ -48,32 +51,19 @@ export interface IPreferences {
   useSystemLang?: boolean
 }
 
-export interface ITaskUpdateParams {
+export interface ITaskCreateUpdateParams {
   title?: string
   priority?: Priority
   type?: TaskType
-  weekly?: DayWeek[]
-  dates?: Date[]
+  weekly?: DayWeek[] | undefined
+  dates?: Date[] | undefined
   status?: TaskStatus
   startDate?: Date
-  endDate?: Date
+  endDate?: Date | undefined
   description?: string
   duration?: number
   breakDuration?: number
-}
-
-export interface ITaskCreateParams {
-  title: string
-  priority: Priority
-  type: TaskType
-  weekly: DayWeek[]
-  dates: Date[]
-  status: TaskStatus
-  startDate: Date
-  endDate: Date
-  description?: string
-  duration?: number
-  breakDuration?: number
+  users?: IUser[]
 }
 
 export interface INotificationCreateUpdateParams {
