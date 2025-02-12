@@ -1,7 +1,7 @@
 import en from './en/translations.json'
-import ua from './ua/translations.json'
+import uk from './uk/translations.json'
 
 export const resources = {
   en: { translation: en },
-  ua: { translation: ua }
+  uk: { translation: uk }
 }
