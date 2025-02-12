@@ -23,8 +23,8 @@ export class Task {
       if (type) this.type = type
       if (description) this.description = description
       if (duration) this.duration = duration
-      if (breakDuration) this.breakDuration = breakDuration
-      if (weekly) this.weekly = JSON.stringify(weekly)
+      this.breakDuration = breakDuration && breakDuration > 0 ? breakDuration : 0
+      this.weekly = weekly ? JSON.stringify(weekly) : '[]'
       this.dates = dates ? JSON.stringify(dates.map((date) => date.toISOString())) : '[]'
     }
   }
