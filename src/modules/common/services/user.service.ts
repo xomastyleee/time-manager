@@ -39,8 +39,7 @@ export class UserService {
   }
 
   public async getAllUsers() {
-    const userAll = await this.userRepository.find({
-    })
+    const userAll = await this.userRepository.find({})
     const userDto = userAll.map(getUser)
     return userDto
   }
@@ -52,7 +51,8 @@ export class UserService {
     })
 
     if (!user) {
-      throw new Error(`User with ID ${userId} not found`)
+      logger.error(`User with ID ${userId} not found`)
+      return null
     }
 
     return getUser(user)
