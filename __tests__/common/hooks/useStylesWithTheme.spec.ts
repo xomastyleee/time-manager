@@ -10,8 +10,10 @@ jest.mock('../../../src/modules/common/hooks/useDefinedTheme', () => ({
 }))
 
 jest.mock('react-native', () => ({
-  ...jest.requireActual('react-native'),
-  useWindowDimensions: jest.fn()
+  useWindowDimensions: jest.fn(),
+  StyleSheet: {
+    create: jest.fn((styles) => styles)
+  }
 }))
 
 const mockUseAppTheme = useAppTheme as jest.Mock
