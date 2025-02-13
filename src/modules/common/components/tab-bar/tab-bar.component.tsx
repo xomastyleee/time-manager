@@ -3,7 +3,7 @@ import { Pressable, View, ViewStyle, Dimensions } from 'react-native'
 import { FAB, Icon, Portal } from 'react-native-paper'
 import Svg, { Path } from 'react-native-svg'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { useStylesWithTheme } from '@common/hooks'
+import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { isAndroid } from '@common/constants'
 
 import { stylesWithTheme } from './tab-bar.styles'
@@ -23,7 +23,7 @@ const PositionMapper = {
 }
 
 export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
-  const { styles, colors } = useStylesWithTheme(stylesWithTheme)
+  const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
   const [isLandscape, setIsLandscape] = useState(Dimensions.get('window').width > Dimensions.get('window').height)
 

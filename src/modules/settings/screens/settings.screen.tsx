@@ -23,7 +23,7 @@ export const SettingsScreen = () => {
 
   return (
     <ScreenView>
-      <ContentView style={styles.main}>
+      <ContentView>
         <SettingsButton title="Profile" onPress={navigateToSettings} iconName="account" />
         <SettingsButton title="Appearance" onPress={() => null} iconName="palette" />
         <SettingsButton title="Language" onPress={() => null} iconName="translate" />
@@ -39,12 +39,6 @@ export const SettingsScreen = () => {
 
 const stylesWithTheme = (theme: AppTheme) =>
   StyleSheet.create({
-    main: {
-      backgroundColor: theme.colors.screenContent,
-      borderRadius: '5%',
-      marginHorizontal: '3%',
-      padding: '3%'
-    },
     versionInfo: {
       color: theme.colors.text,
       marginVertical: 20,

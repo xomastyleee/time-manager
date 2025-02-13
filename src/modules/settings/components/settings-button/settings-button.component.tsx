@@ -2,8 +2,7 @@ import React, { FC } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Icon, Text } from 'react-native-paper'
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated'
-import { useStylesWithTheme } from '@common/hooks'
-import { AppTheme } from '@common/theme'
+import { CreateStylesProps, useStylesWithThemeAndDimensions } from '@common/hooks'
 
 interface SettingsButtonProps {
   title: string
@@ -20,7 +19,7 @@ export const SettingsButton: FC<SettingsButtonProps> = ({
   bottomDivider = true,
   onPress
 }) => {
-  const { styles, colors } = useStylesWithTheme(stylesWithTheme)
+  const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
   const scale = useSharedValue(1)
 
   const borderStyles = bottomDivider ? { borderBottomWidth: 1, borderBottomColor: colors.text, borderRadius: '5%' } : {}
@@ -54,7 +53,7 @@ export const SettingsButton: FC<SettingsButtonProps> = ({
   )
 }
 
-const stylesWithTheme = (theme: AppTheme) =>
+const stylesWithTheme = ({ theme }: CreateStylesProps) =>
   StyleSheet.create({
     container: {
       width: '100%'

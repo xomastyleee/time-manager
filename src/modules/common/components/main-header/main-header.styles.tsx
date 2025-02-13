@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
-import { type AppTheme } from '@common/theme'
+import { CreateStylesProps } from '@common/hooks'
 
-export const stylesWithTheme = (theme: AppTheme) =>
+export const stylesWithTheme = ({ theme }: CreateStylesProps) =>
   StyleSheet.create({
     iconButtonWrapper: {
       flexDirection: 'column',
@@ -18,6 +18,7 @@ export const stylesWithTheme = (theme: AppTheme) =>
       alignItems: 'center',
       flexDirection: 'row',
       height: '100%',
+      paddingHorizontal: 10,
       width: '50%'
     },
     main: {

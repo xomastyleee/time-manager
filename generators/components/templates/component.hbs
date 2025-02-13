@@ -1,13 +1,13 @@
 import React, { FC } from 'react'
 import { View } from 'react-native'
-import { useStylesWithTheme } from '@common/hooks'
+import { useStylesWithThemeAndDimensions } from '@common/hooks'
 
 import { stylesWithTheme } from './{{ name }}.styles'
 
 interface {{ componentName }}Props {}
 
 export const {{ componentName }}: FC<{{ componentName }}Props> = () => {
-  const { styles } = useStylesWithTheme(stylesWithTheme)
+  const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
   return <View />
 }
