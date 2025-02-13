@@ -1,6 +1,6 @@
 import { Task } from '@common/db/entities'
 
-import { DayWeek, NotificationType, Priority, TaskType, UserStatus } from './enums'
+import { DayWeek, NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enums'
 
 export interface IUser {
   id: number
@@ -22,6 +22,10 @@ export interface ITask {
   description?: string
   duration?: number
   breakDuration?: number
+}
+
+export interface ICreateHistoryTaskParams {
+  task?: Task
 }
 
 export type PublicTaskData = Omit<Task, 'id'>
@@ -52,6 +56,7 @@ export interface IPreferences {
 
 export interface ITaskCreateUpdateParams {
   title?: string
+  status?: TaskStatus
   priority?: Priority
   type?: TaskType
   weekly?: DayWeek[] | undefined

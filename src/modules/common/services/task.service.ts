@@ -4,6 +4,7 @@ import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
 import { ITask, ITaskCreateUpdateParams } from '@common/types'
 import { TaskTransformer } from '@common/services/transformers'
+import { historyTaskService } from '@common/services/historyTask.service'
 
 export class TaskService {
   private readonly taskRepository = dataSource.getRepository(Task)
@@ -11,6 +12,7 @@ export class TaskService {
   public async createTask(params: ITaskCreateUpdateParams) {
     try {
       const task = new Task(params)
+      await historyTaskService.createHistoryTask({ task })
       const result = await this.taskRepository.save(task)
       logger.info('Creating task', result)
       return result
@@ -23,6 +25,20 @@ export class TaskService {
     const tasks = await this.taskRepository.find()
     const result = tasks.map(TaskTransformer.toInterface)
     return result
+  }
+
+  public async getHistoryTaskById(taskId: number) {
+    try {
+      const task = await this.taskRepository.findOne({
+        where: {
+          id: taskId
+        },
+        relations: ['history']
+      })
+      return task
+    } catch (error) {
+      logger.error('Error fetching task with id ', taskId)
+    }
   }
 
   public async createTasks(taskData: ITaskCreateUpdateParams[]) {
