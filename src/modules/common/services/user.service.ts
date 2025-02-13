@@ -40,10 +40,22 @@ export class UserService {
 
   public async getAllUsers() {
     const userAll = await this.userRepository.find({
-      relations: ['tasks']
     })
     const userDto = userAll.map(getUser)
     return userDto
+  }
+
+  public async getUserTasks(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['tasks']
+    })
+
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`)
+    }
+
+    return getUser(user)
   }
 
   public async getActiveUser() {
