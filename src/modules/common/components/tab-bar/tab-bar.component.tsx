@@ -1,9 +1,10 @@
-import React, { FC, useMemo, useState } from 'react'
-import { Pressable, View, ViewStyle } from 'react-native'
+import React, { FC, useEffect, useMemo, useState } from 'react'
+import { Pressable, View, ViewStyle, Dimensions } from 'react-native'
 import { FAB, Icon, Portal } from 'react-native-paper'
 import Svg, { Path } from 'react-native-svg'
-import { useStylesWithTheme } from '@common/hooks'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { useStylesWithTheme } from '@common/hooks'
+import { isAndroid } from '@common/constants'
 
 import { stylesWithTheme } from './tab-bar.styles'
 
@@ -24,6 +25,11 @@ const PositionMapper = {
 export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { styles, colors } = useStylesWithTheme(stylesWithTheme)
 
+  const [isLandscape, setIsLandscape] = useState(Dimensions.get('window').width > Dimensions.get('window').height)
+
+  const fabStylesWithLandscapeGapIos = useMemo(() => ({ bottom: isLandscape ? 15 : 0 }), [isLandscape])
+  const fabStylesWithLandscapeGapAndroid = useMemo(() => ({ bottom: 35 }), [])
+
   const [isFabOpened, setIsFabOpened] = useState(false)
 
   const fabActions = useMemo(
@@ -43,11 +49,21 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
     setIsFabOpened(open)
   }
 
+  useEffect(() => {
+    const onChange = ({ window }: { window: { width: number; height: number } }) => {
+      setIsLandscape(window.width > window.height)
+    }
+
+    const subscription = Dimensions.addEventListener('change', onChange)
+
+    return () => subscription?.remove()
+  }, [])
+
   return (
     <View style={styles.tabBar}>
       <View style={styles.leftBar} />
       <View style={styles.centerCutout}>
-        <Svg height="80" width="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <Svg height="80" width="64" viewBox="0 0 100 100" preserveAspectRatio="none">
           <Path d="M0,20 Q50,70 100,20 L100,100 L0,100 Z" fill={colors.background} />
         </Svg>
       </View>
@@ -56,7 +72,7 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
         <FAB.Group
           visible
           icon={isFabOpened ? 'close' : 'plus'}
-          fabStyle={styles.fab}
+          fabStyle={[styles.fab, isAndroid ? fabStylesWithLandscapeGapAndroid : fabStylesWithLandscapeGapIos]}
           open={isFabOpened}
           onStateChange={handleStateChange}
           actions={fabActions}
