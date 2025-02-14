@@ -3,26 +3,61 @@ export enum Priority {
   B = 'B',
   C = 'C',
   D = 'D',
-  F = 'F'
+  E = 'E',
+  F = 'F',
+  G = 'G',
+  H = 'H',
+  I = 'I',
+  J = 'J',
+  K = 'K',
+  L = 'L',
+  M = 'M',
+  N = 'N',
+  O = 'O',
+  P = 'P',
+  Q = 'Q',
+  R = 'R',
+  S = 'S',
+  T = 'T',
+  U = 'U',
+  V = 'V',
+  W = 'W',
+  X = 'X',
+  Y = 'Y',
+  Z = 'Z'
 }
+
 export enum TaskType {
   Work = 'Work',
   Rest = 'Rest',
   SelfDevelopment = 'Self-Development'
 }
+
 export enum NotificationType {
   Motivational = 'Motivational',
   Reminder = 'Reminder'
 }
+
 export enum DayWeek {
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-  Sunday = 'Sunday'
+  Sunday = 0,
+  Monday = 1,
+  Tuesday = 2,
+  Wednesday = 3,
+  Thursday = 4,
+  Friday = 5,
+  Saturday = 6
 }
+
+export const DayWeekMap = {
+  [DayWeek.Sunday]: 0,
+  [DayWeek.Monday]: 1,
+  [DayWeek.Tuesday]: 2,
+  [DayWeek.Wednesday]: 3,
+  [DayWeek.Thursday]: 4,
+  [DayWeek.Friday]: 5,
+  [DayWeek.Saturday]: 6
+}
+
 export enum UserStatus {
   Active = 'Active',
   Inactive = 'Inactive'

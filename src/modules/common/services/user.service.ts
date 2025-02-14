@@ -39,11 +39,23 @@ export class UserService {
   }
 
   public async getAllUsers() {
-    const userAll = await this.userRepository.find({
-      relations: ['tasks']
-    })
+    const userAll = await this.userRepository.find({})
     const userDto = userAll.map(getUser)
     return userDto
+  }
+
+  public async getUserTasks(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['tasks']
+    })
+
+    if (!user) {
+      logger.error(`User with ID ${userId} not found`)
+      return null
+    }
+
+    return getUser(user)
   }
 
   public async getActiveUser() {
@@ -94,7 +106,7 @@ export class UserService {
 
         return result
       }
-      const { preferences, ...updatedParams } = params
+      const updatedParams: Omit<IUserUpdateParams, 'preferences'> = params
 
       const result = await this.userRepository.update(id, updatedParams)
       return result

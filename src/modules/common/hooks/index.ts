@@ -1,5 +1,6 @@
 export * from './useDefinedTheme'
 export * from './useDBConnection'
 export * from './useCalculatedScreenGap'
-export * from './useStylesWithTheme'
+export * from './useStylesWithThemeAndDimensions'
 export * from './useAuthorizedUserModel'
+export * from './useUserTaskModel'

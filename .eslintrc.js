@@ -26,7 +26,7 @@ module.exports = {
     semi: ['error', 'never'],
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     '@typescript-eslint/ban-types': 'warn',
     '@typescript-eslint/ban-ts-comment': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',

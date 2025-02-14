@@ -1,15 +1,13 @@
 import { StyleSheet } from 'react-native'
-import { type AppTheme } from '@common/theme'
+import { CreateStylesProps } from '@common/hooks'
 
-export const stylesWithTheme = (theme: AppTheme) =>
+export const stylesWithTheme = ({ theme }: CreateStylesProps) =>
   StyleSheet.create({
     centerCutout: {
       alignSelf: 'center',
       backgroundColor: theme.colors.transparent,
-      bottom: 0,
-      height: 80,
-      position: 'absolute',
-      width: '16%'
+      height: 95,
+      width: 64
     },
     fab: {
       alignSelf: 'center',
@@ -29,21 +27,18 @@ export const stylesWithTheme = (theme: AppTheme) =>
     leftBar: {
       backgroundColor: theme.colors.background,
       borderTopRightRadius: 2,
-      height: 65,
-      left: 0,
-      position: 'absolute',
-      width: '42%'
+      flex: 1,
+      height: 65
     },
     rightBar: {
       backgroundColor: theme.colors.background,
       borderTopLeftRadius: 2,
-      height: 65,
-      position: 'absolute',
-      right: 0,
-      width: '42%'
+      flex: 1,
+      height: 65
     },
     tabBar: {
       backgroundColor: theme.colors.transparent,
+      flexDirection: 'row',
       height: 65,
       position: 'relative'
     }

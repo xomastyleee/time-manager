@@ -2,14 +2,14 @@ import React, { FC } from 'react'
 import { View } from 'react-native'
 import { IconButton, Text } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useStylesWithTheme } from '@common/hooks'
+import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { useMainNavigation } from '@navigation/navigation-options'
 
 import { stylesWithTheme } from './main-header.styles'
 import type { MainHeaderProps } from '@modules/common/types'
 
 export const MainHeader: FC<MainHeaderProps> = ({ options }) => {
-  const { styles, colors } = useStylesWithTheme(stylesWithTheme)
+  const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
   const { getState, navigate } = useMainNavigation()
 
   const state = getState()

@@ -1,4 +1,4 @@
 import { StyleSheet } from 'react-native'
 import { type CreateStylesProps } from '@common/hooks'
 
-export const stylesWithTheme = ({}: CreateStylesProps) => StyleSheet.create({})
+export const stylesWithTheme = (_: CreateStylesProps) => StyleSheet.create({})

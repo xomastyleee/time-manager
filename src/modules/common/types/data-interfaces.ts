@@ -1,12 +1,11 @@
 import { Task } from '@common/db/entities'
-
-import { DayWeek, NotificationType, Priority, TaskStatus, TaskType, UserStatus } from './enums'
+import { DayWeek, DayWeekMap, NotificationType, Priority, TaskStatus, TaskType, UserStatus } from '@common/types'
 
 export interface IUser {
   id: number
   username?: string
   preferences: IPreferences
-  tasks?: Task[]
+  tasks?: ITask[]
   status: UserStatus
   createdAt?: Date
   updatedAt?: Date
@@ -18,7 +17,7 @@ export interface ITask {
   priority: Priority
   status: TaskStatus
   type: TaskType
-  weekly?: DayWeek[]
+  weekly?: number[]
   dates?: Date[]
   description?: string
   duration?: number
@@ -28,7 +27,8 @@ export interface ITask {
 export interface ICreateHistoryTaskParams {
   task?: Task | null
 }
-
+export type ITasksByWeeks = Record<keyof typeof DayWeekMap, ITask[]>
+export type WeekDayCodes = 0 | 1 | 2 | 3 | 4 | 5 | 6
 export type PublicTaskData = Omit<Task, 'id'>
 
 export interface IUserCreateParams {

@@ -20,21 +20,18 @@ export class TaskTransformer {
     return null
   }
 
-  static toEntity(dto: ITask | ITaskCreateUpdateParams | null): Task | null {
-    if (dto) {
-      return new Task({
-        title: dto.title,
-        priority: dto.priority,
-        type: dto.type,
-        weekly: dto.weekly,
-        dates: dto.dates,
-        description: dto.description,
-        duration: dto.duration,
-        status: dto.status,
-        breakDuration: dto.breakDuration
-      })
-    }
-    return null
+  static toEntity(dto: ITask | ITaskCreateUpdateParams): Task {
+    return new Task({
+      title: dto.title,
+      priority: dto.priority,
+      type: dto.type,
+      weekly: dto.weekly,
+      dates: dto.dates,
+      description: dto.description,
+      duration: dto.duration,
+      status: dto.status,
+      breakDuration: dto.breakDuration
+    })
   }
 
   static toUpdateEntity(dto: ITaskCreateUpdateParams | null): PublicTaskData | null {
