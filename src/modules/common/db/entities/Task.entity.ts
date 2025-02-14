@@ -11,7 +11,7 @@ import {
   JoinTable,
   OneToMany
 } from 'typeorm'
-import { type ITaskCreateUpdateParams, TaskStatus} from '@common/types'
+import { type ITaskCreateUpdateParams, TaskStatus } from '@common/types'
 import { DayPlan, HistoryTask, User } from '@common/db/entities'
 import { logger } from '@common/utils'
 
