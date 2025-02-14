@@ -8,7 +8,7 @@ export class HistoryTaskServiceService {
 
   public async createHistoryTask(params: ICreateHistoryTaskParams) {
     try {
-      if( params.task ) {
+      if (params.task) {
         const history = new HistoryTask(params)
 
         const result = await this.historyRepository.save(history)
