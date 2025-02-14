@@ -11,7 +11,7 @@ export const ScreenView: FC<ScreenViewProps> = (props) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
   return (
-    <ScrollView {...props} style={styles.main}>
+    <ScrollView {...props} style={styles.main} nestedScrollEnabled>
       {props.children}
     </ScrollView>
   )

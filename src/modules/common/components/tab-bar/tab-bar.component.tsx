@@ -3,6 +3,7 @@ import { Pressable, View, ViewStyle, Dimensions } from 'react-native'
 import { FAB, Icon, Portal } from 'react-native-paper'
 import Svg, { Path } from 'react-native-svg'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { type HomeStackParamList, useTypedNavigation } from '@navigation/navigation-options'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { isAndroid } from '@common/constants'
 
@@ -25,6 +26,8 @@ const PositionMapper = {
 export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
+  const { navigate } = useTypedNavigation<HomeStackParamList>()
+
   const [isLandscape, setIsLandscape] = useState(Dimensions.get('window').width > Dimensions.get('window').height)
 
   const fabStylesWithLandscapeGapIos = useMemo(() => ({ bottom: isLandscape ? 15 : 0 }), [isLandscape])
@@ -39,10 +42,10 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
         label: 'Create new task',
         style: { marginBottom: 100 },
         labelStyle: { marginBottom: 100 },
-        onPress: () => console.log('Pressed add')
+        onPress: () => navigate('CreateTicketScreen')
       }
     ],
-    []
+    [navigate]
   )
 
   const handleStateChange = ({ open }: { open: boolean }) => {

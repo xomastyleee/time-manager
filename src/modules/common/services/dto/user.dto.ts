@@ -1,7 +1,7 @@
-import { IPreferences, IUser, UserStatus } from '@common/types'
 import { Transform } from 'class-transformer'
 import { UserStatusTransformer } from '@common/utils'
-import { Task } from '@common/db/entities'
+
+import type { IPreferences, ITask, IUser, UserStatus } from '@common/types'
 
 export class UserDTO implements IUser {
   id: number
@@ -13,7 +13,7 @@ export class UserDTO implements IUser {
   @Transform(UserStatusTransformer)
   status: UserStatus
 
-  tasks: Task[]
+  tasks: ITask[]
 
   createdAt?: Date
 
