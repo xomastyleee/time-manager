@@ -6,7 +6,7 @@ export const generateMockTask = (): ITaskCreateUpdateParams => ({
   title: faker.lorem.sentence(),
   priority: getRandomItem(Object.values(Priority)),
   type: getRandomItem(Object.values(TaskType)),
-  weekly: getRandomItems(Object.values(DayWeek), faker.number.int({ min: 1, max: 3 })),
+  weekly: getRandomItems(Object.values(DayWeek), faker.number.int({ min: 1, max: 3 })) as DayWeek[],
   dates: [faker.date.future(), faker.date.future()],
   status: getRandomItem(Object.values(TaskStatus)),
   description: faker.lorem.paragraph(),

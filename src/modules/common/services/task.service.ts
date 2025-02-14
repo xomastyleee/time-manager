@@ -12,8 +12,8 @@ export class TaskService {
   public async createTask(params: ITaskCreateUpdateParams) {
     try {
       const task = new Task(params)
-      await historyTaskService.createHistoryTask({ task })
       const result = await this.taskRepository.save(task)
+      await historyTaskService.createHistoryTask({ task })
       logger.info('Creating task', result)
       return result
     } catch (error) {
@@ -25,20 +25,6 @@ export class TaskService {
     const tasks = await this.taskRepository.find()
     const result = tasks.map(TaskTransformer.toInterface)
     return result
-  }
-
-  public async getHistoryTaskById(taskId: number) {
-    try {
-      const task = await this.taskRepository.findOne({
-        where: {
-          id: taskId
-        },
-        relations: ['history']
-      })
-      return task
-    } catch (error) {
-      logger.error('Error fetching task with id ', taskId)
-    }
   }
 
   public async createTasks(taskData: ITaskCreateUpdateParams[]) {

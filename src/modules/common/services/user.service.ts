@@ -9,7 +9,7 @@ export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
 
   public async saveUser(user: User) {
-    await this.userRepository.save(user)
+    return this.userRepository.save(user)
   }
 
   public async createUser(params: IUserCreateParams) {

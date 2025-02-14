@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { View } from 'react-native'
 import { IconButton, Text } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useStylesWithThemeAndDimensions } from '@common/hooks'
+import { useAuthorizedUserModel, useStylesWithThemeAndDimensions } from '@common/hooks'
 import { useMainNavigation } from '@navigation/navigation-options'
 
 import { stylesWithTheme } from './main-header.styles'
@@ -11,7 +11,7 @@ import type { MainHeaderProps } from '@modules/common/types'
 export const MainHeader: FC<MainHeaderProps> = ({ options }) => {
   const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
   const { getState, navigate } = useMainNavigation()
-
+  const { user, userList } = useAuthorizedUserModel()
   const state = getState()
 
   const { state: currentRouteState, name } = state?.routes[state?.index] ?? {}
@@ -32,6 +32,8 @@ export const MainHeader: FC<MainHeaderProps> = ({ options }) => {
           <Text variant="titleLarge" style={styles.label}>
             {options.tabBarLabel}
           </Text>
+          <Text variant="titleLarge">{user?.username}</Text>
+          <Text>{userList?.map((userM) => userM.username).join(', ')}</Text>
         </View>
         <View style={styles.iconButtonWrapper}>
           <IconButton iconColor={colors.onBackground} icon="bell" size={20} />
