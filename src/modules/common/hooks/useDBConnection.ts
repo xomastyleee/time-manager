@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { createAllMockData, logger } from '@common/utils'
+import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
+import { createAllMockData } from '@common/db/mockData'
 
 export const useDBConnection = () => {
   const [isInitialized, setIsInitialized] = useState(false)
