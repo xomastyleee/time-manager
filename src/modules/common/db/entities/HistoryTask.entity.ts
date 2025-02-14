@@ -8,24 +8,22 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
+import { type ICreateHistoryTaskParams, TaskStatus } from '@common/types'
 import { Task } from '@common/db/entities/Task.entity'
-import { type ICreateHistoryTaskParams } from '@common/types'
 
 @Entity()
 export class HistoryTask {
   constructor(params: ICreateHistoryTaskParams) {
-    const { task } = params
-    if (task) this.task = task
-    if (task?.status) this.statusTask = task?.status
+    if (params?.task) {
+      this.statusTask = params?.task?.status
+      this.task = params.task
+    }
   }
 
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column('int')
-  taskId: number
-
-  @Column('text')
+  @Column('text', { default: String(TaskStatus.Planned) })
   statusTask: string
 
   @ManyToOne(() => Task, (task) => task.history, { onDelete: 'CASCADE' })

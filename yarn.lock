@@ -1862,6 +1862,7 @@ __metadata:
     "@babel/preset-env": "npm:7.25.3"
     "@babel/runtime": "npm:7.25.0"
     "@babel/types": "npm:7.26.3"
+    "@faker-js/faker": "npm:^9.5.0"
     "@react-native-community/cli": "npm:15.0.0"
     "@react-native-community/cli-platform-android": "npm:15.0.0"
     "@react-native-community/cli-platform-ios": "npm:15.0.0"
@@ -1984,6 +1985,13 @@ __metadata:
   version: 1.0.0
   resolution: "@expo/sdk-runtime-versions@npm:1.0.0"
   checksum: 10/0942d5a356f590e8dc795761456cc48b3e2d6a38ad2a02d6774efcdc5a70424e05623b4e3e5d2fec0cdc30f40dde05c14391c781607eed3971bf8676518bfd9d
+  languageName: node
+  linkType: hard
+
+"@faker-js/faker@npm:^9.5.0":
+  version: 9.5.0
+  resolution: "@faker-js/faker@npm:9.5.0"
+  checksum: 10/7dfcdf81a01b41f04e6b3a40b1c164658f1d309af8a8585ce36409758d1ee0de02e875c5e2a7163c88225ef5679386ca9706a64c800b525d8f2747967b2171ed
   languageName: node
   linkType: hard
 

@@ -11,14 +11,16 @@ import {
   JoinTable,
   OneToMany
 } from 'typeorm'
-import { type ITaskCreateUpdateParams } from '@common/types'
-import { DayPlan, User, HistoryTask } from '@common/db/entities'
+import { type ITaskCreateUpdateParams, TaskStatus} from '@common/types'
+import { DayPlan, HistoryTask, User } from '@common/db/entities'
+import { logger } from '@common/utils'
 
 @Entity()
 export class Task {
   constructor(params: ITaskCreateUpdateParams) {
     if (params) {
       const { title, priority, type, description, duration, breakDuration, weekly, dates, status } = params
+      logger.info('create new task', status)
       if (title) this.title = title
       if (priority) this.priority = priority
       if (type) this.type = type
@@ -46,7 +48,7 @@ export class Task {
   @Column('text')
   type: string
 
-  @Column('text')
+  @Column('text', { default: String(TaskStatus.Planned) })
   status: string
 
   @Column('text')
@@ -69,12 +71,15 @@ export class Task {
   })
   users?: User[]
 
-  @OneToMany(() => HistoryTask, (historyTask) => historyTask.taskId)
-  history: HistoryTask[]
+  @OneToMany(() => HistoryTask, (historyTask) => historyTask.task)
+  history?: HistoryTask[]
 
   @ManyToOne(() => DayPlan, (dayPlan) => dayPlan.tasks)
   @JoinColumn({ name: 'dayPlanId' })
   dayPlan: DayPlan
+
+  @CreateDateColumn({ type: 'date', nullable: true })
+  dataEnd?: Date
 
   @CreateDateColumn({ type: 'date' })
   createdAt?: Date
@@ -82,6 +87,6 @@ export class Task {
   @UpdateDateColumn({ type: 'date' })
   updatedAt?: Date
 
-  @DeleteDateColumn({ type: 'date' })
+  @DeleteDateColumn({ type: 'date', nullable: true })
   deletedAt?: Date
 }

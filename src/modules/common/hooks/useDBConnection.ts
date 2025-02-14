@@ -11,8 +11,10 @@ export const useDBConnection = () => {
       if (!isInitialized) {
         logger.info('Initializing database...')
         await dataSource.initialize()
+        logger.info('Run migrations...')
         await dataSource.runMigrations()
         // Dev mod call mock create data.
+        logger.info('Create mock data...')
         await createAllMockData()
       }
       logger.info('DataSource has been initialized!')

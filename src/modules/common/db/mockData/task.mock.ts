@@ -1,4 +1,4 @@
-import { DayWeek, ITaskCreateUpdateParams, Priority, TaskType } from '@common/types'
+import { DayWeek, ITaskCreateUpdateParams, Priority, TaskStatus, TaskType } from '@common/types'
 
 export const TASK_MOCK: ITaskCreateUpdateParams[] = [
   {
@@ -7,6 +7,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     type: TaskType.Work,
     weekly: [DayWeek.Monday, DayWeek.Wednesday, DayWeek.Friday],
     dates: [new Date('2025-02-17'), new Date('2025-02-19')],
+    status: TaskStatus.Planned,
     description: 'Write detailed documentation for the project',
     duration: 7200000, // 2 hours
     breakDuration: 900000 // 15 minutes
@@ -17,6 +18,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     type: TaskType.Rest,
     weekly: [DayWeek.Sunday, DayWeek.Tuesday, DayWeek.Thursday],
     dates: [new Date('2025-02-18'), new Date('2025-02-20')],
+    status: TaskStatus.Planned,
     description: 'Relax and clear the mind',
     duration: 1800000, // 30 minutes
     breakDuration: 300000 // 5 minutes
@@ -27,6 +29,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     type: TaskType.SelfDevelopment,
     weekly: [DayWeek.Monday, DayWeek.Wednesday, DayWeek.Friday],
     dates: [new Date('2025-02-17'), new Date('2025-02-19')],
+    status: TaskStatus.Planned,
     description: 'Learn full-stack development',
     duration: 7200000, // 2 hours
     breakDuration: 600000 // 10 minutes
@@ -37,6 +40,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     type: TaskType.Work,
     weekly: [DayWeek.Wednesday],
     dates: [new Date('2025-02-19')],
+    status: TaskStatus.Planned,
     description: 'Discuss company strategy',
     duration: 5400000, // 1.5 hours
     breakDuration: 600000 // 10 minutes
@@ -46,6 +50,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     priority: Priority.D,
     type: TaskType.SelfDevelopment,
     weekly: [DayWeek.Saturday, DayWeek.Sunday],
+    status: TaskStatus.Planned,
     dates: [new Date('2025-02-22'), new Date('2025-02-23')],
     description: 'Read "Atomic Habits"',
     duration: 5400000, // 1.5 hours
@@ -56,6 +61,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     priority: Priority.B,
     type: TaskType.Rest,
     weekly: [DayWeek.Monday, DayWeek.Wednesday],
+    status: TaskStatus.Planned,
     description: 'Morning yoga to start the day',
     duration: 3600000, // 1 hour
     breakDuration: 600000 // 10 minutes
@@ -64,6 +70,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Client follow-up calls',
     priority: Priority.A,
     type: TaskType.Work,
+    status: TaskStatus.Planned,
     dates: [new Date('2025-02-24'), new Date('2025-02-26')],
     description: 'Follow up with clients on project progress',
     duration: 1800000, // 30 minutes
@@ -73,6 +80,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Grocery shopping',
     priority: Priority.C,
     type: TaskType.Rest,
+    status: TaskStatus.Planned,
     weekly: [DayWeek.Saturday],
     description: 'Weekly grocery shopping',
     duration: 7200000, // 2 hours
@@ -82,6 +90,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Team brainstorming session',
     priority: Priority.A,
     type: TaskType.Work,
+    status: TaskStatus.Planned,
     dates: [new Date('2025-02-25')],
     description: 'Brainstorming session for new project ideas',
     duration: 14400000, // 4 hours
@@ -91,6 +100,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Evening walk',
     priority: Priority.D,
     type: TaskType.Rest,
+    status: TaskStatus.Planned,
     weekly: [DayWeek.Tuesday, DayWeek.Thursday],
     description: 'Relaxing evening walk',
     duration: 2700000, // 45 minutes
@@ -100,6 +110,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Code review',
     priority: Priority.A,
     type: TaskType.Work,
+    status: TaskStatus.Planned,
     weekly: [DayWeek.Tuesday, DayWeek.Thursday],
     dates: [new Date('2025-02-18'), new Date('2025-02-20')],
     description: 'Review code for the new feature',
@@ -110,6 +121,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Gym workout',
     priority: Priority.B,
     type: TaskType.Rest,
+    status: TaskStatus.Planned,
     weekly: [DayWeek.Monday, DayWeek.Wednesday, DayWeek.Friday],
     description: 'Strength training and cardio',
     duration: 7200000, // 2 hours
@@ -119,6 +131,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Project planning',
     priority: Priority.A,
     type: TaskType.Work,
+    status: TaskStatus.Planned,
     dates: [new Date('2025-02-17'), new Date('2025-02-19')],
     description: 'Plan the next sprint tasks',
     duration: 10800000, // 3 hours
@@ -128,6 +141,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
     title: 'Cooking class',
     priority: Priority.C,
     type: TaskType.SelfDevelopment,
+    status: TaskStatus.Planned,
     weekly: [DayWeek.Saturday],
     description: 'Learn to cook new recipes',
     duration: 14400000, // 4 hours
@@ -136,6 +150,7 @@ export const TASK_MOCK: ITaskCreateUpdateParams[] = [
   {
     title: 'Networking event',
     priority: Priority.B,
+    status: TaskStatus.Planned,
     type: TaskType.Work,
     dates: [new Date('2025-02-21')],
     description: 'Meet professionals in the industry',

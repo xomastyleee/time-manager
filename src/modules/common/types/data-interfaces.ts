@@ -16,6 +16,7 @@ export interface ITask {
   id: number
   title: string
   priority: Priority
+  status: TaskStatus
   type: TaskType
   weekly?: DayWeek[]
   dates?: Date[]
