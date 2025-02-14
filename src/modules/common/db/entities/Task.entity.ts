@@ -12,8 +12,7 @@ import {
   OneToMany
 } from 'typeorm'
 import { type ITaskCreateUpdateParams } from '@common/types'
-import { DayPlan, User } from '@common/db/entities'
-import { HistoryTask } from '@common/db/entities/HistoryTask'
+import { DayPlan, User, HistoryTask } from '@common/db/entities'
 
 @Entity()
 export class Task {

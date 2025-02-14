@@ -84,6 +84,14 @@ export class TaskService {
     try {
       const updatedParams = TaskTransformer.toUpdateEntity(params)
       if (updatedParams) {
+        if (updatedParams.status) {
+          const task = await this.getTaskById(id)
+          if (task) {
+            const taskEntity = TaskTransformer.toEntity(task)
+            await historyTaskService.createHistoryTask({ task: taskEntity })
+          }
+        }
+
         const result = await this.taskRepository.update(id, updatedParams)
         logger.info('Updated task', result.raw)
         return result

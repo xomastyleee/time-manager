@@ -25,7 +25,7 @@ export interface ITask {
 }
 
 export interface ICreateHistoryTaskParams {
-  task?: Task
+  task?: Task | null
 }
 
 export type PublicTaskData = Omit<Task, 'id'>
