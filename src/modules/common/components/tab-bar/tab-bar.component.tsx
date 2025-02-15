@@ -26,7 +26,7 @@ const PositionMapper = {
 
 export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
-  const { t } = useTranslation('components') // ✅ Use 'components' namespace
+  const { t } = useTranslation('components')
 
   const { navigate } = useTypedNavigation<HomeStackParamList>()
 
