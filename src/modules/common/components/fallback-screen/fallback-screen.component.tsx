@@ -3,6 +3,7 @@ import { useAppTheme } from '@common/hooks'
 import { Text } from 'react-native-paper'
 import { View } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, Easing } from 'react-native-reanimated'
+import { useTranslation } from 'react-i18next'
 
 import { stylesWithTheme } from './fallback-screen.styles'
 import { MainBackgroundView } from '../main-background-view'
@@ -14,6 +15,8 @@ interface FallbackScreenProps extends PropsWithChildren {
 
 export const FallbackScreen: FC<FallbackScreenProps> = ({ isError, isLoading, children }) => {
   const theme = useAppTheme()
+  const { t } = useTranslation('components')
+
   const styles = stylesWithTheme(theme)
 
   const spinValue = useSharedValue(0)
@@ -27,8 +30,8 @@ export const FallbackScreen: FC<FallbackScreenProps> = ({ isError, isLoading, ch
   if (isError) {
     return (
       <MainBackgroundView>
-        <Text style={styles.errorTitle}> Ooops... Something went wrong </Text>
-        <Text style={styles.errorMessage}>{'There’s been an error. Please try again later.'}</Text>
+        <Text style={styles.errorTitle}> {t('fallbackScreen.error.title')} </Text>
+        <Text style={styles.errorMessage}>{t('fallbackScreen.error.message')}</Text>
       </MainBackgroundView>
     )
   }
@@ -38,7 +41,7 @@ export const FallbackScreen: FC<FallbackScreenProps> = ({ isError, isLoading, ch
       <MainBackgroundView>
         <View style={styles.loadingContainer}>
           <Animated.View style={[styles.loader, animatedStyle]} />
-          <Text style={styles.loadingMessage}> Loading... </Text>
+          <Text style={styles.loadingMessage}> {t('fallbackScreen.loading')} </Text>
         </View>
       </MainBackgroundView>
     )

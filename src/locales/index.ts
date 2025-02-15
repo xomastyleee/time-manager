@@ -10,7 +10,8 @@ export const initI18n = (lng?: string) =>
     supportedLngs: ['en', 'uk'],
     load: 'languageOnly',
     interpolation: { escapeValue: false },
-    resources
+    resources,
+    ns: ['navigation', 'screens', 'components']
   })
 
 export default i18next

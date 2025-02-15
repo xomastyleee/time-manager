@@ -3,6 +3,7 @@ import { Pressable, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { DailyMode, DATE_FORMAT_DAY } from '@common/constants'
 
@@ -21,6 +22,8 @@ const getWeekDayName = (day: WeekDayCodes): string => dayjs().day(day).format('d
 
 export const WeeklyItem: FC<WeeklyItemProps> = ({ day, tasks, currentDate, onDateChange, onDailyModeChange }) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
+  const { t } = useTranslation('components')
+
   const weekDayDate = currentDate.startOf('week').add(day, 'day').format(DATE_FORMAT_DAY)
   const isCurrentDay = currentDate.isSame(currentDate.startOf('week').add(day, 'day'), 'day')
 
@@ -60,7 +63,7 @@ export const WeeklyItem: FC<WeeklyItemProps> = ({ day, tasks, currentDate, onDat
           ))}
         </View>
         <Pressable onPress={handleViewAll} style={styles.taskNavigationButton}>
-          <Text>View All</Text>
+          <Text>{t('weeklyItem.viewAll')}</Text>
         </Pressable>
       </Animated.View>
     </TouchableOpacity>

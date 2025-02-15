@@ -16,6 +16,7 @@ import { useUser } from '@common/components'
 import { useAppTheme } from '@common/hooks'
 import { AppTheme } from '@modules/common/theme'
 import { type IUser } from '@common/types'
+import { useTranslation } from 'react-i18next'
 
 interface UserListItemProps {
   user: IUser
@@ -34,6 +35,7 @@ export const AuthScreen = () => {
   const theme = useAppTheme()
   const styles = makeStyles(theme)
   const { height } = useWindowDimensions()
+  const { t } = useTranslation('screens')
   const authContainerHeight = height * 0.4
 
   const [userName, setUserName] = useState('')
@@ -68,7 +70,7 @@ export const AuthScreen = () => {
         <Animated.View style={[styles.authContainer, animationAuthContainerStyles, { height: authContainerHeight }]}>
           <View>
             <Text variant="bodyLarge" style={styles.title}>
-              Create new profile
+              {t('auth.title')}
             </Text>
             <TextInput
               mode="outlined"
@@ -76,15 +78,15 @@ export const AuthScreen = () => {
               onChangeText={setUserName}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              label={isFocused ? 'Name' : 'Please select a new profile name'}
+              label={isFocused ? t('auth.name.label') : t('auth.name.placeholder')}
             />
           </View>
           {userList.length > 0 && (
             <>
               <Text variant="bodyLarge" style={styles.title}>
-                Or
+                {t('auth.or')}
               </Text>
-              <Button onPress={() => setIsUserListModalOpen(true)}>Select existed profile</Button>
+              <Button onPress={() => setIsUserListModalOpen(true)}>{t('auth.selectProfile')}</Button>
               <Portal>
                 <Modal
                   visible={isUserListModalOpen}
@@ -108,7 +110,7 @@ export const AuthScreen = () => {
             </>
           )}
           <Button buttonColor={theme.colors.primary} disabled={!userName} mode="contained" onPress={handleRegisterUser}>
-            Authorize
+            {t('auth.authorize')}
           </Button>
         </Animated.View>
       </View>

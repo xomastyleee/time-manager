@@ -6,6 +6,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { type HomeStackParamList, useTypedNavigation } from '@navigation/navigation-options'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { isAndroid } from '@common/constants'
+import { useTranslation } from 'react-i18next'
 
 import { stylesWithTheme } from './tab-bar.styles'
 
@@ -25,6 +26,7 @@ const PositionMapper = {
 
 export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
+  const { t } = useTranslation('components') // ✅ Use 'components' namespace
 
   const { navigate } = useTypedNavigation<HomeStackParamList>()
 
@@ -39,13 +41,13 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
     () => [
       {
         icon: 'pencil-outline',
-        label: 'Create new task',
+        label: t('tabBar.createTask'),
         style: { marginBottom: 100 },
         labelStyle: { marginBottom: 100 },
         onPress: () => navigate('CreateTicketScreen')
       }
     ],
-    [navigate]
+    [navigate, t]
   )
 
   const handleStateChange = ({ open }: { open: boolean }) => {
