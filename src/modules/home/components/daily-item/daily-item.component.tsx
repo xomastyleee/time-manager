@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import { useStylesWithThemeAndDimensions } from '@modules/common/hooks'
 
@@ -14,9 +14,9 @@ export const DailyItemComponent: FC<DailyItemProps> = ({ item: { title, priority
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
   return (
-    <View style={styles.main}>
+    <TouchableOpacity style={styles.main} onPress={() => null}>
       <Text>{title}</Text>
       <Text>Priority: {priority}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
