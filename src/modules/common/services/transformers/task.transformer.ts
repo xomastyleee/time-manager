@@ -1,4 +1,4 @@
-import { DayWeek, ITask, ITaskCreateUpdateParams, Priority, PublicTaskData, TaskStatus, TaskType } from '@common/types'
+import { DayWeek, ITask, ITaskCreateUpdateParams, Priority, PublicTaskData, TaskType } from '@common/types'
 import { Task } from '@common/db/entities'
 
 export class TaskTransformer {
@@ -13,7 +13,6 @@ export class TaskTransformer {
         dates: entity.dates ? JSON.parse(entity.dates).map((date: string) => new Date(date)) : undefined,
         description: entity.description,
         duration: entity.duration,
-        status: entity.status as TaskStatus,
         breakDuration: entity.breakDuration
       }
     }
@@ -29,7 +28,6 @@ export class TaskTransformer {
       dates: dto.dates,
       description: dto.description,
       duration: dto.duration,
-      status: dto.status,
       breakDuration: dto.breakDuration
     })
   }
