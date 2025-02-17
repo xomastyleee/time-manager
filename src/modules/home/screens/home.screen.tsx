@@ -41,6 +41,8 @@ export const HomeScreen = () => {
             isLoading={isLoading}
             dailyMode={dailyMode}
             currentDate={currentDate}
+            onDateChange={handleDateChange}
+            onDailyModeChange={setDailyMode}
           />
         </View>
       </ContentView>

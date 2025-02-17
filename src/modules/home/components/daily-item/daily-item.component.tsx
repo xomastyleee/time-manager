@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
-import { View } from 'react-native'
-import { Card, Chip, Text } from 'react-native-paper'
+import { TouchableOpacity } from 'react-native'
+import { Text } from 'react-native-paper'
+import { useTranslation } from 'react-i18next'
 import { useStylesWithThemeAndDimensions } from '@modules/common/hooks'
 
 import type { ITask } from '@modules/common/types'
@@ -10,20 +11,16 @@ interface DailyItemProps {
   item: ITask
 }
 
-export const DailyItemComponent: FC<DailyItemProps> = ({ item: { title, priority, description, type, status } }) => {
+export const DailyItemComponent: FC<DailyItemProps> = ({ item: { title, priority } }) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
+  const { t } = useTranslation('components')
 
   return (
-    <Card style={styles.card}>
-      <Card.Content>
-        <Text style={styles.title}>{title}</Text>
-        <View style={styles.row}>
-          <Chip style={styles.chip}>{priority}</Chip>
-          <Chip style={styles.chip}>{type}</Chip>
-          <Chip style={styles.chip}>{status}</Chip>
-        </View>
-        <Text style={styles.description}>{description}</Text>
-      </Card.Content>
-    </Card>
+    <TouchableOpacity style={styles.main} onPress={() => null}>
+      <Text>{title}</Text>
+      <Text>
+        {t('dailyItem.priority')}: {priority}
+      </Text>
+    </TouchableOpacity>
   )
 }

@@ -12,7 +12,9 @@ export const DailyViewComponent: FC<DailyViewProps> = ({
   userTasksByWeeks,
   // isLoading,
   dailyMode,
-  currentDate
+  currentDate,
+  onDateChange,
+  onDailyModeChange
 }) => {
   // if (isLoading) {
   //   return <DailyItemSkeletonComponent numberOfItems={4} />
@@ -33,7 +35,13 @@ export const DailyViewComponent: FC<DailyViewProps> = ({
     <FlatList
       data={Object.values(userTasksByWeeks)}
       renderItem={({ item, index }) => (
-        <WeeklyItem day={index as WeekDayCodes} tasks={item} currentDate={currentDate} />
+        <WeeklyItem
+          day={index as WeekDayCodes}
+          tasks={item}
+          currentDate={currentDate}
+          onDateChange={onDateChange}
+          onDailyModeChange={onDailyModeChange}
+        />
       )}
       keyExtractor={(_, index) => `userTasksByWeeks-${index}`}
       scrollEnabled={false}

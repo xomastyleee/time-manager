@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { ContentView, ScreenView, useUser } from '@common/components'
 import { useAppTheme } from '@common/hooks'
 
@@ -9,13 +10,14 @@ import { SettingsButton } from '../components'
 export const ProfileScreen = () => {
   const theme = useAppTheme()
   const styles = stylesWithTheme(theme)
+  const { t } = useTranslation('screens')
 
   const { logout } = useUser()
 
   return (
     <ScreenView>
       <ContentView style={styles.main}>
-        <SettingsButton title="Logout" onPress={logout} iconName="account-off" />
+        <SettingsButton title={t('profile.logout')} onPress={logout} iconName="account-off" />
       </ContentView>
     </ScreenView>
   )
