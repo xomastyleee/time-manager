@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import { useTranslation } from 'react-i18next'
 import { ContentView, ScreenView } from '@common/components'
 import { useAppTheme } from '@common/hooks'
 import { useTypedNavigation, SettingsStackParamList } from '@navigation/navigation-options'
@@ -14,6 +15,7 @@ const buildNumber = DeviceInfo.getBuildNumber()
 export const SettingsScreen = () => {
   const theme = useAppTheme()
   const styles = stylesWithTheme(theme)
+  const { t } = useTranslation('screens')
 
   const { navigate } = useTypedNavigation<SettingsStackParamList>()
 
@@ -24,13 +26,13 @@ export const SettingsScreen = () => {
   return (
     <ScreenView>
       <ContentView>
-        <SettingsButton title="Profile" onPress={navigateToSettings} iconName="account" />
-        <SettingsButton title="Appearance" onPress={() => null} iconName="palette" />
-        <SettingsButton title="Language" onPress={() => null} iconName="translate" />
-        <SettingsButton title="Memory" onPress={() => null} iconName="memory" />
-        <SettingsButton title="About" onPress={() => null} iconName="information" />
+        <SettingsButton title={t('settings.profile')} onPress={navigateToSettings} iconName="account" />
+        <SettingsButton title={t('settings.appearance')} onPress={() => null} iconName="palette" />
+        <SettingsButton title={t('settings.language')} onPress={() => null} iconName="translate" />
+        <SettingsButton title={t('settings.memory')} onPress={() => null} iconName="memory" />
+        <SettingsButton title={t('settings.about')} onPress={() => null} iconName="information" />
         <Text style={styles.versionInfo}>
-          Version: {version} ({buildNumber})
+          {t('settings.version')}: {version} ({buildNumber})
         </Text>
       </ContentView>
     </ScreenView>

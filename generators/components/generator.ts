@@ -3,7 +3,7 @@ import { NodePlopAPI } from 'plop'
 const generate = (answers: Record<string, string> | undefined) => {
   if (!answers) return []
 
-  const { name } = answers
+  const { name, useTranslation } = answers
   const componentName = name
     .split('-')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -17,7 +17,8 @@ const generate = (answers: Record<string, string> | undefined) => {
       abortOnFail: true,
       data: {
         name,
-        componentName
+        componentName,
+        useTranslation
       }
     },
     {
@@ -70,6 +71,11 @@ export function componentGenerator(plop: NodePlopAPI): void {
 
           return true
         }
+      },
+      {
+        type: 'confirm',
+        name: 'useTranslation',
+        message: 'Select whether you want to setup useTranslation in this component'
       }
     ],
     actions: (answers) => [...generate(answers)]

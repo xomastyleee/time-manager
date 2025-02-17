@@ -1,6 +1,9 @@
 import React, { FC } from 'react'
 import { View } from 'react-native'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
+{{#if useTranslation}}
+import { useTranslation } from 'react-i18next'
+{{/if}}
 
 import { stylesWithTheme } from './{{ name }}.styles'
 
@@ -8,6 +11,10 @@ interface {{ componentName }}Props {}
 
 export const {{ componentName }}: FC<{{ componentName }}Props> = () => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
+
+  {{#if useTranslation}}
+  const { t } = useTranslation()
+{{/if}}
 
   return <View />
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
 import BootSplash from 'react-native-bootsplash'
 import {
   type BottomTabBarProps,
@@ -33,41 +34,45 @@ const onReadyNavigationContainer = () => {
   BootSplash.hide({ fade: true })
 }
 
-export const AppNavigator = () => (
-  <NavigationContainer ref={navigationRef} onReady={onReadyNavigationContainer}>
-    <MainBackgroundView>
-      <AuthGuard fallback={<AuthNavigator />} loadingComponent={<></>}>
-        <Navigator initialRouteName="Home" tabBar={renderTabBar} screenOptions={screenOptions}>
-          <Screen
-            name="Home"
-            component={HomeNavigator}
-            options={{
-              tabBarLabel: 'Home'
-            }}
-          />
-          <Screen
-            name="Goals"
-            component={GoalsNavigator}
-            options={{
-              tabBarLabel: 'Goals'
-            }}
-          />
-          <Screen
-            name="Analytics"
-            component={AnalyticsNavigator}
-            options={{
-              tabBarLabel: 'Analytics'
-            }}
-          />
-          <Screen
-            name="Settings"
-            component={SettingsNavigator}
-            options={{
-              tabBarLabel: 'Settings'
-            }}
-          />
-        </Navigator>
-      </AuthGuard>
-    </MainBackgroundView>
-  </NavigationContainer>
-)
+export const AppNavigator = () => {
+  const { t } = useTranslation('navigation')
+
+  return (
+    <NavigationContainer ref={navigationRef} onReady={onReadyNavigationContainer}>
+      <MainBackgroundView>
+        <AuthGuard fallback={<AuthNavigator />} loadingComponent={<></>}>
+          <Navigator initialRouteName="Home" tabBar={renderTabBar} screenOptions={screenOptions}>
+            <Screen
+              name="Home"
+              component={HomeNavigator}
+              options={{
+                tabBarLabel: t('appNavigator.tabs.home')
+              }}
+            />
+            <Screen
+              name="Goals"
+              component={GoalsNavigator}
+              options={{
+                tabBarLabel: t('appNavigator.tabs.goals')
+              }}
+            />
+            <Screen
+              name="Analytics"
+              component={AnalyticsNavigator}
+              options={{
+                tabBarLabel: t('appNavigator.tabs.analytics')
+              }}
+            />
+            <Screen
+              name="Settings"
+              component={SettingsNavigator}
+              options={{
+                tabBarLabel: t('appNavigator.tabs.settings')
+              }}
+            />
+          </Navigator>
+        </AuthGuard>
+      </MainBackgroundView>
+    </NavigationContainer>
+  )
+}

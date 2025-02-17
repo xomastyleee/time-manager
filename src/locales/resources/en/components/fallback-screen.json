@@ -1,0 +1,7 @@
+{
+  "error": {
+    "title": "Oops... Something went wrong",
+    "message": "There’s been an error. Please try again later."
+  },
+  "loading": "Loading..."
+}
