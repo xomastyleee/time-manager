@@ -31,7 +31,17 @@ export class HistoryTaskServiceService {
     }
   }
 
-  public async getByIdTaskHistoryAll(params: { taskId: number; date: Date; isLast: boolean }) {
+  public async getHistoryTasksById(taskId: number) {
+    const queryOptions: FindManyOptions<HistoryTask> = {
+      where: {
+        task: { id: taskId }
+      }
+    }
+    const History = await this.historyRepository.find(queryOptions)
+    return History
+  }
+
+  public async getByIdTaskHistoryRange(params: { taskId: number; date: Date; isLast: boolean }) {
     try {
       const DateRange = this.createDateRange(params.date)
 
@@ -40,7 +50,6 @@ export class HistoryTaskServiceService {
           task: { id: params.taskId },
           createdAt: Between(DateRange.startDate, DateRange.endDate)
         },
-        relations: ['task'],
         order: { createdAt: 'DESC' }
       }
 
