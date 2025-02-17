@@ -15,7 +15,6 @@ export interface ITask {
   id: number
   title: string
   priority: Priority
-  status: TaskStatus
   type: TaskType
   weekly?: number[]
   dates?: Date[]
@@ -25,7 +24,8 @@ export interface ITask {
 }
 
 export interface ICreateHistoryTaskParams {
-  task?: Task | null
+  task: Task
+  status?: TaskStatus
 }
 export type ITasksByWeeks = Record<keyof typeof DayWeekMap, ITask[]>
 export type WeekDayCodes = 0 | 1 | 2 | 3 | 4 | 5 | 6
@@ -37,8 +37,6 @@ export interface IUserCreateParams {
   preferences: IPreferences
   tasks?: Task[]
 }
-
-export interface IStatisticCreateParams {}
 
 export interface IUserUpdateParams {
   status?: UserStatus

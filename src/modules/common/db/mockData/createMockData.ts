@@ -1,9 +1,9 @@
 import { taskService, userService } from '@common/services'
 import { getUserEntity } from '@common/services/transformers'
-import { generateMockTask } from '@common/db/mockData/task.mock'
+import { TASK_MOCK } from '@common/db/mockData/task.mock'
 import { generateMockUser } from '@common/db/mockData/users.mock'
 
-import { ITaskCreateUpdateParams, IUserCreateParams, TaskStatus } from '../../types'
+import { IUserCreateParams, TaskStatus } from '../../types'
 
 function getRandomElements<T>(arr: T[]): T[] {
   const count = Math.floor(Math.random() * (arr.length + 1))
@@ -15,7 +15,7 @@ export const getRandomItems = <T>(items: T[], count: number): T[] =>
   [...items].sort(() => 0.5 - Math.random()).slice(0, count)
 
 export async function createAllMockData() {
-  const tasks = await taskService.createTasks(generateMockTasks(15))
+  const tasks = await taskService.createTasks(TASK_MOCK)
   const users = await userService.createUsers(generateMockUsers(3))
 
   if (users && tasks) {
@@ -34,5 +34,5 @@ export async function createAllMockData() {
   }
 }
 
-const generateMockTasks = (count: number): ITaskCreateUpdateParams[] => Array.from({ length: count }, generateMockTask)
+// const generateMockTasks = (count: number): ITaskCreateUpdateParams[] => Array.from({ length: count }, generateMockTask)
 const generateMockUsers = (count: number): IUserCreateParams[] => Array.from({ length: count }, generateMockUser)

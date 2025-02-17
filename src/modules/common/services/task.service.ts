@@ -13,7 +13,9 @@ export class TaskService {
     try {
       const task = new Task(params)
       const result = await this.taskRepository.save(task)
-      await historyTaskService.createHistoryTask({ task })
+
+      if (params.status) await historyTaskService.createHistoryTask({ task, status: params.status })
+
       logger.info('Creating task', result)
       return result
     } catch (error) {
@@ -31,6 +33,16 @@ export class TaskService {
     try {
       const tasks = taskData.map((data) => new Task(data))
       const tasksEntities = await this.taskRepository.save(tasks)
+      if (tasksEntities.length > 0) {
+        await Promise.all(
+          tasks.map((task, index) =>
+            historyTaskService.createHistoryTask({
+              task,
+              status: taskData[index].status
+            })
+          )
+        )
+      }
       const result = tasksEntities.map(TaskTransformer.toInterface)
       logger.info('Creating tasks:', result)
 
@@ -70,11 +82,11 @@ export class TaskService {
     try {
       const updatedParams = TaskTransformer.toUpdateEntity(params)
       if (updatedParams) {
-        if (updatedParams.status) {
+        if (params.status) {
           const task = await this.getTaskById(id)
           if (task) {
             const taskEntity = TaskTransformer.toEntity(task)
-            await historyTaskService.createHistoryTask({ task: taskEntity })
+            await historyTaskService.createHistoryTask({ task: taskEntity, status: params.status })
           }
         }
 

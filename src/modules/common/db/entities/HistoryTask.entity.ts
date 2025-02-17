@@ -14,8 +14,8 @@ import { Task } from '@common/db/entities/Task.entity'
 @Entity()
 export class HistoryTask {
   constructor(params: ICreateHistoryTaskParams) {
-    if (params?.task) {
-      this.statusTask = params?.task?.status
+    if (params?.status) {
+      this.statusTask = params?.status
       this.task = params.task
     }
   }

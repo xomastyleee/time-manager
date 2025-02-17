@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import { getRandomItem } from '@common/db/mockData/createMockData'
 
 export const generateMockUser = (): IUserCreateParams => ({
-  username: faker.person.bio(),
+  username: faker.person.fullName(),
   preferences: {
     theme: getRandomItem(['light', 'dark']),
     backgroundPath: null,
