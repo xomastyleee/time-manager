@@ -15,9 +15,9 @@ export class HistoryTaskServiceService {
     try {
       if (params?.task) {
         const history = new HistoryTask(params)
-
+        history.task = params.task
         const result = await this.historyRepository.save(history)
-        logger.info('Create History Task:', result)
+
         return result
       }
       logger.info('Create History Task Failed params:', params)
@@ -28,14 +28,16 @@ export class HistoryTaskServiceService {
   }
 
   public async getHistoryTasksById(taskId: number) {
-    const Historys = await this.historyRepository
+    const query = this.historyRepository
       .createQueryBuilder('historyTask')
       .leftJoin('historyTask.task', 'task')
       .where('task.id = :taskId', { taskId })
       .select(['historyTask.id', 'historyTask.statusTask', 'historyTask.createdAt', 'task.id'])
-      .getMany()
 
-    return Historys.map(historyTransformer.toInterface)
+    const QuerySQL = query.getQuery()
+    logger.info('GetHistory :', QuerySQL)
+    const result = await query.getMany()
+    return result.map(historyTransformer.toInterface)
   }
 
   public async getByIdTaskHistoryRange(params: { taskId: number; date: Date; isLast: boolean }) {

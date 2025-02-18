@@ -14,7 +14,7 @@ export class TaskService {
       const task = new Task(params)
       const result = await this.taskRepository.save(task)
 
-      if (params.status) await historyTaskService.createHistoryTask({ task, status: params.status })
+      await historyTaskService.createHistoryTask({ task, status: params.status })
 
       logger.info('Creating task', result)
       return result
@@ -31,8 +31,10 @@ export class TaskService {
 
   public async createTasks(taskData: ITaskCreateUpdateParams[]) {
     try {
+      logger.info('TEEST')
       const tasks = taskData.map((data) => new Task(data))
       const tasksEntities = await this.taskRepository.save(tasks)
+      logger.info('SROSHNO', tasksEntities)
       if (tasksEntities.length > 0) {
         await Promise.all(
           tasks.map((task, index) =>
@@ -50,6 +52,17 @@ export class TaskService {
     } catch (error) {
       logger.error('Error creating tasks', error)
     }
+  }
+
+  public async getHistoryTasks(taskId: number) {
+    const tasks = await this.taskRepository.findOne({
+      where: { id: taskId },
+      relations: ['history'] // это гарантирует, что истории задачи будут загружены
+    })
+    if (tasks) {
+      return tasks
+    }
+    return null
   }
 
   public async getTaskById(id: number) {
