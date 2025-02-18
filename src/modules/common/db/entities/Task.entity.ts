@@ -11,7 +11,6 @@ import {
 } from 'typeorm'
 import { type ITaskCreateUpdateParams } from '@common/types'
 import { HistoryTask, User } from '@common/db/entities'
-import { logger } from '@common/utils'
 
 @Entity()
 export class Task {
