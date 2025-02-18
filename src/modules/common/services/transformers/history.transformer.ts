@@ -11,16 +11,13 @@ class HistoryTaskTransformer extends BaseTransformer<HistoryTask, IHistoryTask> 
     }
   }
 
-  toInterface(entity: HistoryTask | null): IHistoryTask | null {
-    if (entity) {
-      return {
-        id: entity.id,
-        status: entity.statusTask as TaskStatus,
-        createdAt: entity.createdAt,
-        task: { id: entity.task.id }
-      }
+  toInterface(entity: HistoryTask): IHistoryTask {
+    return {
+      id: entity.id,
+      status: entity.statusTask as TaskStatus,
+      createdAt: entity.createdAt,
+      task: { id: entity.task.id }
     }
-    return null
   }
 }
 export const historyTransformer = new HistoryTaskTransformer()

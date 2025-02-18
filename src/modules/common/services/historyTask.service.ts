@@ -4,6 +4,7 @@ import { HistoryTask } from '@common/db/entities/HistoryTask.entity'
 import { ICreateHistoryTaskParams, IHistoryTask, IStatisticTask, TaskStatus } from '@common/types'
 import { Between, FindManyOptions } from 'typeorm'
 import dayjs from 'dayjs'
+import { historyTransformer } from '@common/services/transformers'
 
 export class HistoryTaskServiceService {
   private readonly historyRepository = dataSource.getRepository(HistoryTask)
@@ -27,14 +28,14 @@ export class HistoryTaskServiceService {
   }
 
   public async getHistoryTasksById(taskId: number) {
-    const History = await this.historyRepository
+    const Historys = await this.historyRepository
       .createQueryBuilder('historyTask')
       .leftJoin('historyTask.task', 'task')
       .where('task.id = :taskId', { taskId })
       .select(['historyTask.id', 'historyTask.statusTask', 'historyTask.createdAt', 'task.id'])
       .getMany()
 
-    return History
+    return Historys.map(historyTransformer.toInterface)
   }
 
   public async getByIdTaskHistoryRange(params: { taskId: number; date: Date; isLast: boolean }) {
@@ -52,7 +53,7 @@ export class HistoryTaskServiceService {
       }
 
       const History = await this.historyRepository.find(queryOptions)
-      return History
+      return History.map(historyTransformer.toInterface)
     } catch (error) {
       logger.error('Get Task History Error:', error)
     }
