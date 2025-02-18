@@ -36,7 +36,7 @@ export class User {
   status: string
 
   @ManyToMany(() => Task, (task) => task.users)
-  tasks?: Task[]
+  tasks?: Task[] | undefined
 
   @CreateDateColumn({ type: 'date' })
   createdAt?: Date

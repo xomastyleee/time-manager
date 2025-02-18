@@ -1,9 +1,9 @@
-import React, { ReactElement, FC, PropsWithChildren, createContext, useContext } from 'react'
+import React, { ReactNode, FC, PropsWithChildren, createContext, useContext } from 'react'
 import { useAuthorizedUserModel } from '@common/hooks'
 
 export interface ProtectedContentProps extends PropsWithChildren {
-  fallback: ReactElement
-  loadingComponent?: ReactElement
+  fallback: ReactNode
+  loadingComponent?: ReactNode
 }
 
 export const defaultAuthorizedUserModel = {
@@ -29,14 +29,14 @@ export const ProtectedContent: FC<ProtectedContentProps> = ({ children, fallback
   const { isLoading, user } = useUser()
 
   if (isLoading && loadingComponent) {
-    return loadingComponent
+    return <>{loadingComponent}</>
   }
 
   if (user) {
-    return children
+    return <>{children}</>
   }
 
-  return fallback
+  return <>{fallback}</>
 }
 
 export const AuthGuard: FC<ProtectedContentProps> = ({ children, loadingComponent, fallback }) => (

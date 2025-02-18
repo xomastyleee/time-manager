@@ -4,6 +4,7 @@ import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
 import { ITask, ITaskCreateUpdateParams } from '@common/types'
 import { TaskTransformer } from '@common/services/transformers'
+import { historyTaskService } from '@common/services/historyTask.service'
 
 export class TaskService {
   private readonly taskRepository = dataSource.getRepository(Task)
@@ -12,6 +13,9 @@ export class TaskService {
     try {
       const task = new Task(params)
       const result = await this.taskRepository.save(task)
+
+      if (params.status) await historyTaskService.createHistoryTask({ task, status: params.status })
+
       logger.info('Creating task', result)
       return result
     } catch (error) {
@@ -29,6 +33,16 @@ export class TaskService {
     try {
       const tasks = taskData.map((data) => new Task(data))
       const tasksEntities = await this.taskRepository.save(tasks)
+      if (tasksEntities.length > 0) {
+        await Promise.all(
+          tasks.map((task, index) =>
+            historyTaskService.createHistoryTask({
+              task,
+              status: taskData[index].status
+            })
+          )
+        )
+      }
       const result = tasksEntities.map(TaskTransformer.toInterface)
       logger.info('Creating tasks:', result)
 
@@ -68,6 +82,14 @@ export class TaskService {
     try {
       const updatedParams = TaskTransformer.toUpdateEntity(params)
       if (updatedParams) {
+        if (params.status) {
+          const task = await this.getTaskById(id)
+          if (task) {
+            const taskEntity = TaskTransformer.toEntity(task)
+            await historyTaskService.createHistoryTask({ task: taskEntity, status: params.status })
+          }
+        }
+
         const result = await this.taskRepository.update(id, updatedParams)
         logger.info('Updated task', result.raw)
         return result

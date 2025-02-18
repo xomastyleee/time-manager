@@ -9,7 +9,7 @@ export class UserService {
   private readonly userRepository = dataSource.getRepository(User)
 
   public async saveUser(user: User) {
-    await this.userRepository.save(user)
+    return this.userRepository.save(user)
   }
 
   public async createUser(params: IUserCreateParams) {
@@ -106,7 +106,7 @@ export class UserService {
 
         return result
       }
-      const { preferences, ...updatedParams } = params
+      const updatedParams: Omit<IUserUpdateParams, 'preferences'> = params
 
       const result = await this.userRepository.update(id, updatedParams)
       return result

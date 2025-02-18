@@ -1,37 +1,15 @@
 import { IUserCreateParams, UserStatus } from '@common/types'
+import { faker } from '@faker-js/faker'
+import { getRandomItem } from '@common/db/mockData/createMockData'
 
-export const USERS_MOCK: IUserCreateParams[] = [
-  {
-    username: 'User1',
-    preferences: {
-      theme: 'light',
-      backgroundPath: null,
-      isDark: false,
-      lang: 'en',
-      useSystemLang: true
-    },
-    status: UserStatus.Inactive
+export const generateMockUser = (): IUserCreateParams => ({
+  username: faker.person.fullName(),
+  preferences: {
+    theme: getRandomItem(['light', 'dark']),
+    backgroundPath: null,
+    isDark: faker.datatype.boolean(),
+    lang: getRandomItem(['en', 'de', 'ar']),
+    useSystemLang: faker.datatype.boolean()
   },
-  {
-    username: 'User2',
-    preferences: {
-      theme: 'dark',
-      backgroundPath: null,
-      isDark: true,
-      lang: 'fr',
-      useSystemLang: true
-    },
-    status: UserStatus.Inactive
-  },
-  {
-    username: 'User3',
-    preferences: {
-      theme: 'dark',
-      backgroundPath: null,
-      isDark: false,
-      lang: 'es',
-      useSystemLang: true
-    },
-    status: UserStatus.Inactive
-  }
-]
+  status: UserStatus.Inactive
+})

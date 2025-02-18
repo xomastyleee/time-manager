@@ -13,7 +13,7 @@ export const CreateTicketScreen = () => {
   )
 }
 
-const stylesWithTheme = ({ dimensions: { height } }: CreateStylesProps) =>
+const stylesWithTheme = (_: CreateStylesProps) =>
   StyleSheet.create({
     main: {}
   })

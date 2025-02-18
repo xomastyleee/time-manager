@@ -16,17 +16,21 @@ const jestConfig: JestConfigWithTsJest = {
       'ts-jest',
       {
         tsconfig: './tsconfig.spec.json',
-        useESM: true
+        useESM: true,
+        babelConfig: './babel.config.js'
       }
     ],
     '^.+\\.(js|jsx)$': 'babel-jest'
   },
   coveragePathIgnorePatterns: ['/node_modules/', '/.node/', '/jest/'],
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|@react-native-community|@react-navigation|@react-native/polyfills|@react-native/js-polyfills)/)'
+    'node_modules/(?!(react-native|@react-native|@react-native-community|@react-navigation|@react-native/polyfills|@react-native/js-polyfills|react-native-reanimated|react-native-safe-area-context)/)'
   ],
   testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
-  setupFilesAfterEnv: ['./__tests__/testUtils/setupTests.ts'],
+  setupFilesAfterEnv: [
+    './__tests__/testUtils/setupTests.ts',
+    './node_modules/react-native-gesture-handler/jestSetup.js'
+  ],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' })
 }
 
