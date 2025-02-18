@@ -23,7 +23,11 @@ export const DailyItemSkeletonComponent: FC<DailyItemSkeletonProps> = ({ numberO
     [opacity]
   )
 
-  return Array.from({ length: numberOfItems }).map((_, index) => (
-    <Animated.View key={index} style={[animatedStyles, styles.main]} />
-  ))
+  return (
+    <>
+      {Array.from({ length: numberOfItems }).map((_, index) => (
+        <Animated.View key={index} style={[animatedStyles, styles.main]} />
+      ))}
+    </>
+  )
 }

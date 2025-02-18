@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "npx tsc --build tsconfig.json",
+    "build": "npx tsc --build tsconfig.app.json",
     "test": "jest --coverage --verbose",
     "lint": "eslint . --ext ts,tsx --max-warnings 0 --fix",
     "check-types": "npx tsc -p ./tsconfig.json --pretty --noEmit",
