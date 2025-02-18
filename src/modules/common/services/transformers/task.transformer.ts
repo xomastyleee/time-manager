@@ -1,8 +1,16 @@
-import { DayWeek, ITask, ITaskCreateUpdateParams, Priority, PublicTaskData, TaskType } from '@common/types'
+import {
+  BaseTransformer,
+  DayWeek,
+  ITask,
+  ITaskCreateUpdateParams,
+  Priority,
+  PublicTaskData,
+  TaskType
+} from '@common/types'
 import { Task } from '@common/db/entities'
 
-export class TaskTransformer {
-  static toInterface(entity: Task | null): ITask | null {
+class TaskTransformer extends BaseTransformer<Task, ITask | ITaskCreateUpdateParams> {
+  toInterface(entity: Task | null): ITask | null {
     if (entity) {
       return {
         id: entity.id,
@@ -19,7 +27,7 @@ export class TaskTransformer {
     return null
   }
 
-  static toEntity(dto: ITask | ITaskCreateUpdateParams): Task {
+  toEntity(dto: ITask | ITaskCreateUpdateParams): Task {
     return new Task({
       title: dto.title,
       priority: dto.priority,
@@ -32,7 +40,7 @@ export class TaskTransformer {
     })
   }
 
-  static toUpdateEntity(dto: ITaskCreateUpdateParams | null): PublicTaskData | null {
+  toUpdateEntity(dto: ITaskCreateUpdateParams | null): PublicTaskData | null {
     if (dto) {
       const entity = new Task({
         title: dto.title,
@@ -50,3 +58,4 @@ export class TaskTransformer {
     return null
   }
 }
+export const taskTransformer = new TaskTransformer()

@@ -3,7 +3,7 @@ import { Task } from '@common/db/entities'
 import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
 import { ITask, ITaskCreateUpdateParams } from '@common/types'
-import { TaskTransformer } from '@common/services/transformers'
+import { taskTransformer } from '@common/services/transformers'
 import { historyTaskService } from '@common/services/historyTask.service'
 
 export class TaskService {
@@ -25,7 +25,7 @@ export class TaskService {
 
   public async getAllTasks(): Promise<(ITask | null)[]> {
     const tasks = await this.taskRepository.find()
-    const result = tasks.map(TaskTransformer.toInterface)
+    const result = tasks.map(taskTransformer.toInterface)
     return result
   }
 
@@ -43,7 +43,7 @@ export class TaskService {
           )
         )
       }
-      const result = tasksEntities.map(TaskTransformer.toInterface)
+      const result = tasksEntities.map(taskTransformer.toInterface)
       logger.info('Creating tasks:', result)
 
       return tasksEntities
@@ -57,7 +57,7 @@ export class TaskService {
       const getTask = await this.taskRepository.findOneBy({
         id
       })
-      const result = TaskTransformer.toInterface(getTask)
+      const result = taskTransformer.toInterface(getTask)
       return result
     } catch (error) {
       logger.error(`Problem getting task by id: ${id}`, error)
@@ -71,7 +71,7 @@ export class TaskService {
           id: In(ids)
         }
       })
-      const result = getTasks.map(TaskTransformer.toInterface).filter((task) => task !== null)
+      const result = getTasks.map(taskTransformer.toInterface).filter((task) => task !== null)
       return result
     } catch (error) {
       logger.error('Error getting tasks', error)
@@ -80,12 +80,12 @@ export class TaskService {
 
   public async updateTask(id: number, params: ITaskCreateUpdateParams) {
     try {
-      const updatedParams = TaskTransformer.toUpdateEntity(params)
+      const updatedParams = taskTransformer.toUpdateEntity(params)
       if (updatedParams) {
         if (params.status) {
           const task = await this.getTaskById(id)
           if (task) {
-            const taskEntity = TaskTransformer.toEntity(task)
+            const taskEntity = taskTransformer.toEntity(task)
             await historyTaskService.createHistoryTask({ task: taskEntity, status: params.status })
           }
         }

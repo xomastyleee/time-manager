@@ -27,6 +27,21 @@ export interface ICreateHistoryTaskParams {
   task: Task
   status?: TaskStatus
 }
+export interface IHistoryTask {
+  id: number
+  status: TaskStatus
+  createdAt: Date
+  task: {
+    id: number
+  }
+}
+export interface IStatisticTask {
+  taskId: number
+  workTime: number
+  pauseTime: number
+  isClosed: boolean
+}
+
 export type ITasksByWeeks = Record<keyof typeof DayWeekMap, ITask[]>
 export type WeekDayCodes = 0 | 1 | 2 | 3 | 4 | 5 | 6
 export type PublicTaskData = Omit<Task, 'id'>

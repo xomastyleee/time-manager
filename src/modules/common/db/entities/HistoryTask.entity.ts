@@ -31,7 +31,7 @@ export class HistoryTask {
   task: Task
 
   @CreateDateColumn({ type: 'date' })
-  createdAt?: Date
+  createdAt: Date
 
   @UpdateDateColumn({ type: 'date' })
   updatedAt?: Date
