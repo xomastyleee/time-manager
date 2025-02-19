@@ -26,6 +26,8 @@ export const screenOptions: StackNavigationOptions = {
 export type HomeStackParamList = {
   HomeScreen: undefined
   CreateTaskScreen: undefined
+  CreateTicketScreen: undefined
+  TaskView: { id: number }
 }
 
 export type GoalsStackParamList = {
