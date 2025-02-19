@@ -11,14 +11,12 @@ import {
 } from 'typeorm'
 import { type ITaskCreateUpdateParams } from '@common/types'
 import { HistoryTask, User } from '@common/db/entities'
-import { logger } from '@common/utils'
 
 @Entity()
 export class Task {
   constructor(params: ITaskCreateUpdateParams) {
     if (params) {
-      const { title, priority, type, description, duration, breakDuration, weekly, dates, status } = params
-      logger.info('create new task', status)
+      const { title, priority, type, description, duration, breakDuration, weekly, dates } = params
       if (title) this.title = title
       if (priority) this.priority = priority
       if (type) this.type = type

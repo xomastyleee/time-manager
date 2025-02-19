@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
 import dayjs from 'dayjs'
+import { historyTaskService } from '@common/services/historyTask.service'
 
-import { DayWeekMap, type ITasksByWeeks, type ITask, WeekDayCodes } from '../types'
+import { DayWeekMap, type ITasksByWeeks, type ITaskWithStatus, TaskStatus, WeekDayCodes } from '../types'
 import { userService } from '../services'
 import { DailyMode } from '../constants'
 import { useUser } from '../components'
@@ -15,7 +16,7 @@ interface UserTaskProps {
 
 interface GetUserTaskProps extends UserTaskProps {
   userId: number
-  setUserTasks: (tasks: ITask[]) => void
+  setUserTasks: (tasks: ITaskWithStatus[]) => void
   setUserTasksByWeeks: (weeks: ITasksByWeeks) => void
 }
 
@@ -53,7 +54,19 @@ const getUserTasks = async ({
     return false
   })
 
-  const sortedTasks = filteredTasks.sort((a, b) => a.priority.localeCompare(b.priority))
+  const populatedTasksWithStatus = await Promise.all(
+    filteredTasks.map(async (task) => {
+      const taskHistory = await historyTaskService.getByIdTaskHistoryRange({
+        taskId: task.id,
+        date: currentDate.toDate(),
+        isLast: true
+      })
+      const status = taskHistory && taskHistory?.length > 0 ? taskHistory?.[0].status : TaskStatus.Planned
+      return { ...task, status }
+    })
+  )
+
+  const sortedTasks = populatedTasksWithStatus.sort((a, b) => a.priority.localeCompare(b.priority))
 
   if (dailyMode === DailyMode.WEEK) {
     const tasksByWeeks = Object.keys(DayWeekMap).reduce((acc, key) => {
@@ -85,7 +98,7 @@ const getUserTasks = async ({
 export const useUserTaskModel = ({ dailyMode, currentDate }: UserTaskProps) => {
   const { user } = useUser()
 
-  const [userTasks, setUserTasks] = useState<ITask[]>([])
+  const [userTasks, setUserTasks] = useState<ITaskWithStatus[]>([])
   const [userTasksByWeeks, setUserTasksByWeeks] = useState<ITasksByWeeks>(initialUserTasksByWeeks)
   const [isLoading, setIsLoading] = useState(false)
 

@@ -2,7 +2,7 @@ import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
 import { HistoryTask } from '@common/db/entities/HistoryTask.entity'
 import { ICreateHistoryTaskParams, IHistoryTask, IStatisticTask, TaskStatus } from '@common/types'
-import { Between, FindManyOptions } from 'typeorm'
+import { Between } from 'typeorm'
 import dayjs from 'dayjs'
 import { historyTransformer } from '@common/services/transformers'
 
@@ -15,12 +15,11 @@ export class HistoryTaskServiceService {
     try {
       if (params?.task) {
         const history = new HistoryTask(params)
-
+        history.task = params.task
         const result = await this.historyRepository.save(history)
-        logger.info('Create History Task:', result)
+        logger.info('Create HistoryTask Result:', result)
         return result
       }
-      logger.info('Create History Task Failed params:', params)
       return null
     } catch (error) {
       logger.error('Create History Task Error:', error)
@@ -28,31 +27,38 @@ export class HistoryTaskServiceService {
   }
 
   public async getHistoryTasksById(taskId: number) {
-    const Historys = await this.historyRepository
+    const query = this.historyRepository
       .createQueryBuilder('historyTask')
       .leftJoin('historyTask.task', 'task')
       .where('task.id = :taskId', { taskId })
       .select(['historyTask.id', 'historyTask.statusTask', 'historyTask.createdAt', 'task.id'])
-      .getMany()
 
-    return Historys.map(historyTransformer.toInterface)
+    const QuerySQL = query.getQuery()
+    logger.info('GetHistory :', QuerySQL)
+    const result = await query.getMany()
+    return result.map(historyTransformer.toInterface)
   }
 
   public async getByIdTaskHistoryRange(params: { taskId: number; date: Date; isLast: boolean }) {
     try {
-      const queryOptions: FindManyOptions<HistoryTask> = {
-        where: {
-          task: { id: params.taskId },
-          createdAt: this.getRangeDate(params.date)
-        },
-        order: { createdAt: 'DESC' }
-      }
+      const queryBuilder = this.historyRepository
+        .createQueryBuilder('historyTask')
+        .leftJoin('historyTask.task', 'task')
+        .where('task.id = :taskId', { taskId: params.taskId })
+        .andWhere('historyTask.createdAt >= :startDate AND historyTask.createdAt <= :endDate', {
+          startDate: dayjs(params.date).startOf('day').toDate(),
+          endDate: dayjs(params.date).endOf('day').toDate()
+        })
+        .select(['historyTask.id', 'historyTask.statusTask', 'historyTask.createdAt', 'task.id'])
+        .orderBy('historyTask.createdAt', 'DESC')
+        .addOrderBy('historyTask.createdAt', 'DESC')
 
       if (params.isLast) {
-        queryOptions.take = 1
+        queryBuilder.take(1)
       }
 
-      const History = await this.historyRepository.find(queryOptions)
+      const History = await queryBuilder.getMany()
+
       return History.map(historyTransformer.toInterface)
     } catch (error) {
       logger.error('Get Task History Error:', error)

@@ -23,6 +23,10 @@ export interface ITask {
   breakDuration?: number
 }
 
+export interface ITaskWithStatus extends ITask {
+  status: TaskStatus
+}
+
 export interface ICreateHistoryTaskParams {
   task: Task
   status?: TaskStatus

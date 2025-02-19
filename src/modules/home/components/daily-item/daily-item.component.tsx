@@ -4,14 +4,14 @@ import { Text } from 'react-native-paper'
 import { useTranslation } from 'react-i18next'
 import { useStylesWithThemeAndDimensions } from '@modules/common/hooks'
 
-import type { ITask } from '@modules/common/types'
+import type { ITaskWithStatus } from '@modules/common/types'
 import { stylesWithTheme } from './daily-item.styles'
 
 interface DailyItemProps {
-  item: ITask
+  item: ITaskWithStatus
 }
 
-export const DailyItemComponent: FC<DailyItemProps> = ({ item: { title, priority } }) => {
+export const DailyItemComponent: FC<DailyItemProps> = ({ item: { title, priority, status } }) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
   const { t } = useTranslation('components')
 
@@ -21,6 +21,7 @@ export const DailyItemComponent: FC<DailyItemProps> = ({ item: { title, priority
       <Text>
         {t('dailyItem.priority')}: {priority}
       </Text>
+      <Text>{status}</Text>
     </TouchableOpacity>
   )
 }
