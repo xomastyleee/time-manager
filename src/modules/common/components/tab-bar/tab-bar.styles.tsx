@@ -9,6 +9,9 @@ export const stylesWithTheme = ({ theme }: CreateStylesProps) =>
       height: 95,
       width: 64
     },
+    extraFabGap: {
+      bottom: 50
+    },
     fab: {
       alignSelf: 'center',
       backgroundColor: theme.colors.background,

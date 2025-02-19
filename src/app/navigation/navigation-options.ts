@@ -25,7 +25,7 @@ export const screenOptions: StackNavigationOptions = {
 
 export type HomeStackParamList = {
   HomeScreen: undefined
-  CreateTicketScreen: undefined
+  CreateTaskScreen: undefined
 }
 
 export type GoalsStackParamList = {
@@ -45,7 +45,7 @@ export type AuthStackParamList = {
   AuthScreen: undefined
 }
 
-type HomeScreens = 'HomeScreen'
+type HomeScreens = 'HomeScreen' | 'CreateTaskScreen'
 type GoalsScreens = 'GoalsScreen'
 type AnalyticsScreens = 'AnalyticsScreen'
 type SettingsScreens = 'SettingsScreen' | 'ProfileScreen'

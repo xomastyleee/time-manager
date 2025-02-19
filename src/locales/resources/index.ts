@@ -16,6 +16,8 @@ import dailyItemEn from './en/components/daily-item.json'
 import dailyItemUk from './uk/components/daily-item.json'
 import weeklyItemEn from './en/components/weekly-item.json'
 import weeklyItemUk from './uk/components/weekly-item.json'
+import itemPickerEn from './en/components/item-picker.json'
+import itemPickerUK from './uk/components/item-picker.json'
 
 export const resources = {
   en: {
@@ -32,7 +34,8 @@ export const resources = {
       tabBar: tabBarEn,
       dailyHeader: dailyHeaderEn,
       dailyItem: dailyItemEn,
-      weeklyItem: weeklyItemEn
+      weeklyItem: weeklyItemEn,
+      itemPicker: itemPickerEn
     }
   },
   uk: {
@@ -49,7 +52,8 @@ export const resources = {
       tabBar: tabBarUk,
       dailyHeader: dailyHeaderUk,
       dailyItem: dailyItemUk,
-      weeklyItem: weeklyItemUk
+      weeklyItem: weeklyItemUk,
+      itemPicker: itemPickerUK
     }
   }
 }

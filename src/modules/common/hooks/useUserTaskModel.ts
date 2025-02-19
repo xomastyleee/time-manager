@@ -3,7 +3,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import dayjs from 'dayjs'
 import { historyTaskService } from '@common/services/historyTask.service'
 
-import { DayWeekMap, type ITasksByWeeks, type ITaskWithStatus, TaskStatus, WeekDayCodes } from '../types'
+import { DayWeekMap, ITask, type ITasksByWeeks, type ITaskWithStatus, TaskStatus, WeekDayCodes } from '../types'
 import { userService } from '../services'
 import { DailyMode } from '../constants'
 import { useUser } from '../components'
@@ -12,6 +12,7 @@ import { logger } from '../utils'
 interface UserTaskProps {
   dailyMode: DailyMode
   currentDate: dayjs.Dayjs
+  createTaskCallback?: (props: { tasks?: ITask[]; tasksByWeeks?: ITasksByWeeks }) => void
 }
 
 interface GetUserTaskProps extends UserTaskProps {
@@ -31,7 +32,8 @@ const getUserTasks = async ({
   dailyMode,
   currentDate,
   setUserTasks,
-  setUserTasksByWeeks
+  setUserTasksByWeeks,
+  createTaskCallback = () => null
 }: GetUserTaskProps) => {
   const user = await userService.getUserTasks(userId)
   const tasks = user?.tasks ?? []
@@ -89,13 +91,15 @@ const getUserTasks = async ({
 
     setUserTasks([])
     setUserTasksByWeeks(tasksByWeeks)
+    createTaskCallback({ tasksByWeeks })
   } else {
     setUserTasks(sortedTasks)
     setUserTasksByWeeks(initialUserTasksByWeeks)
+    createTaskCallback({ tasks: sortedTasks })
   }
 }
 
-export const useUserTaskModel = ({ dailyMode, currentDate }: UserTaskProps) => {
+export const useUserTaskModel = ({ dailyMode, currentDate, createTaskCallback }: UserTaskProps) => {
   const { user } = useUser()
 
   const [userTasks, setUserTasks] = useState<ITaskWithStatus[]>([])
@@ -106,12 +110,13 @@ export const useUserTaskModel = ({ dailyMode, currentDate }: UserTaskProps) => {
     useCallback(() => {
       if (user) {
         setIsLoading(true)
-        getUserTasks({ userId: user.id, dailyMode, currentDate, setUserTasks, setUserTasksByWeeks })
+        getUserTasks({ userId: user.id, dailyMode, currentDate, setUserTasks, setUserTasksByWeeks, createTaskCallback })
           .catch(logger.error)
           .finally(() => {
             setIsLoading(false)
           })
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentDate, dailyMode, user])
   )
 

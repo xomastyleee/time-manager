@@ -42,7 +42,8 @@ export const lightTheme = populateTheme(MD3LightTheme, {
     lightBeige: 'rgb(234, 197, 171)',
     background: 'rgb(240, 240, 240)',
     screenContent: 'rgba(255, 255, 255, 0.6)',
-    onScreenContent: 'rgba(255, 255, 255, 0.3)'
+    onScreenContent: 'rgba(255, 255, 255, 0.3)',
+    gray: 'rgb(128, 128, 128)'
   }
 })
 
@@ -58,7 +59,8 @@ export const darkTheme = populateTheme(MD3DarkTheme, {
     lightBeige: 'rgb(21, 58, 84)',
     background: 'rgb(26, 26, 26)',
     screenContent: 'rgba(0, 0, 0, 0.6)',
-    onScreenContent: 'rgba(0, 0, 0,  0.3)'
+    onScreenContent: 'rgba(0, 0, 0,  0.3)',
+    gray: 'rgb(128, 128, 128)'
   }
 })
 

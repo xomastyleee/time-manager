@@ -82,7 +82,7 @@ export interface ITaskCreateUpdateParams {
   description?: string
   duration?: number
   breakDuration?: number
-  users?: IUser[]
+  user?: IUser
 }
 
 export interface INotificationCreateUpdateParams {

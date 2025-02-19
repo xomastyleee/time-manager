@@ -10,12 +10,12 @@ import {
 import { AuthGuard, MainBackgroundView, MainHeader, TabBar } from '@common/components'
 
 import type { MainHeaderProps } from '@common/types'
+import type { MainParamList } from './navigation-options'
 import { AnalyticsNavigator } from './analytics-navigator'
 import { GoalsNavigator } from './goals-navigator'
 import { HomeNavigator } from './home-navigator'
 import { SettingsNavigator } from './settings-navigator'
 import { AuthNavigator } from './auth-navigator'
-import { type MainParamList } from './navigation-options'
 
 export const navigationRef = createNavigationContainerRef()
 

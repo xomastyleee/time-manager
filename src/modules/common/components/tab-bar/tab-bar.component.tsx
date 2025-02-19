@@ -3,7 +3,7 @@ import { Pressable, View, ViewStyle, Dimensions } from 'react-native'
 import { FAB, Icon, Portal } from 'react-native-paper'
 import Svg, { Path } from 'react-native-svg'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { type HomeStackParamList, useTypedNavigation } from '@navigation/navigation-options'
+import { useMainNavigation } from '@navigation/navigation-options'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { isAndroid } from '@common/constants'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +28,7 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
   const { t } = useTranslation('components')
 
-  const { navigate } = useTypedNavigation<HomeStackParamList>()
+  const { navigate } = useMainNavigation()
 
   const [isLandscape, setIsLandscape] = useState(Dimensions.get('window').width > Dimensions.get('window').height)
 
@@ -44,7 +44,7 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
         label: t('tabBar.createTask'),
         style: { marginBottom: 100 },
         labelStyle: { marginBottom: 100 },
-        onPress: () => navigate('CreateTicketScreen')
+        onPress: () => navigate('Home', { screen: 'CreateTaskScreen' })
       }
     ],
     [navigate, t]
@@ -53,6 +53,16 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
   const handleStateChange = ({ open }: { open: boolean }) => {
     setIsFabOpened(open)
   }
+
+  const handleFabPress = () => {
+    navigate('Home', { screen: 'HomeScreen' })
+  }
+
+  const currentState = state.routes[state.index]?.state
+  const isCreateTicketScreen =
+    currentState &&
+    typeof currentState.index !== 'undefined' &&
+    currentState.routes[currentState.index]?.name === 'CreateTaskScreen'
 
   useEffect(() => {
     const onChange = ({ window }: { window: { width: number; height: number } }) => {
@@ -74,14 +84,18 @@ export const TabBar: FC<BottomTabBarProps> = ({ state, navigation }) => {
       </View>
       <View style={styles.rightBar} />
       <Portal>
-        <FAB.Group
-          visible
-          icon={isFabOpened ? 'close' : 'plus'}
-          fabStyle={[styles.fab, isAndroid ? fabStylesWithLandscapeGapAndroid : fabStylesWithLandscapeGapIos]}
-          open={isFabOpened}
-          onStateChange={handleStateChange}
-          actions={fabActions}
-        />
+        {isCreateTicketScreen ? (
+          <FAB visible icon="close" style={[styles.fab, styles.extraFabGap]} onPress={handleFabPress} />
+        ) : (
+          <FAB.Group
+            visible
+            icon={isFabOpened ? 'close' : 'plus'}
+            fabStyle={[styles.fab, isAndroid ? fabStylesWithLandscapeGapAndroid : fabStylesWithLandscapeGapIos]}
+            open={isFabOpened}
+            onStateChange={handleStateChange}
+            actions={fabActions}
+          />
+        )}
       </Portal>
 
       {state.routes.map((route, index) => {

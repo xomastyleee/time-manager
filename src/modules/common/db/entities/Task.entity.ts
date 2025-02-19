@@ -11,17 +11,19 @@ import {
 } from 'typeorm'
 import { type ITaskCreateUpdateParams } from '@common/types'
 import { HistoryTask, User } from '@common/db/entities'
+import { getUserEntity } from '@common/services/transformers'
 
 @Entity()
 export class Task {
   constructor(params: ITaskCreateUpdateParams) {
     if (params) {
-      const { title, priority, type, description, duration, breakDuration, weekly, dates } = params
+      const { title, priority, type, description, duration, breakDuration, weekly, dates, user } = params
       if (title) this.title = title
       if (priority) this.priority = priority
       if (type) this.type = type
       if (description) this.description = description
       if (duration) this.duration = duration
+      if (user) this.users = [getUserEntity(user)]
       this.breakDuration = breakDuration && breakDuration > 0 ? breakDuration : 0
       this.weekly = weekly ? JSON.stringify(weekly) : '[]'
       this.dates = dates ? JSON.stringify(dates.map((date) => date.toISOString())) : '[]'
