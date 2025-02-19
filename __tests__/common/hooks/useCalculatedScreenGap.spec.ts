@@ -4,7 +4,10 @@ import { renderHook, act } from '@testing-library/react-hooks'
 import { useCalculatedScreenGap } from '../../../src/modules/common/hooks'
 
 jest.mock('react-native', () => ({
-  useWindowDimensions: jest.fn(() => ({ height: 800 }))
+  useWindowDimensions: jest.fn(() => ({ height: 800 })),
+  Dimensions: {
+    get: jest.fn(() => ({ height: 800, with: 400 }))
+  }
 }))
 
 jest.mock('react-native-paper', () => ({
