@@ -11,6 +11,7 @@ interface {{ componentName }}Props {}
 
 export const {{ componentName }}: FC<{{ componentName }}Props> = () => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
+
   {{#if useTranslation}}
   const { t } = useTranslation()
 {{/if}}
