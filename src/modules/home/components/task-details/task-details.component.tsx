@@ -31,6 +31,12 @@ export const TaskDetails: FC<TaskProps> = ({ task, submitButtonLabel, onSubmit }
             <Text style={styles.text}>{task.description}</Text>
           </View>
         )}
+        {task.status && (
+          <View style={styles.row}>
+            <Text style={styles.label}>Status:</Text>
+            <Text style={styles.text}>{task.status}</Text>
+          </View>
+        )}
         {!!task.duration && (
           <View style={styles.row}>
             <Text style={styles.label}>Duration:</Text>

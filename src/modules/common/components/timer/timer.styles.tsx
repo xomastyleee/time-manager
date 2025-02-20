@@ -22,19 +22,14 @@ export const stylesWithTheme = ({ theme }: CreateStylesProps) =>
       backgroundColor: theme.colors.background,
       flex: 1,
       justifyContent: 'center',
-      paddingHorizontal: 24
+      padding: 24
     },
-    resetButton: {
-      backgroundColor: theme.colors.accent
-    },
-    // eslint-disable-next-line react-native/no-color-literals
     timerText: {
+      alignSelf: 'center',
       color: theme.colors.primary,
-      fontSize: 56,
+      fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
-      textShadowColor: 'rgba(0, 0, 0, 0.2)',
-      textShadowOffset: { width: 2, height: 2 },
-      textShadowRadius: 5
+      textAlign: 'center'
     }
   })

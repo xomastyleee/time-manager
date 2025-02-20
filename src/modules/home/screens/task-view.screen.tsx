@@ -1,20 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import dayjs from 'dayjs'
 import { ContentView, ScreenView, Timer } from '@common/components'
 import { type CreateStylesProps, useStylesWithThemeAndDimensions } from '@common/hooks'
-import { HomeStackParamList, RouteParams } from '@navigation/navigation-options'
+import { HomeStackParamList, RouteParams, useTypedNavigation } from '@navigation/navigation-options'
 import { ITaskWithStatus, TaskStatus } from '@common/types'
+import { taskService } from '@common/services'
 
 import { TaskDetails } from '../components'
-
-const taskStatusToButtonName: Record<TaskStatus, string> = {
-  [TaskStatus.Planned]: 'Start Task',
-  [TaskStatus.Paused]: 'Start Task',
-  [TaskStatus.InProgress]: 'Complete Task',
-  [TaskStatus.Completed]: 'View Summary',
-  [TaskStatus.Failed]: 'Retry Task'
-}
 
 export const TaskViewScreen = ({
   route: {
@@ -23,38 +17,72 @@ export const TaskViewScreen = ({
 }: RouteParams<HomeStackParamList['TaskView']>) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
-  const { handleSubmit, watch } = useForm<{ task: ITaskWithStatus }>({
+  const navigation = useTypedNavigation<HomeStackParamList>()
+
+  const [isPauseTimer, setIsPauseTimer] = useState(false)
+  const [isTaskStarted, setIsTaskStarted] = useState(false)
+
+  const { handleSubmit, watch, setValue } = useForm<{ task: ITaskWithStatus }>({
     mode: 'onChange',
     defaultValues: { task }
   })
 
   const updatedTask = watch('task')
 
-  // const lastHistoryItem = useMemo(() => history.at(-1), [history])
-  // const lastHistoryItemStatus = lastHistoryItem?.status
-
   const onSubmit: SubmitHandler<{ task: ITaskWithStatus }> = async (data) => {
     try {
-      // handle update task
+      await taskService.updateTask(data.task.id, data.task)
+      navigation.navigate('HomeScreen')
     } catch (error) {
       // Handle error (e.g., show an error message)
     }
   }
 
-  const submitButtonLabel = 'Start Task'
+  const expiryTimestampOnTask = dayjs()
+    .add(updatedTask.duration || 0, 'second')
+    .toDate()
+  const expiryTimestampOnPause = dayjs()
+    .add(updatedTask.breakDuration || 0, 'second')
+    .toDate()
+
+  const onStart = (newDuration: number) => {
+    setIsTaskStarted(true)
+    setIsPauseTimer(false)
+    setValue('task', { ...updatedTask, status: TaskStatus.InProgress, duration: newDuration })
+  }
+  const onPause = (newDuration: number) => {
+    setIsPauseTimer(true)
+    setIsTaskStarted(false)
+    setValue('task', { ...updatedTask, status: TaskStatus.Paused, breakDuration: newDuration })
+  }
+  const onStop = ({ duration, breakDuration }: { duration: number; breakDuration: number }) => {
+    setIsTaskStarted(false)
+    setIsPauseTimer(false)
+    setValue('task', { ...updatedTask, status: TaskStatus.Completed, duration, breakDuration })
+  }
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', () => {
+        setValue('task', { ...updatedTask, status: TaskStatus.Completed })
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   return (
     <ScreenView>
       <ContentView style={styles.main}>
         <Timer
-          time="12:30"
-          isRunning={false}
-          onStartPause={() => console.log('onStartPause')}
-          onReset={() => console.log('onReset')}
+          expiryTimestampOnTask={expiryTimestampOnTask}
+          expiryTimestampOnPause={expiryTimestampOnPause}
+          isTaskStarted={isTaskStarted}
+          isPauseTimer={isPauseTimer}
+          onStart={onStart}
+          onPause={onPause}
+          onStop={onStop}
         />
-        {updatedTask && (
-          <TaskDetails task={updatedTask} submitButtonLabel={submitButtonLabel} onSubmit={handleSubmit(onSubmit)} />
-        )}
+        {updatedTask && <TaskDetails task={updatedTask} submitButtonLabel="Update" onSubmit={handleSubmit(onSubmit)} />}
       </ContentView>
     </ScreenView>
   )
