@@ -1,5 +1,4 @@
 export * from './tab-bar'
-export * from './task-details'
 export * from './timer'
 export * from './item-picker'
 export * from './auth-guard'

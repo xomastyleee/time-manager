@@ -4,22 +4,11 @@ import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { View, Button } from 'react-native'
 import { formatDuration } from '@common/utils'
 
+import type { ITaskWithStatus } from '@common/types'
 import { stylesWithTheme } from './task-details.styles'
 
-export interface ITask {
-  id: number
-  title: string
-  priority: string
-  type: string
-  weekly?: number[]
-  dates?: Date[]
-  description?: string
-  duration?: number
-  breakDuration?: number
-}
-
 interface TaskProps {
-  task: ITask
+  task: ITaskWithStatus
   submitButtonLabel: string
   onSubmit: () => void
 }

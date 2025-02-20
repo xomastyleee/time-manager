@@ -1,10 +1,12 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { ContentView, ScreenView, TaskDetails, Timer } from '@common/components'
+import { ContentView, ScreenView, Timer } from '@common/components'
 import { type CreateStylesProps, useStylesWithThemeAndDimensions } from '@common/hooks'
 import { HomeStackParamList, RouteParams } from '@navigation/navigation-options'
 import { ITaskWithStatus, TaskStatus } from '@common/types'
+
+import { TaskDetails } from '../components'
 
 const taskStatusToButtonName: Record<TaskStatus, string> = {
   [TaskStatus.Planned]: 'Start Task',
@@ -60,5 +62,7 @@ export const TaskViewScreen = ({
 
 const stylesWithTheme = (_: CreateStylesProps) =>
   StyleSheet.create({
-    main: {}
+    main: {
+      flex: 1
+    }
   })
