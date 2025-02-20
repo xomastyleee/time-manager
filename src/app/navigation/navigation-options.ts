@@ -1,5 +1,6 @@
 import { type ParamListBase, useNavigation } from '@react-navigation/native'
 
+import type { ITaskWithStatus } from '@common/types'
 import type { StackNavigationOptions, StackNavigationProp } from '@react-navigation/stack'
 
 export const screenOptions: StackNavigationOptions = {
@@ -27,7 +28,7 @@ export type HomeStackParamList = {
   HomeScreen: undefined
   CreateTaskScreen: undefined
   CreateTicketScreen: undefined
-  TaskView: { id: number }
+  TaskView: { task: ITaskWithStatus }
 }
 
 export type GoalsStackParamList = {
@@ -45,6 +46,13 @@ export type SettingsStackParamList = {
 
 export type AuthStackParamList = {
   AuthScreen: undefined
+}
+
+export type RouteParams<Params = Record<string, unknown>> = {
+  route: {
+    params: Params
+    name: string
+  }
 }
 
 type HomeScreens = 'HomeScreen' | 'CreateTaskScreen' | 'TaskView'

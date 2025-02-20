@@ -1,15 +1,10 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React from 'react'
 import { StyleSheet } from 'react-native'
-import { ContentView, ITask, ScreenView, TaskDetails, Timer } from '@common/components'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { ContentView, ScreenView, TaskDetails, Timer } from '@common/components'
 import { type CreateStylesProps, useStylesWithThemeAndDimensions } from '@common/hooks'
-import { useRoute, RouteProp } from '@react-navigation/native'
-import { taskService } from '@modules/common/services'
-import { historyTaskService } from '@modules/common/services/historyTask.service'
-import { IHistoryTask, IStatisticTask, TaskStatus } from '@modules/common/types'
-
-type TaskViewRouteParams = {
-  TaskView: { id: string }
-}
+import { HomeStackParamList, RouteParams } from '@navigation/navigation-options'
+import { ITaskWithStatus, TaskStatus } from '@common/types'
 
 const taskStatusToButtonName: Record<TaskStatus, string> = {
   [TaskStatus.Planned]: 'Start Task',
@@ -19,55 +14,32 @@ const taskStatusToButtonName: Record<TaskStatus, string> = {
   [TaskStatus.Failed]: 'Retry Task'
 }
 
-export const TaskViewScreen = () => {
+export const TaskViewScreen = ({
+  route: {
+    params: { task }
+  }
+}: RouteParams<HomeStackParamList['TaskView']>) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
-  const [task, setTask] = useState<ITask | null>(null)
-  const [history, setHistory] = useState<IHistoryTask[]>([])
-  const [statistic, setStatistic] = useState<IStatisticTask | null>(null)
+  const { handleSubmit, watch } = useForm<{ task: ITaskWithStatus }>({
+    mode: 'onChange',
+    defaultValues: { task }
+  })
 
-  const route = useRoute<RouteProp<TaskViewRouteParams, 'TaskView'>>()
-  const taskId = task?.id
+  const updatedTask = watch('task')
 
-  const lastHistoryItem = useMemo(() => history.at(-1), [history])
-  const lastHistoryItemStatus = lastHistoryItem?.status
+  // const lastHistoryItem = useMemo(() => history.at(-1), [history])
+  // const lastHistoryItemStatus = lastHistoryItem?.status
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [taskData, historyData] = await Promise.all([
-          taskService.getTaskById(Number(route.params.id)),
-          historyTaskService.getHistoryTasksById(Number(route.params.id))
-        ])
-
-        if (taskData && historyData) {
-          const statisticData = await historyTaskService.calculateWorkTask(historyData)
-
-          setTask(taskData)
-          setHistory(historyData)
-          setStatistic(statisticData)
-        }
-      } catch (error) {
-        console.error('Error fetching task data:', error)
-      }
-    }
-
-    fetchData()
-  }, [route.params.id])
-
-  const onSubmit = async () => {
-    if (!taskId || lastHistoryItemStatus !== TaskStatus.Planned) return
-
+  const onSubmit: SubmitHandler<{ task: ITaskWithStatus }> = async (data) => {
     try {
-      await taskService.updateTask(taskId, { status: TaskStatus.InProgress })
-      const updatedTask = await taskService.getTaskById(taskId)
-      if (updatedTask) setTask(updatedTask)
+      // handle update task
     } catch (error) {
-      console.error('Error updating task:', error)
+      // Handle error (e.g., show an error message)
     }
   }
 
-  const submitButtonLabel = lastHistoryItemStatus ? taskStatusToButtonName[lastHistoryItemStatus] : 'Start Task'
+  const submitButtonLabel = 'Start Task'
 
   return (
     <ScreenView>
@@ -78,13 +50,15 @@ export const TaskViewScreen = () => {
           onStartPause={() => console.log('onStartPause')}
           onReset={() => console.log('onReset')}
         />
-        {task && <TaskDetails task={task} submitButtonLabel={submitButtonLabel} onSubmit={onSubmit} />}
+        {updatedTask && (
+          <TaskDetails task={updatedTask} submitButtonLabel={submitButtonLabel} onSubmit={handleSubmit(onSubmit)} />
+        )}
       </ContentView>
     </ScreenView>
   )
 }
 
-const stylesWithTheme = ({ dimensions: { height } }: CreateStylesProps) =>
+const stylesWithTheme = (_: CreateStylesProps) =>
   StyleSheet.create({
     main: {}
   })

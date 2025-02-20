@@ -22,7 +22,7 @@ export const DailyItemComponent: FC<DailyItemProps> = ({ item }) => {
   const { navigate } = useTypedNavigation<HomeStackParamList>()
 
   return (
-    <TouchableOpacity style={styles.main} onPress={() => navigate('TaskView', { id: item.id })}>
+    <TouchableOpacity style={styles.main} onPress={() => navigate('TaskView', { task: item })}>
       <Text variant="bodyLarge" style={styles.dailyItemTitle}>
         {item.title}
       </Text>

@@ -25,7 +25,7 @@ const createTicketScreenOptions = {
 export const HomeNavigator = () => (
   <Navigator initialRouteName="HomeScreen" screenOptions={screenOptions}>
     <Screen name="HomeScreen" component={HomeScreen} />
-    <Screen name="TaskView" component={TaskViewScreen} options={createTicketScreenOptions} />
+    <Screen name="TaskView" component={TaskViewScreen} options={screenOptions} />
     <Screen name="CreateTaskScreen" component={CreateTaskScreen} options={createTicketScreenOptions} />
   </Navigator>
 )
