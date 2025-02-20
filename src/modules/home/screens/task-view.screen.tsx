@@ -32,7 +32,6 @@ export const TaskViewScreen = ({
   const onSubmit: SubmitHandler<{ task: ITaskWithStatus }> = async (data) => {
     try {
       await taskService.updateTask(data.task.id, data.task)
-      navigation.navigate('HomeScreen')
     } catch (error) {
       // Handle error (e.g., show an error message)
     }
