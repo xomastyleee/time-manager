@@ -78,6 +78,7 @@ export interface IPreferences {
 }
 
 export interface ITaskCreateUpdateParams {
+  id?: number
   title?: string
   status?: TaskStatus
   priority?: Priority

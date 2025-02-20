@@ -28,7 +28,7 @@ class TaskTransformer extends BaseTransformer<Task, ITask | ITaskCreateUpdatePar
   }
 
   toEntity(dto: ITask | ITaskCreateUpdateParams): Task {
-    return new Task({
+    const task = new Task({
       title: dto.title,
       priority: dto.priority,
       type: dto.type,
@@ -38,6 +38,8 @@ class TaskTransformer extends BaseTransformer<Task, ITask | ITaskCreateUpdatePar
       duration: dto.duration,
       breakDuration: dto.breakDuration
     })
+    if (dto.id) task.id = dto.id
+    return task
   }
 
   toUpdateEntity(dto: ITaskCreateUpdateParams | null): PublicTaskData | null {
@@ -53,6 +55,7 @@ class TaskTransformer extends BaseTransformer<Task, ITask | ITaskCreateUpdatePar
         status: dto.status,
         breakDuration: dto.breakDuration
       })
+      if (dto.id) entity.id = dto.id
       return entity
     }
     return null

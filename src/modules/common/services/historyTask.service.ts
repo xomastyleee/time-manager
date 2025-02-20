@@ -69,12 +69,20 @@ export class HistoryTaskServiceService {
   }
 
   public async calculateWorkTask(historyTasks: IHistoryTask[]): Promise<IStatisticTask> {
-    const historyArray = historyTasks.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+    if (historyTasks.length <= 1) {
+      return {
+        taskId: historyTasks[0].id,
+        pauseTime: 0,
+        workTime: 0,
+        isClosed: false
+      }
+    }
+    const historyArray = historyTasks.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
 
     const result = historyArray.reduce(
       (acc, history, index) => {
         if (index > 0) {
-          const duration = history.createdAt.getTime() - historyArray[index - 1].createdAt.getTime()
+          const duration = new Date(history.createdAt).getTime() - new Date(historyArray[index - 1].createdAt).getTime()
           if (acc.currentStatus === TaskStatus.Planned) {
             acc.pausedTime += duration
           } else if (acc.currentStatus === TaskStatus.InProgress) {
