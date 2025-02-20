@@ -65,6 +65,7 @@ export enum UserStatus {
 export enum TaskStatus {
   Planned = 'Planned',
   InProgress = 'InProgress',
-  CompletedSuccessfully = 'CompletedSuccessfully',
-  CompletedUnsuccessfully = 'CompletedUnsuccessfully'
+  Paused = 'Paused',
+  Completed = 'Completed',
+  Failed = 'Failed'
 }

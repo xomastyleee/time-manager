@@ -5,6 +5,8 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import isBetween from 'dayjs/plugin/isBetween'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import { DBProvider } from '@common/db/core'
 import { useDefinedTheme } from '@common/hooks'
 
@@ -17,6 +19,8 @@ import 'react-native-gesture-handler'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(isBetween)
+dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
 
 detectAndInitAppLanguage()
 

@@ -9,13 +9,11 @@ import { ItemPicker, ScreenView, useUser } from '@common/components'
 import { type CreateStylesProps, useStylesWithThemeAndDimensions, useUserTaskModel } from '@common/hooks'
 import { taskService } from '@common/services'
 import { DayWeekMap, Priority, TaskType } from '@common/types/enums'
-import { DailyMode, DATE_FORMAT_DAY, INIT_DATE_FORMAT } from '@common/constants'
+import { DailyMode, DATE_FORMAT_DAY, dayNames, INIT_DATE_FORMAT } from '@common/constants'
 
 import type { ITask, ITaskCreateUpdateParams, ITasksByWeeks, WeekDayCodes } from '@common/types'
 
 type PriorityArray = Array<{ value: Priority; labelColor?: string }>
-
-const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 export const CreateTaskScreen = () => {
   const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)

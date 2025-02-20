@@ -17,7 +17,7 @@ export const ProfileScreen = () => {
   return (
     <ScreenView>
       <ContentView style={styles.main}>
-        <SettingsButton title={t('profile.logout')} onPress={logout} iconName="account-off" />
+        <SettingsButton title={t('profile.logout')} onPress={logout} iconName="account-off" bottomDivider={false} />
       </ContentView>
     </ScreenView>
   )

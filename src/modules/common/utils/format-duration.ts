@@ -1,0 +1,21 @@
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+
+dayjs.extend(duration)
+
+export const formatDuration = (milliseconds?: number) => {
+  if (!milliseconds) {
+    return ''
+  }
+  const time = dayjs.duration(milliseconds, 'milliseconds')
+  const hours = time.hours()
+  const minutes = time.minutes()
+  const secs = time.seconds()
+
+  const formattedParts = []
+  if (hours) formattedParts.push(`${hours} hr`)
+  if (minutes) formattedParts.push(`${minutes} min`)
+  if (secs || (!hours && !minutes)) formattedParts.push(`${secs} sec`)
+
+  return formattedParts.join(' ')
+}

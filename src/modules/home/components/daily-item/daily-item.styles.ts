@@ -7,11 +7,28 @@ export const stylesWithTheme = ({ theme: { colors } }: CreateStylesProps) =>
       overflow: 'hidden',
       width: '100%'
     },
+    chip: {
+      marginBottom: 5,
+      marginRight: 5
+    },
     currentDay: {
       backgroundColor: colors.primary
     },
     currentDayText: {
       fontWeight: 'bold'
+    },
+    dailyItemDescription: {
+      marginBottom: 10
+    },
+    dailyItemShortInfoContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      width: '100%'
+    },
+    dailyItemTitle: {
+      marginBottom: 10,
+      textAlign: 'center',
+      width: '100%'
     },
     main: {
       backgroundColor: colors.onScreenContent,

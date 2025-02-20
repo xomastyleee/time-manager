@@ -8,6 +8,7 @@ export const dataSource = new DataSource({
   // migrations: [UpdatePreferencesUserTable1707420000000], <- this set list migrations
   logging: ['error', 'query', 'schema'],
   entities: [User, Notification, HistoryTask, Task],
-  dropSchema: __DEV__, // <- dev mod [true] Full Rebuild
-  synchronize: __DEV__ // <- dev mod [true] rebuild
+  // dropSchema: __DEV__, // <- dev mod [true] Full Rebuild
+  // synchronize: __DEV__ // <- dev mod [true] rebuild
+  synchronize: false
 })
