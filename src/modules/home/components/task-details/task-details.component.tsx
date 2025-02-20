@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
+import { View } from 'react-native'
 import { Text, Card, Divider } from 'react-native-paper'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
-import { View, Button } from 'react-native'
 import { formatDuration } from '@common/utils'
 
 import type { ITaskWithStatus } from '@common/types'
@@ -13,7 +13,7 @@ interface TaskProps {
   onSubmit: () => void
 }
 
-export const TaskDetails: FC<TaskProps> = ({ task, submitButtonLabel, onSubmit }) => {
+export const TaskDetails: FC<TaskProps> = ({ task }) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
 
   return (
@@ -49,7 +49,7 @@ export const TaskDetails: FC<TaskProps> = ({ task, submitButtonLabel, onSubmit }
             <Text style={styles.text}>{formatDuration(task.breakDuration)}</Text>
           </View>
         )}
-        <Button title={submitButtonLabel} onPress={onSubmit} />
+        {/* <Button title={submitButtonLabel} onPress={onSubmit} /> */}
       </Card.Content>
     </Card>
   )

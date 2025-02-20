@@ -49,22 +49,26 @@ export const TaskViewScreen = ({
     setIsTaskStarted(true)
     setIsPauseTimer(false)
     setValue('task', { ...updatedTask, status: TaskStatus.InProgress, duration: newDuration })
+    handleSubmit(onSubmit)()
   }
   const onPause = (newDuration: number) => {
     setIsPauseTimer(true)
     setIsTaskStarted(false)
     setValue('task', { ...updatedTask, status: TaskStatus.Paused, breakDuration: newDuration })
+    handleSubmit(onSubmit)()
   }
   const onStop = ({ duration, breakDuration }: { duration: number; breakDuration: number }) => {
     setIsTaskStarted(false)
     setIsPauseTimer(false)
     setValue('task', { ...updatedTask, status: TaskStatus.Completed, duration, breakDuration })
+    handleSubmit(onSubmit)()
   }
 
   useEffect(
     () =>
       navigation.addListener('beforeRemove', () => {
         setValue('task', { ...updatedTask, status: TaskStatus.Completed })
+        handleSubmit(onSubmit)()
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
