@@ -7,7 +7,7 @@ export const formatDuration = (seconds?: number) => {
   if (!seconds) {
     return ''
   }
-  const time = dayjs.duration(seconds, 'seconds')
+  const time = dayjs.duration(seconds, 'ms')
   const hours = time.hours()
   const minutes = time.minutes()
   const secs = time.seconds()

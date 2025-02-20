@@ -42,8 +42,8 @@ export const CreateTaskScreen = () => {
       title: '',
       description: '',
       type: TaskType.Work,
-      duration: 7200, // 2 hours
-      breakDuration: 900, // 15 minutes
+      duration: 72000000, // 2 hours
+      breakDuration: 900000, // 15 minutes
       weekly: [],
       dates: []
     }

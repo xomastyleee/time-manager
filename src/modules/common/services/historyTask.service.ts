@@ -81,16 +81,15 @@ export class HistoryTaskServiceService {
 
     const result = historyArray.reduce(
       (acc, history, index) => {
+        acc.currentStatus = history.status
         if (index > 0) {
           const duration = new Date(history.createdAt).getTime() - new Date(historyArray[index - 1].createdAt).getTime()
-          if (acc.currentStatus === TaskStatus.Planned) {
+          if ([TaskStatus.Planned, TaskStatus.Paused].includes(acc.currentStatus)) {
             acc.pausedTime += duration
           } else if (acc.currentStatus === TaskStatus.InProgress) {
             acc.workingTime += duration
           }
         }
-
-        acc.currentStatus = history.status
         acc.lastStatusChange = history.createdAt
 
         return acc

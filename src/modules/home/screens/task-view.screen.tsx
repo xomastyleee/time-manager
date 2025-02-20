@@ -31,29 +31,31 @@ export const TaskViewScreen = ({
 
   const onSubmit: SubmitHandler<{ task: ITaskWithStatus }> = async (data) => {
     try {
-      await taskService.updateTask(data.task.id, data.task)
+      await taskService.updateTask(data.task.id, { status: data.task.status })
     } catch (error) {
       // Handle error (e.g., show an error message)
     }
   }
 
   const expiryTimestampOnTask = dayjs()
-    .add(updatedTask.duration || 0, 'second')
+    .add(updatedTask.duration || 0, 'ms')
     .toDate()
   const expiryTimestampOnPause = dayjs()
-    .add(updatedTask.breakDuration || 0, 'second')
+    .add(updatedTask.breakDuration || 0, 'ms')
     .toDate()
 
   const onStart = (newDuration: number) => {
     setIsTaskStarted(true)
     setIsPauseTimer(false)
     setValue('task', { ...updatedTask, status: TaskStatus.InProgress, duration: newDuration })
+    setValue('task', { ...updatedTask, status: TaskStatus.InProgress })
     handleSubmit(onSubmit)()
   }
   const onPause = (newDuration: number) => {
     setIsPauseTimer(true)
     setIsTaskStarted(false)
     setValue('task', { ...updatedTask, status: TaskStatus.Paused, breakDuration: newDuration })
+    setValue('task', { ...updatedTask, status: TaskStatus.Paused })
     handleSubmit(onSubmit)()
   }
   const onStop = ({ duration, breakDuration }: { duration: number; breakDuration: number }) => {
