@@ -2,9 +2,9 @@ import React, { FC } from 'react'
 import { Text, Card, Divider } from 'react-native-paper'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { View, Button } from 'react-native'
+import { formatDuration } from '@common/utils'
 
 import { stylesWithTheme } from './task-details.styles'
-import { formatDuration } from './utils'
 
 export interface ITask {
   id: number

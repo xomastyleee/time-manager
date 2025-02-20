@@ -13,9 +13,10 @@ type TaskViewRouteParams = {
 
 const taskStatusToButtonName: Record<TaskStatus, string> = {
   [TaskStatus.Planned]: 'Start Task',
+  [TaskStatus.Paused]: 'Start Task',
   [TaskStatus.InProgress]: 'Complete Task',
-  [TaskStatus.CompletedSuccessfully]: 'View Summary',
-  [TaskStatus.CompletedUnsuccessfully]: 'Retry Task'
+  [TaskStatus.Completed]: 'View Summary',
+  [TaskStatus.Failed]: 'Retry Task'
 }
 
 export const TaskViewScreen = () => {

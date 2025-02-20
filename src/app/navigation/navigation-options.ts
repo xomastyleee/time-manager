@@ -47,7 +47,7 @@ export type AuthStackParamList = {
   AuthScreen: undefined
 }
 
-type HomeScreens = 'HomeScreen' | 'CreateTaskScreen'
+type HomeScreens = 'HomeScreen' | 'CreateTaskScreen' | 'TaskView'
 type GoalsScreens = 'GoalsScreen'
 type AnalyticsScreens = 'AnalyticsScreen'
 type SettingsScreens = 'SettingsScreen' | 'ProfileScreen'

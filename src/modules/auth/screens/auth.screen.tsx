@@ -8,15 +8,18 @@ import {
   FlatList,
   Pressable,
   type TextStyle,
-  type ViewStyle
+  type ViewStyle,
+  KeyboardAvoidingView
 } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { Button, Modal, Portal, Text, TextInput } from 'react-native-paper'
+import { useTranslation } from 'react-i18next'
 import { useUser } from '@common/components'
 import { useAppTheme } from '@common/hooks'
 import { AppTheme } from '@modules/common/theme'
-import { type IUser } from '@common/types'
-import { useTranslation } from 'react-i18next'
+import { isIos } from '@common/constants'
+
+import type { IUser } from '@common/types'
 
 interface UserListItemProps {
   user: IUser
@@ -67,52 +70,59 @@ export const AuthScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} testID="start-up">
       <View style={styles.container}>
-        <Animated.View style={[styles.authContainer, animationAuthContainerStyles, { height: authContainerHeight }]}>
-          <View>
-            <Text variant="bodyLarge" style={styles.title}>
-              {t('auth.title')}
-            </Text>
-            <TextInput
-              mode="outlined"
-              value={userName}
-              onChangeText={setUserName}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              label={isFocused ? t('auth.name.label') : t('auth.name.placeholder')}
-            />
-          </View>
-          {userList.length > 0 && (
-            <>
+        <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior={isIos ? 'position' : undefined}>
+          <Animated.View style={[styles.authContainer, animationAuthContainerStyles, { height: authContainerHeight }]}>
+            <View>
               <Text variant="bodyLarge" style={styles.title}>
-                {t('auth.or')}
+                {t('auth.title')}
               </Text>
-              <Button onPress={() => setIsUserListModalOpen(true)}>{t('auth.selectProfile')}</Button>
-              <Portal>
-                <Modal
-                  visible={isUserListModalOpen}
-                  contentContainerStyle={styles.modalContainer}
-                  onDismiss={() => setIsUserListModalOpen(false)}
-                >
-                  <FlatList
-                    data={userList}
-                    renderItem={({ item }) => (
-                      <UserListItem
-                        user={item}
-                        textStyle={styles.title}
-                        userListItemStyle={styles.userListItem}
-                        authorizeUser={authorizeUser}
-                      />
-                    )}
-                    keyExtractor={({ id }) => `user-${id}`}
-                  />
-                </Modal>
-              </Portal>
-            </>
-          )}
-          <Button buttonColor={theme.colors.primary} disabled={!userName} mode="contained" onPress={handleRegisterUser}>
-            {t('auth.authorize')}
-          </Button>
-        </Animated.View>
+              <TextInput
+                mode="outlined"
+                value={userName}
+                onChangeText={setUserName}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                label={isFocused ? t('auth.name.label') : t('auth.name.placeholder')}
+              />
+            </View>
+            {userList.length > 0 && (
+              <>
+                <Text variant="bodyLarge" style={styles.title}>
+                  {t('auth.or')}
+                </Text>
+                <Button onPress={() => setIsUserListModalOpen(true)}>{t('auth.selectProfile')}</Button>
+                <Portal>
+                  <Modal
+                    visible={isUserListModalOpen}
+                    contentContainerStyle={styles.modalContainer}
+                    onDismiss={() => setIsUserListModalOpen(false)}
+                  >
+                    <FlatList
+                      data={userList}
+                      renderItem={({ item }) => (
+                        <UserListItem
+                          user={item}
+                          textStyle={styles.title}
+                          userListItemStyle={styles.userListItem}
+                          authorizeUser={authorizeUser}
+                        />
+                      )}
+                      keyExtractor={({ id }) => `user-${id}`}
+                    />
+                  </Modal>
+                </Portal>
+              </>
+            )}
+            <Button
+              buttonColor={theme.colors.primary}
+              disabled={!userName}
+              mode="contained"
+              onPress={handleRegisterUser}
+            >
+              {t('auth.authorize')}
+            </Button>
+          </Animated.View>
+        </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
   )
@@ -133,6 +143,9 @@ const makeStyles = (theme: AppTheme) =>
       alignItems: 'center',
       flex: 1,
       justifyContent: 'flex-end',
+      width: '100%'
+    },
+    keyboardAvoidingView: {
       width: '100%'
     },
     modalContainer: {

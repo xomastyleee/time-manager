@@ -21,6 +21,9 @@ export interface ITask {
   description?: string
   duration?: number
   breakDuration?: number
+  createdAt?: Date
+  updatedAt?: Date
+  deletedAt?: Date | null
 }
 
 export interface ITaskWithStatus extends ITask {

@@ -42,33 +42,58 @@ const getUserTasks = async ({
     if (dailyMode === DailyMode.DAY) {
       return (
         task.dates?.some((date) => dayjs(date).isSame(currentDate, 'day')) ||
-        task.weekly?.includes(DayWeekMap[currentDate.day()])
+        (task.weekly?.includes(DayWeekMap[currentDate.day()]) &&
+          dayjs(task.createdAt).isSameOrBefore(currentDate, 'day'))
       )
     }
+
     if (dailyMode === DailyMode.WEEK) {
       const weekStart = currentDate.startOf('week')
       const weekEnd = currentDate.endOf('week')
       return (
         task.dates?.some((date) => dayjs(date).isBetween(weekStart, weekEnd, 'day', '[]')) ||
-        (task?.weekly && task?.weekly?.length > 0)
+        (task.weekly && task.weekly?.length > 0 && dayjs(task.createdAt).isSameOrBefore(weekEnd, 'day'))
       )
     }
+
     return false
   })
 
-  const populatedTasksWithStatus = await Promise.all(
+  const populatedTasksWithHistory = await Promise.all(
     filteredTasks.map(async (task) => {
-      const taskHistory = await historyTaskService.getByIdTaskHistoryRange({
+      const history = await historyTaskService.getByIdTaskHistoryRange({
         taskId: task.id,
-        date: currentDate.toDate(),
-        isLast: true
+        date: currentDate.toDate()
       })
-      const status = taskHistory && taskHistory?.length > 0 ? taskHistory?.[0].status : TaskStatus.Planned
-      return { ...task, status }
+      const isPastTask = dayjs(task.createdAt).isSameOrAfter(currentDate, 'day')
+      const isTodayOrFuture = dayjs(currentDate).isSameOrAfter(dayjs(), 'day')
+
+      let status = TaskStatus.Planned
+      let { duration } = task
+      let { breakDuration } = task
+
+      if (history?.allHistoryByDate && history?.allHistoryByDate.length > 0) {
+        const { pauseTime, workTime } = await historyTaskService.calculateWorkTask(history?.allHistoryByDate ?? [])
+        status = history.lastHistoryByDate.status
+        duration = (duration ?? 0) - workTime
+        breakDuration = (breakDuration ?? 0) - pauseTime
+      }
+
+      if (
+        isPastTask &&
+        !isTodayOrFuture &&
+        (status === TaskStatus.InProgress || status === TaskStatus.Planned || status === TaskStatus.Paused)
+      ) {
+        status = TaskStatus.Failed
+      }
+
+      return { ...task, status, duration, breakDuration }
     })
   )
 
-  const sortedTasks = populatedTasksWithStatus.sort((a, b) => a.priority.localeCompare(b.priority))
+  const validTasks = populatedTasksWithHistory.filter((task) => task !== null)
+
+  const sortedTasks = validTasks.sort((a, b) => a.priority.localeCompare(b.priority))
 
   if (dailyMode === DailyMode.WEEK) {
     const tasksByWeeks = Object.keys(DayWeekMap).reduce((acc, key) => {
@@ -78,10 +103,10 @@ const getUserTasks = async ({
     }, {} as ITasksByWeeks)
 
     sortedTasks.map((task) => {
-      task.weekly?.map((day) => {
+      task?.weekly?.map((day) => {
         tasksByWeeks[day as WeekDayCodes] = [...tasksByWeeks[day as WeekDayCodes], task]
       })
-      task.dates?.map((date) => {
+      task?.dates?.map((date) => {
         const day = dayjs(date).day()
         if (!task.weekly?.includes(day)) {
           tasksByWeeks[day] = [...tasksByWeeks[day], task]

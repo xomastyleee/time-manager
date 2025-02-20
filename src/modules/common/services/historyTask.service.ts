@@ -39,7 +39,7 @@ export class HistoryTaskServiceService {
     return result.map(historyTransformer.toInterface)
   }
 
-  public async getByIdTaskHistoryRange(params: { taskId: number; date: Date; isLast: boolean }) {
+  public async getByIdTaskHistoryRange(params: { taskId: number; date: Date }) {
     try {
       const queryBuilder = this.historyRepository
         .createQueryBuilder('historyTask')
@@ -53,25 +53,28 @@ export class HistoryTaskServiceService {
         .orderBy('historyTask.createdAt', 'DESC')
         .addOrderBy('historyTask.createdAt', 'DESC')
 
-      if (params.isLast) {
-        queryBuilder.take(1)
+      const allHistory = await queryBuilder.getMany()
+
+      queryBuilder.take(1)
+
+      const lastHistory = await queryBuilder.getMany()
+
+      return {
+        allHistoryByDate: allHistory.map(historyTransformer.toInterface),
+        lastHistoryByDate: lastHistory.map(historyTransformer.toInterface)[0]
       }
-
-      const History = await queryBuilder.getMany()
-
-      return History.map(historyTransformer.toInterface)
     } catch (error) {
       logger.error('Get Task History Error:', error)
     }
   }
 
   public async calculateWorkTask(historyTasks: IHistoryTask[]): Promise<IStatisticTask> {
-    const historys = historyTasks.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+    const historyArray = historyTasks.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
 
-    const result = historys.reduce(
+    const result = historyArray.reduce(
       (acc, history, index) => {
         if (index > 0) {
-          const duration = history.createdAt.getTime() - historys[index - 1].createdAt.getTime()
+          const duration = history.createdAt.getTime() - historyArray[index - 1].createdAt.getTime()
           if (acc.currentStatus === TaskStatus.Planned) {
             acc.pausedTime += duration
           } else if (acc.currentStatus === TaskStatus.InProgress) {
@@ -96,9 +99,7 @@ export class HistoryTaskServiceService {
       taskId: historyTasks[0].id,
       pauseTime: result.pausedTime,
       workTime: result.workingTime,
-      isClosed: [TaskStatus.CompletedSuccessfully, TaskStatus.CompletedUnsuccessfully].includes(
-        historys[historys.length - 1].status
-      )
+      isClosed: [TaskStatus.Failed, TaskStatus.Completed].includes(historyArray[historyArray.length - 1].status)
     }
   }
 }

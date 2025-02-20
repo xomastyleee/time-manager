@@ -3,11 +3,11 @@ import duration from 'dayjs/plugin/duration'
 
 dayjs.extend(duration)
 
-export const formatDuration = (seconds?: number) => {
-  if (!seconds) {
+export const formatDuration = (milliseconds?: number) => {
+  if (!milliseconds) {
     return ''
   }
-  const time = dayjs.duration(seconds, 'seconds')
+  const time = dayjs.duration(milliseconds, 'milliseconds')
   const hours = time.hours()
   const minutes = time.minutes()
   const secs = time.seconds()
