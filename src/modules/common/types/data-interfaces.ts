@@ -32,11 +32,20 @@ export interface ITaskWithStatus extends ITask {
 
 export interface ICreateHistoryTaskParams {
   task: Task
-  status?: TaskStatus
+  pauseTime: number
+  workTime: number
+  createdHistoryDate: string
+  status: TaskStatus
+  duration?: number
+  breakDuration?: number
 }
+
 export interface IHistoryTask {
   id: number
   status: TaskStatus
+  pauseTime: number
+  workTime: number
+  createdHistoryDate: string
   createdAt: Date
   task: {
     id: number
@@ -76,6 +85,7 @@ export interface IPreferences {
 }
 
 export interface ITaskCreateUpdateParams {
+  id?: number
   title?: string
   status?: TaskStatus
   priority?: Priority

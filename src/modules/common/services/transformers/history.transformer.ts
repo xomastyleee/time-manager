@@ -7,7 +7,10 @@ class HistoryTaskTransformer extends BaseTransformer<HistoryTask, IHistoryTask> 
       id: dto.id,
       statusTask: dto.status,
       createdAt: dto.createdAt,
-      task: dto.task as Task
+      task: dto.task as Task,
+      pauseTime: dto.pauseTime,
+      workTime: dto.workTime,
+      createdHistoryDate: dto.createdHistoryDate
     }
   }
 
@@ -16,8 +19,12 @@ class HistoryTaskTransformer extends BaseTransformer<HistoryTask, IHistoryTask> 
       id: entity.id,
       status: entity.statusTask as TaskStatus,
       createdAt: entity.createdAt,
-      task: { id: entity.task.id }
+      task: { id: entity.task.id },
+      pauseTime: entity.pauseTime,
+      workTime: entity.workTime,
+      createdHistoryDate: entity.createdHistoryDate
     }
   }
 }
+
 export const historyTransformer = new HistoryTaskTransformer()

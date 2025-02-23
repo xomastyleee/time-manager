@@ -1923,6 +1923,7 @@ __metadata:
     react-native-svg: "npm:15.10.1"
     react-native-vector-icons: "npm:10.2.0"
     react-test-renderer: "npm:18.3.1"
+    react-timer-hook: "npm:^3.0.8"
     reflect-metadata: "npm:0.2.2"
     ts-jest: "npm:29.2.5"
     ts-node: "npm:10.9.2"
@@ -11647,6 +11648,15 @@ __metadata:
   peerDependencies:
     react: ^18.3.1
   checksum: 10/d53137315c677bdfba702a7179a69828233fc7635ae1e0c03b203923d643400ace72b343cb3dd3dafba8911c20bef53f55bff7aa2e4ddff3ccc423fdd9deeee2
+  languageName: node
+  linkType: hard
+
+"react-timer-hook@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "react-timer-hook@npm:3.0.8"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10/2674ab074d147981ec61708e2ce3658f2cf4284e667197b40e16f3c85c8c112911b867584792bd8a0bc28da29f6fbc397601cbbb6ada4f34551d72879cf15c39
   languageName: node
   linkType: hard
 

@@ -24,9 +24,9 @@ export class Task {
       if (description) this.description = description
       if (duration) this.duration = duration
       if (user) this.users = [getUserEntity(user)]
-      this.breakDuration = breakDuration && breakDuration > 0 ? breakDuration : 0
-      this.weekly = weekly ? JSON.stringify(weekly) : '[]'
-      this.dates = dates ? JSON.stringify(dates.map((date) => date.toISOString())) : '[]'
+      if (breakDuration) this.breakDuration = breakDuration
+      if (weekly) this.weekly = JSON.stringify(weekly)
+      if (dates) this.dates = JSON.stringify(dates.map((date) => date.toISOString()))
     }
   }
 

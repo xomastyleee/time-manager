@@ -1,4 +1,5 @@
 export * from './tab-bar'
+export * from './timer'
 export * from './item-picker'
 export * from './auth-guard'
 export * from './content-view'

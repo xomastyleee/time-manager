@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { formatDuration } from '@common/utils'
 import { DATE_FORMAT_DAY, dayNames } from '@common/constants'
+import { HomeStackParamList, useTypedNavigation } from '@navigation/navigation-options'
 
 import type { ITaskWithStatus } from '@common/types'
 import { stylesWithTheme } from './daily-item.styles'
@@ -18,8 +19,10 @@ export const DailyItemComponent: FC<DailyItemProps> = ({ item }) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
   const { t } = useTranslation('components')
 
+  const { navigate } = useTypedNavigation<HomeStackParamList>()
+
   return (
-    <TouchableOpacity style={styles.main} onPress={() => null}>
+    <TouchableOpacity style={styles.main} onPress={() => navigate('TaskView', { task: item })}>
       <Text variant="bodyLarge" style={styles.dailyItemTitle}>
         {item.title}
       </Text>

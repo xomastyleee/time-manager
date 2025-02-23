@@ -14,8 +14,30 @@ export class HistoryTaskServiceService {
   public async createHistoryTask(params: ICreateHistoryTaskParams) {
     try {
       if (params?.task) {
+        const currentStatus = params.status
         const history = new HistoryTask(params)
         history.task = params.task
+        const lastHistory = await this.getLastHistoryTask(params.task.id)
+        if (lastHistory) {
+          switch (lastHistory.statusTask) {
+            case TaskStatus.InProgress:
+              if (
+                [TaskStatus.Paused, TaskStatus.Planned, TaskStatus.Completed, TaskStatus.Failed].includes(currentStatus)
+              ) {
+                history.workTime = dayjs().valueOf() - dayjs(lastHistory.createdHistoryDate).valueOf()
+              }
+              break
+            case TaskStatus.Paused:
+              if ([TaskStatus.InProgress, TaskStatus.Failed, TaskStatus.Completed].includes(currentStatus)) {
+                history.pauseTime = dayjs().valueOf() - dayjs(lastHistory.createdHistoryDate).valueOf()
+              }
+              break
+            default:
+              history.pauseTime = 0
+              history.workTime = 0
+              break
+          }
+        }
         const result = await this.historyRepository.save(history)
         logger.info('Create HistoryTask Result:', result)
         return result
@@ -39,6 +61,14 @@ export class HistoryTaskServiceService {
     return result.map(historyTransformer.toInterface)
   }
 
+  public async getLastHistoryTask(taskId: number): Promise<HistoryTask | null> {
+    const result = await this.historyRepository.findOne({
+      where: { task: { id: taskId } },
+      order: { createdAt: 'DESC' }
+    })
+    return result
+  }
+
   public async getByIdTaskHistoryRange(params: { taskId: number; date: Date }) {
     try {
       const queryBuilder = this.historyRepository
@@ -49,7 +79,14 @@ export class HistoryTaskServiceService {
           startDate: dayjs(params.date).startOf('day').toDate(),
           endDate: dayjs(params.date).endOf('day').toDate()
         })
-        .select(['historyTask.id', 'historyTask.statusTask', 'historyTask.createdAt', 'task.id'])
+        .select([
+          'historyTask.id',
+          'historyTask.statusTask',
+          'historyTask.createdAt',
+          'historyTask.workTime',
+          'historyTask.pauseTime',
+          'task.id'
+        ])
         .orderBy('historyTask.createdAt', 'DESC')
         .addOrderBy('historyTask.createdAt', 'DESC')
 
@@ -69,29 +106,15 @@ export class HistoryTaskServiceService {
   }
 
   public async calculateWorkTask(historyTasks: IHistoryTask[]): Promise<IStatisticTask> {
-    const historyArray = historyTasks.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-
-    const result = historyArray.reduce(
-      (acc, history, index) => {
-        if (index > 0) {
-          const duration = history.createdAt.getTime() - historyArray[index - 1].createdAt.getTime()
-          if (acc.currentStatus === TaskStatus.Planned) {
-            acc.pausedTime += duration
-          } else if (acc.currentStatus === TaskStatus.InProgress) {
-            acc.workingTime += duration
-          }
-        }
-
-        acc.currentStatus = history.status
-        acc.lastStatusChange = history.createdAt
-
+    const result = historyTasks.reduce(
+      (acc, history) => {
+        acc.workingTime += history.workTime
+        acc.pausedTime += history.pauseTime
         return acc
       },
       {
         pausedTime: 0,
-        workingTime: 0,
-        currentStatus: null as TaskStatus | null,
-        lastStatusChange: null as Date | null
+        workingTime: 0
       }
     )
 
@@ -99,7 +122,7 @@ export class HistoryTaskServiceService {
       taskId: historyTasks[0].id,
       pauseTime: result.pausedTime,
       workTime: result.workingTime,
-      isClosed: [TaskStatus.Failed, TaskStatus.Completed].includes(historyArray[historyArray.length - 1].status)
+      isClosed: [TaskStatus.Failed, TaskStatus.Completed].includes(historyTasks[historyTasks.length - 1].status)
     }
   }
 }
