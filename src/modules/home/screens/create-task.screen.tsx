@@ -5,15 +5,12 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-na
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import dayjs from 'dayjs'
 import { type HomeStackParamList, useTypedNavigation } from '@navigation/navigation-options'
-import { ItemPicker, ScreenView, useUser } from '@common/components'
-import { type CreateStylesProps, useStylesWithThemeAndDimensions, useUserTaskModel } from '@common/hooks'
+import { ScreenView, useUser } from '@common/components'
+import { type CreateStylesProps, useStylesWithThemeAndDimensions } from '@common/hooks'
 import { taskService } from '@common/services'
-import { DayWeekMap, Priority, TaskType } from '@common/types/enums'
-import { DailyMode, DATE_FORMAT_DAY, dayNames, INIT_DATE_FORMAT } from '@common/constants'
+import { DATE_FORMAT_DAY, INIT_DATE_FORMAT } from '@common/constants'
 
-import type { ITask, ITaskCreateUpdateParams, ITasksByWeeks, WeekDayCodes } from '@common/types'
-
-type PriorityArray = Array<{ value: Priority; labelColor?: string }>
+import type { ITaskCreateParams } from '@common/types'
 
 export const CreateTaskScreen = () => {
   const { styles, colors } = useStylesWithThemeAndDimensions(stylesWithTheme)
@@ -24,10 +21,6 @@ export const CreateTaskScreen = () => {
   const priorityAnim = useSharedValue(0)
 
   const [currentDate, setCurrentDate] = useState(dayjs())
-  const [dailyMode, setDailyMode] = useState(DailyMode.DAY)
-  const [priorityArray, setPriorityArray] = useState<PriorityArray>(
-    Object.values(Priority).map((priority) => ({ value: priority, labelColor: colors.primary }))
-  )
   const [isThisPriorityTakenError] = useState(false)
 
   const {
@@ -36,59 +29,20 @@ export const CreateTaskScreen = () => {
     watch,
     formState: { errors, isValid },
     setValue
-  } = useForm<ITaskCreateUpdateParams>({
+  } = useForm<ITaskCreateParams>({
     mode: 'onChange',
     defaultValues: {
       title: '',
       description: '',
-      type: TaskType.Work,
+      type: 'temporary',
       duration: 7200000, // 2 hours
       breakDuration: 900000, // 15 minutes
-      weekly: [],
       dates: []
     }
   })
 
   const title = watch('title')
-  const selectedPriority = watch('priority')
-  const weekly = watch('weekly')
   const dates = watch('dates')
-
-  const createTaskCallback = useCallback(
-    (props: { tasks?: ITask[]; tasksByWeeks?: ITasksByWeeks }) => {
-      const updatedPriorityArray = priorityArray.map((priority) => {
-        let isPriorityTaken = false
-        if (props.tasks) {
-          isPriorityTaken = props.tasks.some(
-            (task) =>
-              task.priority === priority.value &&
-              (task.dates?.some((date) => dates?.some((d) => dayjs(d).isSame(date, 'day'))) ||
-                task.weekly?.some((w) => weekly?.includes(w)))
-          )
-        }
-        if (props.tasksByWeeks) {
-          isPriorityTaken = Object.entries(props.tasksByWeeks).some(
-            ([day, tasks]) =>
-              weekly?.includes(Number(day)) &&
-              tasks.some(
-                (task) =>
-                  task.priority === priority.value &&
-                  (task.dates?.some((date) => dates?.some((d) => dayjs(d).isSame(date, 'day'))) ||
-                    task.weekly?.some((w) => weekly.includes(w)))
-              )
-          )
-        }
-        return {
-          ...priority,
-          labelColor: isPriorityTaken ? colors.gray : colors.primary
-        }
-      })
-      setPriorityArray(updatedPriorityArray)
-    },
-    [priorityArray, colors, dates, weekly]
-  )
-
-  useUserTaskModel({ dailyMode, currentDate, createTaskCallback })
 
   const animatedStyle = useAnimatedStyle(
     () => ({
@@ -100,7 +54,6 @@ export const CreateTaskScreen = () => {
 
   const titleErrorStyle = { opacity: errors.title ? 1 : 0 }
   const descriptionErrorStyle = { opacity: errors.description ? 1 : 0 }
-  const priorityErrorStyle = { opacity: isThisPriorityTakenError ? 1 : 0 }
 
   const handlePreviousPress = useCallback(() => {
     const newDate = currentDate.subtract(1, 'day')
@@ -119,25 +72,13 @@ export const CreateTaskScreen = () => {
     if (!dates?.some((date) => dayjs(date).isSame(newDate, 'day'))) {
       const newDates = [...(dates || []), newDate]
       setValue('dates', newDates)
-      setDailyMode(DailyMode.DAY)
     }
   }
 
-  const handleWeeklyPress = (day: WeekDayCodes) => {
-    if (weekly?.includes(day)) {
-      setValue(
-        'weekly',
-        weekly?.filter((d) => d !== day)
-      )
-    } else {
-      setValue('weekly', [...(weekly || []), day])
-    }
-    setDailyMode(DailyMode.WEEK)
-  }
+  // const handleWeeklyPress = (day: WeekDayCodes) => {}
 
-  const onSubmit: SubmitHandler<ITaskCreateUpdateParams> = async (data) => {
+  const onSubmit: SubmitHandler<ITaskCreateParams> = async (data) => {
     if (!user) return
-    if (weekly && weekly.length === 0 && dates && dates.length === 0) return
 
     try {
       await taskService.createTask({ ...data, user })
@@ -154,16 +95,6 @@ export const CreateTaskScreen = () => {
       priorityAnim.value = withTiming(0, { duration: 300 })
     }
   }, [priorityAnim, title])
-
-  // useEffect(() => {
-  //   const selectedPriorityItem = priorityArray.find((item) => item.value === selectedPriority)
-  //   if (selectedPriorityItem?.labelColor === colors.gray) {
-  //     setIsThisPriorityTakenError(true)
-  //   } else {
-  //     setIsThisPriorityTakenError(false)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedPriority, priorityArray])
 
   return (
     <ScreenView>
@@ -205,13 +136,13 @@ export const CreateTaskScreen = () => {
             <Animated.View style={animatedStyle}>
               <Text style={styles.title}>Select weekly days:</Text>
               <View style={styles.datesContainer}>
-                {Object.values(DayWeekMap).map((day) => (
+                {/* {Object.values(DayWeekMap).map((day) => (
                   <TouchableOpacity key={`${day}`} onPress={() => handleWeeklyPress(day as WeekDayCodes)}>
                     <Chip selected={weekly?.includes(day)} style={styles.chip}>
                       <Text>{dayNames[day]}</Text>
                     </Chip>
                   </TouchableOpacity>
-                ))}
+                ))} */}
               </View>
               <Text style={styles.title}>Select specific dates:</Text>
               <View style={styles.dateContainer}>
@@ -228,7 +159,6 @@ export const CreateTaskScreen = () => {
                         'dates',
                         dates?.filter((d) => d !== date)
                       )
-                      setDailyMode(DailyMode.DAY)
                     }}
                   >
                     <Chip style={styles.chip}>
@@ -240,17 +170,6 @@ export const CreateTaskScreen = () => {
               </View>
               <IconButton style={styles.button} icon="plus-circle" size={34} onPress={updateDates} />
               <Text style={styles.title}>Select Priority:</Text>
-              <Controller
-                control={control}
-                name="priority"
-                rules={{ required: true }}
-                render={({ field: { onChange, value } }) => (
-                  <ItemPicker selectedValue={value} onValueChange={onChange} items={priorityArray} />
-                )}
-              />
-              <Text style={[styles.inputError, priorityErrorStyle]}>
-                Selected Priority: {selectedPriority} has been taken
-              </Text>
             </Animated.View>
           </View>
         </TouchableWithoutFeedback>

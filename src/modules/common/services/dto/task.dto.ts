@@ -1,14 +1,14 @@
-import { PriorityTransformer, TaskTypeTransformer } from '@common/utils'
+import { PriorityTransformer } from '@common/utils'
 import { Transform } from 'class-transformer'
-import { DayWeek, ITask, Priority, TaskType } from '@common/types'
+import { DayWeek, TaskBase, Priority } from '@common/types'
 
-export class TaskDTO implements ITask {
+export class TaskDTO implements TaskBase {
   id: number
 
   title: string
 
-  @Transform(TaskTypeTransformer)
-  type: TaskType
+  // @Transform(TaskTypeTransformer)
+  type: string // temporary
 
   @Transform(PriorityTransformer)
   priority: Priority
@@ -17,11 +17,11 @@ export class TaskDTO implements ITask {
   weekly?: DayWeek[]
 
   @Transform(({ value }) => (value ? JSON.parse(value).map((date: string) => new Date(date)) : []))
-  dates?: Date[]
+  dates: Date[]
 
   description?: string
 
-  duration?: number
+  duration: number
 
-  breakDuration?: number
+  breakDuration: number
 }

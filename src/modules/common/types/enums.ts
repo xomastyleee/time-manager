@@ -27,17 +27,6 @@ export enum Priority {
   Z = 'Z'
 }
 
-export enum TaskType {
-  Work = 'Work',
-  Rest = 'Rest',
-  SelfDevelopment = 'Self-Development'
-}
-
-export enum NotificationType {
-  Motivational = 'Motivational',
-  Reminder = 'Reminder'
-}
-
 export enum DayWeek {
   Sunday = 0,
   Monday = 1,

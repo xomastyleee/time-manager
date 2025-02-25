@@ -2,60 +2,62 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import dayjs from 'dayjs'
-import { ContentView, ScreenView, Timer } from '@common/components'
+import { ContentView, ScreenView, Timer, useUser } from '@common/components'
 import { type CreateStylesProps, useStylesWithThemeAndDimensions } from '@common/hooks'
 import { HomeStackParamList, RouteParams, useTypedNavigation } from '@navigation/navigation-options'
-import { ITaskWithStatus, TaskStatus } from '@common/types'
+import { ITask, TaskStatus } from '@common/types'
 import { taskService } from '@common/services'
 
 import { TaskDetails } from '../components'
 
 export const TaskViewScreen = ({
   route: {
-    params: { task }
+    params: { id }
   }
 }: RouteParams<HomeStackParamList['TaskView']>) => {
   const { styles } = useStylesWithThemeAndDimensions(stylesWithTheme)
+
+  const { user } = useUser()
 
   const navigation = useTypedNavigation<HomeStackParamList>()
 
   const [isPauseTimer, setIsPauseTimer] = useState(false)
   const [isTaskStarted, setIsTaskStarted] = useState(false)
 
-  const { handleSubmit, watch, setValue } = useForm<{ task: ITaskWithStatus }>({
-    mode: 'onChange',
-    defaultValues: { task }
+  const { handleSubmit, watch, setValue, reset } = useForm<{ task: ITask }>({
+    mode: 'onChange'
   })
 
   const updatedTask = watch('task')
 
-  const onSubmit: SubmitHandler<{ task: ITaskWithStatus }> = async (data) => {
+  const onSubmit: SubmitHandler<{ task: ITask }> = async (data) => {
+    if (!user) return
+
     try {
-      await taskService.updateTask(data.task.id, { status: data.task.status })
+      await taskService.updateTask(data.task.id, { ...data.task, user })
+      navigation.navigate('HomeScreen')
     } catch (error) {
       // Handle error (e.g., show an error message)
     }
   }
 
   const expiryTimestampOnTask = dayjs()
-    .add(updatedTask.duration || 0, 'ms')
+    .add(updatedTask.duration || 0, 'second')
     .toDate()
   const expiryTimestampOnPause = dayjs()
-    .add(updatedTask.breakDuration || 0, 'ms')
+    .add(updatedTask.breakDuration || 0, 'second')
     .toDate()
 
   const onStart = (newDuration: number) => {
     setIsTaskStarted(true)
     setIsPauseTimer(false)
     setValue('task', { ...updatedTask, status: TaskStatus.InProgress, duration: newDuration })
-    setValue('task', { ...updatedTask, status: TaskStatus.InProgress })
     handleSubmit(onSubmit)()
   }
   const onPause = (newDuration: number) => {
     setIsPauseTimer(true)
     setIsTaskStarted(false)
     setValue('task', { ...updatedTask, status: TaskStatus.Paused, breakDuration: newDuration })
-    setValue('task', { ...updatedTask, status: TaskStatus.Paused })
     handleSubmit(onSubmit)()
   }
   const onStop = ({ duration, breakDuration }: { duration: number; breakDuration: number }) => {

@@ -2,17 +2,15 @@ import React, { FC } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { Chip, Text } from 'react-native-paper'
 import { useTranslation } from 'react-i18next'
-import dayjs from 'dayjs'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { formatDuration } from '@common/utils'
-import { DATE_FORMAT_DAY, dayNames } from '@common/constants'
 import { HomeStackParamList, useTypedNavigation } from '@navigation/navigation-options'
 
-import type { ITaskWithStatus } from '@common/types'
+import type { ITask } from '@common/types'
 import { stylesWithTheme } from './daily-item.styles'
 
 interface DailyItemProps {
-  item: ITaskWithStatus
+  item: ITask
 }
 
 export const DailyItemComponent: FC<DailyItemProps> = ({ item }) => {
@@ -22,7 +20,7 @@ export const DailyItemComponent: FC<DailyItemProps> = ({ item }) => {
   const { navigate } = useTypedNavigation<HomeStackParamList>()
 
   return (
-    <TouchableOpacity style={styles.main} onPress={() => navigate('TaskView', { task: item })}>
+    <TouchableOpacity style={styles.main} onPress={() => navigate('TaskView', { id: item.id })}>
       <Text variant="bodyLarge" style={styles.dailyItemTitle}>
         {item.title}
       </Text>
@@ -44,16 +42,6 @@ export const DailyItemComponent: FC<DailyItemProps> = ({ item }) => {
         <Chip style={styles.chip}>
           <Text>Break: {formatDuration(item.breakDuration)}</Text>
         </Chip>
-        {item.dates?.map((date) => (
-          <Chip key={`${date}`} style={styles.chip}>
-            <Text>{dayjs(date).format(DATE_FORMAT_DAY)}</Text>
-          </Chip>
-        ))}
-        {item.weekly?.map((day) => (
-          <Chip key={`${day}`} style={styles.chip}>
-            <Text>{dayNames[day]}</Text>
-          </Chip>
-        ))}
       </View>
     </TouchableOpacity>
   )

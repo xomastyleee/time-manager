@@ -4,11 +4,11 @@ import { Text, Card, Divider } from 'react-native-paper'
 import { useStylesWithThemeAndDimensions } from '@common/hooks'
 import { formatDuration } from '@common/utils'
 
-import type { ITaskWithStatus } from '@common/types'
+import type { ITask } from '@common/types'
 import { stylesWithTheme } from './task-details.styles'
 
 interface TaskProps {
-  task: ITaskWithStatus
+  task: ITask
   submitButtonLabel: string
   onSubmit: () => void
 }

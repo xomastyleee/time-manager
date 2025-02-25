@@ -42,7 +42,8 @@ export const useAuthorizedUserModel = () => {
       const params: IUserCreateParams = {
         preferences: BASE_TYPE_PREFERENCES,
         username,
-        status: UserStatus.Active
+        status: UserStatus.Active,
+        tasks: []
       }
 
       try {

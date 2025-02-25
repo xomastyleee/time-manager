@@ -24,22 +24,21 @@ export class HistoryTaskServiceService {
               if (
                 [TaskStatus.Paused, TaskStatus.Planned, TaskStatus.Completed, TaskStatus.Failed].includes(currentStatus)
               ) {
-                history.workTime = dayjs().valueOf() - dayjs(lastHistory.createdHistoryDate).valueOf()
+                history.durationSpent = dayjs().valueOf() - dayjs(lastHistory.createdHistoryDate).valueOf()
               }
               break
             case TaskStatus.Paused:
               if ([TaskStatus.InProgress, TaskStatus.Failed, TaskStatus.Completed].includes(currentStatus)) {
-                history.pauseTime = dayjs().valueOf() - dayjs(lastHistory.createdHistoryDate).valueOf()
+                history.breakDurationSpent = dayjs().valueOf() - dayjs(lastHistory.createdHistoryDate).valueOf()
               }
               break
             default:
-              history.pauseTime = 0
-              history.workTime = 0
+              history.durationSpent = 0
+              history.breakDurationSpent = 0
               break
           }
         }
         const result = await this.historyRepository.save(history)
-        logger.info('Create HistoryTask Result:', result)
         return result
       }
       return null
@@ -55,8 +54,6 @@ export class HistoryTaskServiceService {
       .where('task.id = :taskId', { taskId })
       .select(['historyTask.id', 'historyTask.statusTask', 'historyTask.createdAt', 'task.id'])
 
-    const QuerySQL = query.getQuery()
-    logger.info('GetHistory :', QuerySQL)
     const result = await query.getMany()
     return result.map(historyTransformer.toInterface)
   }
@@ -105,24 +102,23 @@ export class HistoryTaskServiceService {
     }
   }
 
-  public async calculateWorkTask(historyTasks: IHistoryTask[]): Promise<IStatisticTask> {
+  public async calculateWorkTime(historyTasks: IHistoryTask[]): Promise<IStatisticTask> {
     const result = historyTasks.reduce(
       (acc, history) => {
-        acc.workingTime += history.workTime
-        acc.pausedTime += history.pauseTime
+        acc.durationSpent += history.durationSpent
+        acc.breakDurationSpent += history.breakDurationSpent
         return acc
       },
       {
-        pausedTime: 0,
-        workingTime: 0
+        durationSpent: 0,
+        breakDurationSpent: 0
       }
     )
 
     return {
       taskId: historyTasks[0].id,
-      pauseTime: result.pausedTime,
-      workTime: result.workingTime,
-      isClosed: [TaskStatus.Failed, TaskStatus.Completed].includes(historyTasks[historyTasks.length - 1].status)
+      durationSpent: result.durationSpent,
+      breakDurationSpent: result.breakDurationSpent
     }
   }
 }

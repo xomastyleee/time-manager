@@ -18,8 +18,8 @@ export class HistoryTask {
     if (params?.status) {
       this.statusTask = params?.status
       this.task = params.task
-      this.workTime = params.workTime || 0
-      this.pauseTime = params.pauseTime || 0
+      this.durationSpent = 0
+      this.breakDurationSpent = 0
       this.createdHistoryDate = dayjs().toISOString()
     }
   }
@@ -31,10 +31,10 @@ export class HistoryTask {
   statusTask: string
 
   @Column('int', { default: 0 })
-  pauseTime: number
+  durationSpent: number
 
   @Column('int', { default: 0 })
-  workTime: number
+  breakDurationSpent: number
 
   @ManyToOne(() => Task, (task) => task.history, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'taskId' })

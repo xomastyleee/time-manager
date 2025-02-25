@@ -1,52 +1,116 @@
 import { In } from 'typeorm'
-import { Task } from '@common/db/entities'
+import dayjs from 'dayjs'
+import { Task, User } from '@common/db/entities'
 import { logger } from '@common/utils'
 import { dataSource } from '@common/db/dataSource'
-import { ITask, ITaskCreateUpdateParams } from '@common/types'
-import { taskTransformer } from '@common/services/transformers'
+import { ITask, ITaskCreateParams, ITaskUpdateParams, TaskStatus } from '@common/types'
+import { getUser, taskTransformer } from '@common/services/transformers'
 import { historyTaskService } from '@common/services/historyTask.service'
+
+import { DailyMode } from '../constants'
 
 export class TaskService {
   private readonly taskRepository = dataSource.getRepository(Task)
 
-  public async createTask(params: ITaskCreateUpdateParams) {
+  private readonly userRepository = dataSource.getRepository(User)
+
+  public async createTask(params: ITaskCreateParams) {
     try {
       const task = new Task(params)
       const result = await this.taskRepository.save(task)
 
-      await historyTaskService.createHistoryTask({ task, status: params.status })
+      await historyTaskService.createHistoryTask({
+        task,
+        status: TaskStatus.Planned
+      })
 
-      logger.info('Creating task', result)
       return result
     } catch (error) {
       logger.error('Create task error:', error)
     }
   }
 
-  public async getAllTasks(): Promise<(ITask | null)[]> {
-    const tasks = await this.taskRepository.find()
-    const result = tasks.map(taskTransformer.toInterface)
-    return result
+  public async getUserTaskForCurrentDate({
+    userId,
+    dailyMode,
+    currentDate
+  }: {
+    userId: number
+    dailyMode: DailyMode
+    currentDate: dayjs.Dayjs
+  }): Promise<ITask[]> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['tasks']
+    })
+
+    const tasks = getUser(user!)?.tasks ?? []
+
+    const filteredTasks = tasks.filter((task) => {
+      if (dailyMode === DailyMode.DAY) {
+        return task.dates?.some((date) => dayjs(date).isSame(currentDate, 'day'))
+      }
+
+      if (dailyMode === DailyMode.WEEK) {
+        const weekStart = currentDate.startOf('week')
+        const weekEnd = currentDate.endOf('week')
+        return task.dates?.some((date) => dayjs(date).isBetween(weekStart, weekEnd, 'day', '[]'))
+      }
+
+      return false
+    })
+
+    const populatedTasksWithHistory = await Promise.all(
+      filteredTasks.map(async (task) => {
+        const history = await historyTaskService.getByIdTaskHistoryRange({
+          taskId: task.id,
+          date: currentDate.toDate()
+        })
+        const isTodayOrFuture = dayjs(currentDate).isSameOrAfter(dayjs(), 'day')
+
+        let status = TaskStatus.Planned
+        let durationSpent = 0
+        let breakDurationSpent = 0
+
+        if (history?.allHistoryByDate && history?.allHistoryByDate.length > 0) {
+          const statistic = await historyTaskService.calculateWorkTime(history?.allHistoryByDate ?? [])
+          status = history.lastHistoryByDate.status
+          durationSpent += statistic.durationSpent
+          breakDurationSpent += statistic.breakDurationSpent
+        }
+
+        if (
+          !isTodayOrFuture &&
+          (status === TaskStatus.InProgress || status === TaskStatus.Planned || status === TaskStatus.Paused)
+        ) {
+          status = TaskStatus.Failed
+        }
+
+        return { ...task, status, durationSpent, breakDurationSpent }
+      })
+    )
+
+    // const sortedTasks = populatedTasksWithHistory.sort((a, b) => a.priority.localeCompare(b.priority))
+    return populatedTasksWithHistory
   }
 
-  public async createTasks(taskData: ITaskCreateUpdateParams[]) {
+  public async createTasks(taskData: ITaskCreateParams[]) {
     try {
       const tasks = taskData.map((data) => new Task(data))
       const tasksEntities = await this.taskRepository.save(tasks)
       if (tasksEntities.length > 0) {
         await Promise.all(
-          tasks.map((task, index) =>
+          tasks.map((task) =>
             historyTaskService.createHistoryTask({
               task,
-              status: taskData[index].status
+              status: TaskStatus.Planned
             })
           )
         )
       }
       const result = tasksEntities.map(taskTransformer.toInterface)
-      logger.info('Creating tasks:', result)
 
-      return tasksEntities
+      return result
     } catch (error) {
       logger.error('Error creating tasks', error)
     }
@@ -89,23 +153,30 @@ export class TaskService {
     }
   }
 
-  public async updateTask(id: number, params: ITaskCreateUpdateParams) {
+  public async updateTask(id: number, params: ITaskUpdateParams) {
     try {
-      const updatedParams = taskTransformer.toUpdateEntity(params)
-      if (updatedParams) {
-        if (params.status) {
-          const task = await this.getTaskById(id)
-          if (task) {
-            const taskEntity = taskTransformer.toEntity(task)
-            await historyTaskService.createHistoryTask({ task: taskEntity, status: params.status })
-          }
-        }
+      const originalTaskEntity = await this.taskRepository.findOneBy({
+        id
+      })
 
-        const result = await this.taskRepository.update(id, updatedParams)
-        logger.info('Updated task', result.raw)
-        return result
+      const transformedTask = await this.getTaskById(id)
+      if (!transformedTask) return
+
+      const taskEntity = taskTransformer.toEntity({ ...transformedTask, ...params })
+
+      if (params.status) {
+        await historyTaskService.createHistoryTask({
+          task: taskEntity,
+          status: params.status
+        })
       }
-      return null
+
+      const result = await this.taskRepository.update(id, {
+        ...originalTaskEntity,
+        ...params,
+        dates: params.dates ? JSON.stringify(params.dates.map((date) => date.toISOString())) : originalTaskEntity?.dates
+      })
+      return result
     } catch (error) {
       logger.error('Error updating task', error)
     }

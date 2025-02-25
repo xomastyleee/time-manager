@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
 
 import { DailyMode } from '../constants/general.const'
-import type { ITaskWithStatus, ITasksByWeeks } from './data-interfaces'
+import { ITask } from './main.types'
+import { ITasksByWeeks } from './task.types'
 
 export interface DailyProps {
   dailyMode: DailyMode
@@ -15,7 +16,7 @@ export interface DailyHeaderProps extends DailyProps {
 }
 
 export interface DailyViewProps extends DailyProps {
-  userTasks: ITaskWithStatus[]
+  userTasks: ITask[]
   userTasksByWeeks: ITasksByWeeks
   isLoading: boolean
 }

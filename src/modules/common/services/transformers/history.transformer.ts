@@ -8,8 +8,8 @@ class HistoryTaskTransformer extends BaseTransformer<HistoryTask, IHistoryTask> 
       statusTask: dto.status,
       createdAt: dto.createdAt,
       task: dto.task as Task,
-      pauseTime: dto.pauseTime,
-      workTime: dto.workTime,
+      durationSpent: dto.durationSpent,
+      breakDurationSpent: dto.breakDurationSpent,
       createdHistoryDate: dto.createdHistoryDate
     }
   }
@@ -20,8 +20,8 @@ class HistoryTaskTransformer extends BaseTransformer<HistoryTask, IHistoryTask> 
       status: entity.statusTask as TaskStatus,
       createdAt: entity.createdAt,
       task: { id: entity.task.id },
-      pauseTime: entity.pauseTime,
-      workTime: entity.workTime,
+      durationSpent: entity.durationSpent,
+      breakDurationSpent: entity.breakDurationSpent,
       createdHistoryDate: entity.createdHistoryDate
     }
   }
