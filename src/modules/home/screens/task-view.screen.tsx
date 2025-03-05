@@ -12,6 +12,7 @@ import { TaskDetails } from '../components'
 
 export const TaskViewScreen = ({
   route: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     params: { id }
   }
 }: RouteParams<HomeStackParamList['TaskView']>) => {
@@ -24,6 +25,7 @@ export const TaskViewScreen = ({
   const [isPauseTimer, setIsPauseTimer] = useState(false)
   const [isTaskStarted, setIsTaskStarted] = useState(false)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { handleSubmit, watch, setValue, reset } = useForm<{ task: ITask }>({
     mode: 'onChange'
   })

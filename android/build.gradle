@@ -1,20 +1,20 @@
 buildscript {
     ext {
-        buildToolsVersion = "35.0.0"
+        buildToolsVersion = '35.0.0'
         minSdkVersion = 24
         compileSdkVersion = 35
         targetSdkVersion = 34
-        ndkVersion = "26.1.10909125"
-        kotlinVersion = "1.9.24"
+        ndkVersion = '26.1.10909125'
+        kotlinVersion = '1.9.24'
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
-        classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath('com.android.tools.build:gradle')
+        classpath('com.facebook.react:react-native-gradle-plugin')
+        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
     }
 }
 
@@ -23,13 +23,13 @@ allprojects {
         mavenLocal()
         mavenCentral()
         google()
-        maven { url("$rootDir/../node_modules/react-native/android") }
+        maven { url('$rootDir/../node_modules/react-native/android') }
     }
 }
 
 subprojects {
     afterEvaluate { project ->
-        if (project.hasProperty("android")) {
+        if (project.hasProperty('android')) {
             android {
                 packagingOptions {
                     pickFirst 'lib/x86/libc++_shared.so'
@@ -50,4 +50,4 @@ subprojects {
     }
 }
 
-apply plugin: "com.facebook.react.rootproject"
+apply plugin: 'com.facebook.react.rootproject'

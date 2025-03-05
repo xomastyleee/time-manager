@@ -1,8 +1,17 @@
 import { Priority, TaskStatus, UserStatus } from './enums'
 
+export interface ITaskType {
+  id: number
+  title: string
+  description: string
+  priority: Priority
+  // goal: IGoal
+  user: IUser
+}
+
 export interface TaskBase {
   title: string
-  type: string // temporary
+  type: ITaskType
   dates: Date[]
   duration: number
   breakDuration: number

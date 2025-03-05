@@ -10,7 +10,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import { DBProvider } from '@common/db/core'
 import { useDefinedTheme } from '@common/hooks'
 
-import { detectAndInitAppLanguage } from '../locales/utils/languageDetector'
+import { detectAndInitAppLanguage } from './locales/utils/languageDetector'
 import { AppNavigator } from './navigation/app-navigator'
 
 import 'reflect-metadata'

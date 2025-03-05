@@ -7,13 +7,15 @@ import {
 } from '@common/types'
 import { Task } from '@common/db/entities'
 
+import { taskTypeTransformer } from './taskType.transformer'
+
 class TaskTransformer extends BaseTransformer<Task, ITransformedTask | TaskBase | ITaskUpdateParams> {
   toInterface(entity: Task | null): ITransformedTask | null {
     if (entity) {
       return {
         id: entity.id,
         title: entity.title,
-        type: entity.type,
+        type: taskTypeTransformer.toInterface(entity.type),
         dates: entity.dates ? JSON.parse(entity.dates).map((date: string) => new Date(date)) : undefined,
         description: entity.description,
         duration: entity.duration,

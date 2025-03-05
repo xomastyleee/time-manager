@@ -1,14 +1,16 @@
 import { DataSource } from 'typeorm'
-import { HistoryTask, Task, User } from '@common/db/entities'
+import Config from 'react-native-config'
+import { HistoryTask, Task, TaskType, User } from '@common/db/entities'
+
+const isDev = Config.VARIANT === 'development'
 
 export const dataSource = new DataSource({
   type: 'react-native',
-  database: 'test',
+  database: isDev ? 'frog-time-dev.db' : 'frog-time.db',
   location: 'default',
   // migrations: [UpdatePreferencesUserTable1707420000000], <- this set list migrations
   logging: ['error', 'query', 'schema'],
-  entities: [User, HistoryTask, Task],
-  // dropSchema: __DEV__, // <- dev mod [true] Full Rebuild
-  // synchronize: __DEV__ // <- dev mod [true] rebuild
-  synchronize: false
+  entities: [User, HistoryTask, Task, TaskType],
+  dropSchema: isDev ? __DEV__ : false, // <- dev mod [true] Full Rebuild
+  synchronize: isDev ? __DEV__ : false // <- dev mod [true] rebuild
 })

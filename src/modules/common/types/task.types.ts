@@ -1,15 +1,5 @@
-import { DayWeekMap, Priority, TaskStatus } from './enums'
+import { DayWeekMap, TaskStatus } from './enums'
 import { ITask, IUser, TaskBase } from './main.types'
-
-export interface ITaskType {
-  // This interface is should be new entity, connected to goals and managed by user
-  id: number
-  title: string
-  description: string
-  priority: Priority
-  // goal: IGoal
-  user: IUser
-}
 
 export interface ITaskCreateParams extends TaskBase {
   user: IUser

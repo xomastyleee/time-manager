@@ -7,11 +7,14 @@ import {
   DeleteDateColumn,
   ManyToMany,
   JoinTable,
-  OneToMany
+  OneToMany,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm'
 import { type ITaskCreateParams } from '@common/types'
-import { HistoryTask, User } from '@common/db/entities'
+import { HistoryTask, TaskType, User } from '@common/db/entities'
 import { getUserEntity } from '@common/services/transformers'
+import { getTaskTypeEntity } from '@common/services/transformers/taskType.transformer'
 
 @Entity()
 export class Task {
@@ -19,7 +22,7 @@ export class Task {
     if (params) {
       const { title, type, description, duration, breakDuration, dates, user } = params
       if (title) this.title = title
-      if (type) this.type = type
+      if (type) this.type = getTaskTypeEntity(type)
       if (description) this.description = description
       if (duration) this.duration = duration
       if (user) this.users = [getUserEntity(user)]
@@ -38,9 +41,6 @@ export class Task {
   description: string
 
   @Column('text')
-  type: string
-
-  @Column('text')
   dates: string
 
   @Column('int')
@@ -48,6 +48,10 @@ export class Task {
 
   @Column('int')
   breakDuration: number
+
+  @ManyToOne(() => TaskType, (taskType) => taskType.tasks)
+  @JoinColumn({ name: 'taskTypeId' })
+  type: TaskType
 
   @ManyToMany(() => User, (user) => user.tasks)
   @JoinTable({

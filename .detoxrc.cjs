@@ -13,12 +13,12 @@ module.exports = {
     'ios': {
       type: 'ios.app',
       binaryPath: 'ios/build/Build/Products/Release-iphonesimulator/FrogTime.app',
-      build: 'xcodebuild -workspace ios/FrogTime.xcworkspace -scheme "FrogTime" -configuration Release -sdk iphonesimulator -derivedDataPath ios/build -quiet'
+      build: 'xcodebuild -workspace ios/FrogTime.xcworkspace -scheme "FrogTime Dev" -configuration Release -sdk iphonesimulator -derivedDataPath ios/build -quiet'
     },
     'android': {
       type: 'android.apk',
       binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
-      build: 'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..',
+      build: 'cd android && ./gradlew assembleDevDebug assembleAndroidTest -DtestBuildType=debug && cd ..',
       reversePorts: [
         8081
       ]

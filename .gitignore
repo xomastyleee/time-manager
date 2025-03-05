@@ -82,3 +82,5 @@ fastlane/*.p8
 fastlane/.env
 fastlane/.env.*
 !fastlane/.env.example
+.env.*
+!.env.example

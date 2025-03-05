@@ -1,14 +1,16 @@
-import { PriorityTransformer } from '@common/utils'
 import { Transform } from 'class-transformer'
-import { DayWeek, TaskBase, Priority } from '@common/types'
+import { PriorityTransformer } from '@common/utils'
+
+import type { DayWeek, TaskBase, Priority, ITaskType } from '@common/types'
+import { taskTypeTransformer } from '../transformers/taskType.transformer'
 
 export class TaskDTO implements TaskBase {
   id: number
 
   title: string
 
-  // @Transform(TaskTypeTransformer)
-  type: string // temporary
+  @Transform(({ value }) => taskTypeTransformer.toInterface(value))
+  type: ITaskType
 
   @Transform(PriorityTransformer)
   priority: Priority

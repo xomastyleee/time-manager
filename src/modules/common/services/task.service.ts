@@ -6,6 +6,7 @@ import { dataSource } from '@common/db/dataSource'
 import { ITask, ITaskCreateParams, ITaskUpdateParams, TaskStatus } from '@common/types'
 import { getUser, taskTransformer } from '@common/services/transformers'
 import { historyTaskService } from '@common/services/historyTask.service'
+import { getTaskTypeEntity } from '@common/services/transformers/taskType.transformer'
 
 import { DailyMode } from '../constants'
 
@@ -155,27 +156,28 @@ export class TaskService {
 
   public async updateTask(id: number, params: ITaskUpdateParams) {
     try {
-      const originalTaskEntity = await this.taskRepository.findOneBy({
-        id
-      })
+      const originalTaskEntity = await this.taskRepository.findOneBy({ id })
+      if (!originalTaskEntity) return
 
-      const transformedTask = await this.getTaskById(id)
-      if (!transformedTask) return
+      const updateData = {
+        ...originalTaskEntity,
+        title: params.title,
+        description: params.description,
+        duration: params.duration,
+        breakDuration: params.breakDuration,
+        type: params.type ? getTaskTypeEntity(params.type) : originalTaskEntity.type,
+        dates: params.dates ? JSON.stringify(params.dates.map((date) => date.toISOString())) : originalTaskEntity.dates
+      }
 
-      const taskEntity = taskTransformer.toEntity({ ...transformedTask, ...params })
+      const result = await this.taskRepository.save(updateData)
 
       if (params.status) {
         await historyTaskService.createHistoryTask({
-          task: taskEntity,
+          task: result,
           status: params.status
         })
       }
 
-      const result = await this.taskRepository.update(id, {
-        ...originalTaskEntity,
-        ...params,
-        dates: params.dates ? JSON.stringify(params.dates.map((date) => date.toISOString())) : originalTaskEntity?.dates
-      })
       return result
     } catch (error) {
       logger.error('Error updating task', error)

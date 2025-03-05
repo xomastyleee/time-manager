@@ -1,3 +1,4 @@
-export * from './Task.entity'
-export * from './User.entity'
-export * from './HistoryTask.entity'
+export { Task } from './Task.entity'
+export { User } from './User.entity'
+export { HistoryTask } from './HistoryTask.entity'
+export { TaskType } from './TaskType.entity'
