@@ -9,7 +9,7 @@ import {
   OneToMany,
   JoinColumn
 } from 'typeorm'
-import { Priority, type ITaskType } from '@common/types'
+import { type ITaskType } from '@common/types'
 import { Task, User } from '@common/db/entities'
 import { getUserEntity } from '@modules/common/services/transformers'
 
@@ -17,10 +17,9 @@ import { getUserEntity } from '@modules/common/services/transformers'
 export class TaskType {
   constructor(params: Partial<ITaskType>) {
     if (params) {
-      const { title, description, priority, user } = params
+      const { title, description, user } = params
       if (title) this.title = title
       if (description) this.description = description
-      if (priority) this.priority = priority
       if (user) this.user = getUserEntity(user)
     }
   }
@@ -33,9 +32,6 @@ export class TaskType {
 
   @Column('text')
   description: string
-
-  @Column('text')
-  priority: Priority
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })

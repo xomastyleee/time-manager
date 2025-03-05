@@ -4,7 +4,6 @@ export interface ITaskType {
   id: number
   title: string
   description: string
-  priority: Priority
   // goal: IGoal
   user: IUser
 }

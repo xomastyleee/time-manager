@@ -8,7 +8,6 @@ export const getTaskTypeEntity = (taskType: ITaskType): TaskType =>
     id: taskType.id,
     title: taskType.title,
     description: taskType.description,
-    priority: taskType.priority,
     user: taskType.user
   })
 
@@ -18,7 +17,6 @@ class TaskTypeTransformer extends BaseTransformer<TaskType, ITaskType> {
       id: entity.id,
       title: entity.title,
       description: entity.description,
-      priority: entity.priority,
       user: getUser(entity.user)
     }
   }
@@ -28,7 +26,6 @@ class TaskTypeTransformer extends BaseTransformer<TaskType, ITaskType> {
       id: dto.id,
       title: dto.title,
       description: dto.description,
-      priority: dto.priority,
       user: dto.user
     })
   }
@@ -39,7 +36,6 @@ class TaskTypeTransformer extends BaseTransformer<TaskType, ITaskType> {
         id: dto.id,
         title: dto.title,
         description: dto.description,
-        priority: dto.priority,
         user: dto.user
       })
     }
